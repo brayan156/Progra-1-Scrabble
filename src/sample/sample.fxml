@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
 <Pane fx:id="hola" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="702.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
@@ -45,15 +49,17 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <ImageView fx:id="castillo" fitHeight="150.0" fitWidth="200.0" layoutX="472.0" layoutY="39.0" onMouseClicked="#click" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../Media/Castillo1.JPG" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="castillo2" fitHeight="150.0" fitWidth="200.0" layoutX="472.0" layoutY="216.0" onMouseClicked="#clickon" pickOnBounds="true" preserveRatio="true">
+      <Button fx:id="pasar" layoutX="483.0" layoutY="474.0" mnemonicParsing="false" onAction="#espera" text="Pasar" />
+      <Label fx:id="labelturno" layoutX="513.0" layoutY="371.0" prefHeight="45.0" prefWidth="122.0" text="Label">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="castillo2" fitHeight="150.0" fitWidth="200.0" layoutX="482.0" layoutY="226.0" onMouseClicked="#clickon" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Media/Castillo2.jpg" />
          </image>
       </ImageView>
+      <TextField fx:id="nombrefield" layoutX="508.0" layoutY="114.0" />
    </children>
 </Pane>

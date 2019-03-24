@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 
 
-public class Main extends Application {
+public class Main2 extends Application {
 
 
 
@@ -35,4 +35,3 @@ public class Main extends Application {
 
 
 }
-

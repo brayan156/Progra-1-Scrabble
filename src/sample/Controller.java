@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import javafx.fxml.FXML;
@@ -9,18 +11,32 @@ import javafx.scene.layout.Pane;
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 public class Controller {
     @FXML
     private Pane hola;
     public static imagen player;
     public static Logger log = LoggerFactory.getLogger(Controller.class);
-    @FXML
-    private ImageView castillo2;
+    @FXML private ImageView castillo2;
     private Double orgSceneX;
     private Double orgSceneY;
     private ImageView matriz[][] = new ImageView[15][15];
+    public TextField nombrefield;
+    public Datos datos= new Datos();
+    @FXML private Label labelturno;
 
 
+    public void espera() throws ExecutionException, InterruptedException {
+        datos.setClient(nombrefield.getText());
+        ExecutorService executor= Executors.newSingleThreadExecutor();
+        Future<String> future= executor.submit(new Turno(datos));
+        labelturno.setText(future.get());
+
+    }
 
     public void clickon() {
         log.debug("si clickeaste compa");
@@ -73,8 +89,11 @@ public class Controller {
                                 System.out.println(img.getY());
                                 System.out.println(img.getX());
                                 System.out.println(matriz[conty][contx].getId()+" guardada en "+contx+","+conty);
+                                img.setY(y+img.getFitWidth()/2);
+                                img.setX(x+img.getFitHeight()/2);
                                 x=460;
                                 y=460;
+                                System.out.println(img.getImage().impl_getUrl());
                             }
                             else{
                                 conty++;
