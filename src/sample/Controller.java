@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.slf4j.LoggerFactory;
@@ -34,7 +36,37 @@ public class Controller {
         datos.setClient(nombrefield.getText());
         ExecutorService executor= Executors.newSingleThreadExecutor();
         Future<String> future= executor.submit(new Turno(datos));
-        labelturno.setText(future.get());
+        if (future.isDone()){
+            labelturno.setText(future.get());}
+//        AnimationTimer timer= new AnimationTimer() {
+//            @Override
+//            public void handle(long now) {
+//            try {
+//                datos.setClient(nombrefield.getText());
+//                ExecutorService executor= Executors.newSingleThreadExecutor();
+//                Future<String> future= executor.submit(new Turno(datos));
+//                if (future.isDone()){
+//                    labelturno.setText(future.get());
+//                }
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            }
+//            }
+//        };
+//        timer.start();
+
+//        Platform.runLater(()->{
+//            try {
+//                labelturno.setText(future.get());
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            }
+//        });
+
 
     }
 

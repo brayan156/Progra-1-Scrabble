@@ -31,7 +31,7 @@ public class Server implements Runnable {
     @Override
     public void run() {
         try {
-            ServerSocket server= new ServerSocket(9000);
+            ServerSocket server= new ServerSocket(9500);
             System.out.println("hola");
 
             while (true) {
