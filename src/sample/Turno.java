@@ -25,7 +25,7 @@ public class Turno implements Callable<String> {
     public String call() throws Exception {
         try{
             while (espera) {
-                Socket client = new Socket(InetAddress.getLocalHost(), 9000);
+                Socket client = new Socket(InetAddress.getLocalHost(), 9500);
                 log.debug("se conecto");
                 DataOutputStream datosenvio= new DataOutputStream(client.getOutputStream());
                 datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
@@ -38,11 +38,13 @@ public class Turno implements Callable<String> {
                     log.debug("se recibio turno");
                     espera=false;
                     client.close();
+
                 }
                 else{
                     log.debug("esperando");
                     client.close();
                     Thread.sleep(5000);
+
 
                 }
             }
