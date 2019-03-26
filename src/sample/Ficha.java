@@ -21,6 +21,8 @@ public class Ficha extends ImageView {
         this.posx=posx;
         this.posy=posy;
         this.letra=letra;
+        this.setX(this.posx);
+        this.setY(this.posy);
     }
 
 }

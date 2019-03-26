@@ -6,13 +6,12 @@ import javafx.scene.control.TextField;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
 
-import java.io.File;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -80,10 +79,7 @@ public class Controller {
 
     public void clickon() {
         log.debug("si clickeaste compa");
-        Image imagen = new Image("file:src/Media/Castillo1.JPG");
         Ficha img = new Ficha(100,100,"Castillo1");
-        img.setX(100);
-        img.setY(100);
         img.setFitHeight(30);
         img.setFitWidth(30);
         img.setId("Imagen");
