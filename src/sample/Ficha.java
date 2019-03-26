@@ -20,7 +20,7 @@ public class Ficha extends ImageView {
         else{this.valor=0;}
         this.posx=posx;
         this.posy=posy;
-        this.letra=letra;
+        this.setLetra(letra);
         this.setX(this.posx);
         this.setY(this.posy);
     }
