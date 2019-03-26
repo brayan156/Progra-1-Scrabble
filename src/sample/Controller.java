@@ -1,7 +1,6 @@
 package sample;
 
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
+
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.input.MouseEvent;
 import javafx.event.EventHandler;
 
+import java.io.File;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,11 +32,13 @@ public class Controller {
     @FXML private Label labelturno;
 
 
+
     public void espera() throws ExecutionException, InterruptedException {
         datos.setClient(nombrefield.getText());
         ExecutorService executor= Executors.newSingleThreadExecutor();
         Future<String> future= executor.submit(new Turno(datos));
         if (future.isDone()){
+            log.debug("se va a cambiar label");
             labelturno.setText(future.get());}
 //        AnimationTimer timer= new AnimationTimer() {
 //            @Override
@@ -69,11 +71,17 @@ public class Controller {
 
 
     }
+    public void pasar_turno(){}
+    public void iniciar(){}
+
+    public void unirse (){}
+    public void comprobar(){}
+
 
     public void clickon() {
         log.debug("si clickeaste compa");
         Image imagen = new Image("file:src/Media/Castillo1.JPG");
-        ImageView img = new ImageView(imagen);
+        Ficha img = new Ficha(100,100,"Castillo1");
         img.setX(100);
         img.setY(100);
         img.setFitHeight(30);
@@ -85,6 +93,7 @@ public class Controller {
         img.setOnMousePressed(pressear);
         img.setOnMouseDragged(draggear);
         img.setOnMouseReleased(meter);
+        System.out.println(img.letra);
 
     }
 
@@ -107,7 +116,7 @@ public class Controller {
             };
     EventHandler<MouseEvent> meter =
             t -> {
-                ImageView img= (ImageView)(t.getSource());
+                Ficha img= (Ficha) (t.getSource());
                 double x= 10-img.getFitWidth()/2;
                 double y= 10-img.getFitHeight()/2;
                 int contx=0;
@@ -126,6 +135,8 @@ public class Controller {
                                 x=460;
                                 y=460;
                                 System.out.println(img.getImage().impl_getUrl());
+                                System.out.println(img.letra);
+                                System.out.println(img.valor);
                             }
                             else{
                                 conty++;

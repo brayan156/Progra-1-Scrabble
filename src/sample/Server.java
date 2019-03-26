@@ -16,6 +16,8 @@ public class Server implements Runnable {
     public String clientes[]=new String[2];
     String matrizJson,clientantJson, clientJson;
     String sigcliente, tmpcliente;
+    int codigo=-1;
+
     int recorrido,cont;
     public static Logger log = LoggerFactory.getLogger(Server.class);
 
@@ -25,6 +27,11 @@ public class Server implements Runnable {
     }
 
 
+    private void cambiar_cliente(){
+        sigcliente=clientes[cont];
+        if (cont+1==clientes.length){cont=0;}
+        else{cont++;}
+    }
 
 
 
@@ -44,34 +51,90 @@ public class Server implements Runnable {
                 Datos datos=objectMapper.readValue(entrada, Datos.class);
                 log.debug("se creo objeto");
                 System.out.println(datos.getAccion().length());
-                String str="buscar_turno";
-                System.out.println(str.length());
-                if (datos.getAccion().equals(str)){
+                if (datos.getAccion().equals("buscar_turno")){
                     log.debug("se entro");
-                    DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
-                    log.debug("se creo abertura de datos");
                     if (datos.getClient().equals(sigcliente)){
                         System.out.println("ha entrado el cliente correcto");
                         datos.setAccion("Tu_turno");
+                        this.cambiar_cliente();
+                        DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+                        log.debug("se creo abertura de datos");
                         datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
-                        log.debug("se logro terminar con exito");
+                        log.debug("se logro enviar datos");
                         datosenvio.close();
                         misocket.close();
-                        sigcliente=clientes[cont];
-                        if (cont+1==clientes.length){cont=0;}
-                        else{cont++;}
+
 
                     }
                     else{
                         datos.setAccion("Sigue_esperando");
+                        DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+                        log.debug("se creo abertura de datos");
                         datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                        log.debug("se logro enviar datos");
                         datosenvio.close();
                         misocket.close();
-                        log.debug("se logro terminar con fallo");
+                        log.debug("se logro terminar y en espera");
                     }
                 }
-                else {System.out.println("no llegue");}
+                else if (datos.getAccion().equals("pasar")) {
+                    if (cont+1==clientes.length){cont=0;}
+                    else{cont++;}
+                    misocket.close();
+                }
+//                else if (datos.getAccion().equals("comprobar")){
+//                    ListaPalabras lpalerroneas= this.comprobar(datos.getMatriz());
+//                    if (lpalerroneas.largo==0){
+//                        datos.setRespueta("jugada_correcta");
+//                        datos.setListacliente(listacliente);
+//                        DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+//                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+//                        this.cambiar_cliente();
+//                        datosenvio.close();
+//                        misocket.close();
+//                    }
+//                    else{
+//                        datos.setRespueta("jugada_incorrecta");
+//                        DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+//                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+//                        datosenvio.close();
+//                        misocket.close();
+//
+//                    }
+//                }
+                else if (datos.getAccion().equals("iniciar")){
+                if (datos.getClient().equals("") || datos.getJugadores()==-1){
+                    datos.setRespueta("no_cliente_jugadores");
+                    DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+                    datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                    datosenvio.close();
+                    misocket.close();
+                }
+                else if (codigo==-1){
+                    codigo = (int) Math.floor(Math.random()*1000000);
+                    datos.setRespueta("codigo_enviado");
+                    DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+                    datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                    datosenvio.close();
+                    misocket.close();
+                }
+                else{
+                    datos.setRespueta("server_usado");
+                    DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+                    datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                    datosenvio.close();
+                    misocket.close();
 
+                }
+
+                }
+                else if (datos.getAccion().equals("unirse")){
+                    if (datos.getCodigo()==codigo);
+                    datos.setRespueta("");
+                }
+                else if (datos.getAccion().equals("preguntar")){
+
+                }
 
             }
 
@@ -103,6 +166,12 @@ public class Server implements Runnable {
         sigcliente=clientes[0];
         tmpcliente=sigcliente;
         cont=1;
+        String abc= "abcdf";
+        boolean a="baacd".contains("aa");
+        System.out.println(a);
+        File imagen = new File("src/Media/Castillo2.JPG");
+        System.out.println(imagen.exists());
+
 
         Thread hilo = new Thread(this);
         hilo.start();
