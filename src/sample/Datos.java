@@ -1,7 +1,5 @@
 package sample;
 
-import javafx.scene.image.ImageView;
-
 public class Datos {
     private String accion,client;
 //    private ImageView matriz[][] = new ImageView[3][3];
@@ -21,5 +19,20 @@ public class Datos {
     public void setClient(String client) {
         this.client = client;
     }
+
+	public int getJugadores() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void setRespueta(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public int getCodigo() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }
