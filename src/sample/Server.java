@@ -77,7 +77,7 @@ public class Server implements Runnable {
                         log.debug("se logro terminar y en espera");
                     }
                 }
-                else if (datos.getAccion().equals("pasar")) {
+                else if (datos.getAccion().equals("Pasar")) {
                     if (cont+1==clientes.length){cont=0;}
                     else{cont++;}
                     misocket.close();
@@ -103,14 +103,7 @@ public class Server implements Runnable {
 //                    }
 //                }
                 else if (datos.getAccion().equals("iniciar")){
-                if (datos.getClient().equals("") || datos.getJugadores()==-1){
-                    datos.setRespueta("no_cliente_jugadores");
-                    DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
-                    datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
-                    datosenvio.close();
-                    misocket.close();
-                }
-                else if (codigo==-1){
+                if (codigo==-1){
                     codigo = (int) Math.floor(Math.random()*1000000);
                     datos.setRespueta("codigo_enviado");
                     DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
