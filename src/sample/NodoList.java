@@ -21,4 +21,17 @@ public class NodoList <T> {
         n.next=this.head;
         head=n;
     }
+    public boolean Buscar_dato(String dato) {
+		Nodo<t> temp=head;
+		int cont=0;
+		while (cont<largo) {
+			if (temp.getValue().equals(dato)){
+				return true;
+			}else {
+				cont++;
+				temp=temp.next;
+			}
+		}
+		return false;
+	}
 }
