@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 
 public class Ficha extends ImageView {
     int posx,posy,valor;
-    String letra;
+    private String letra;
 
     public Ficha(int posx, int posy, String letra) {
         super(new Image("file:src/Media/"+letra+".JPG"));
@@ -20,9 +20,16 @@ public class Ficha extends ImageView {
         else{this.valor=0;}
         this.posx=posx;
         this.posy=posy;
-        this.letra=letra;
+        this.setLetra(letra);
         this.setX(this.posx);
         this.setY(this.posy);
     }
+
+	private void setLetra(String letra) {		
+	}
+
+	public String getLetter() {
+		return this.letra;
+	}
 
 }

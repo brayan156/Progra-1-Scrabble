@@ -206,7 +206,7 @@ public class Controller {
 
     public void clickon() {
         log.debug("si clickeaste compa");
-        Ficha img = new Ficha(100,100,"Castillo1");
+        Ficha img = new Ficha(100,100,"A");
         img.setFitHeight(30);
         img.setFitWidth(30);
         img.setId("Imagen");
@@ -216,7 +216,7 @@ public class Controller {
         img.setOnMousePressed(pressear);
         img.setOnMouseDragged(draggear);
         img.setOnMouseReleased(meter);
-        System.out.println(img.letra);
+        System.out.println(img.getLetter());
 
     }
 
@@ -237,7 +237,8 @@ public class Controller {
                 img.setY(newTranslateY);
 
             };
-    EventHandler<MouseEvent> meter =
+    @SuppressWarnings("deprecation")
+	EventHandler<MouseEvent> meter =
             t -> {
                 Ficha img= (Ficha) (t.getSource());
                 double x= 10-img.getFitWidth()/2;
@@ -258,7 +259,7 @@ public class Controller {
                                 x=460;
                                 y=460;
                                 System.out.println(img.getImage().impl_getUrl());
-                                System.out.println(img.letra);
+                                System.out.println(img.getLetter());
                                 System.out.println(img.valor);
                             }
                             else{
