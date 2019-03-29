@@ -164,6 +164,7 @@ public class Server implements Runnable {
         System.out.println(a);
         File imagen = new File("src/Media/Castillo2.JPG");
         System.out.println(imagen.exists());
+        System.out.println("b".compareTo("a"));
 
 
         Thread hilo = new Thread(this);

@@ -143,14 +143,61 @@ public class Controller {
 
 
             } catch (IOException e) {
-                e.printStackTrace();
+                Alert alert=new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Server usado");
+                alert.setContentText("el server esta siendo usado");
+                alert.showAndWait();
             }
 
         }
     }
 
     public void unirse (){
-        
+        try {
+            if (nombrefield.getText()=="" || codigofield.getText()==""){
+                Alert alert=new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Espacio en blanco");
+                alert.setContentText("debe escrbir el nombre de jugador y el codigo para unirse a una partida");
+                alert.showAndWait();
+            }
+            else {
+                datos.setClient(nombrefield.getText());
+                datos.setCodigo(Integer.parseInt(codigofield.getText()));
+                datos.setAccion("unirse");
+                Socket client = new Socket(InetAddress.getLocalHost(), 9500);
+                log.debug("unirse");
+                DataOutputStream datosenvio = new DataOutputStream(client.getOutputStream());
+                datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
+                DataInputStream datosentrada = new DataInputStream(client.getInputStream());
+                log.debug("entrada se conecto");
+                Datos datosrecibidos = objectMapper.readValue(datosentrada.readUTF(), Datos.class);
+                log.debug("se creo objeto");
+                if (datosrecibidos.getRespueta().contains("partida_llena")) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Server usado");
+                    alert.setContentText("Partida llena");
+                    alert.showAndWait();
+                } else if (datosrecibidos.getRespueta().contains("Codigo_Erroneo")) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Codigo Erroneo");
+                    alert.setContentText("el codigo es incorrecto");
+                    alert.showAndWait();
+                } else if (datosrecibidos.getRespueta().contains("No hay partida")) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Server sin uso");
+                    alert.setContentText("No existe partida creada: inicie una o espere");
+                    alert.showAndWait();
+                } else{}
+            }
+        }
+        catch (NumberFormatException e){
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Codigo Erroneo");
+            alert.setContentText("el codigo esta compuesto de numeros");
+            alert.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public void comprobar(){
 
