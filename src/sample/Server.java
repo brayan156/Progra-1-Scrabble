@@ -1,31 +1,33 @@
 package sample;
-
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.scene.image.ImageView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javafx.scene.image.ImageView;
+
 public class Server implements Runnable {
     ObjectMapper objectMapper = new ObjectMapper();
-    private ImageView matriz[][] = new ImageView[3][3];
+//    private ImageView matriz[][] = new ImageView[3][3];
     public String clientes[]=new String[2];
     String matrizJson,clientantJson, clientJson;
     String sigcliente, tmpcliente;
-    int codigo=-1;
-
+    public int codigo=-1;
     int recorrido,cont;
     public static Logger log = LoggerFactory.getLogger(Server.class);
-
-
+    
+ 
     public static void main(String[] args) throws IOException {
-        new Server();
-    }
-
+    	Server server=new Server();
+    }		
 
     private void cambiar_cliente(){
         sigcliente=clientes[cont];
@@ -159,7 +161,7 @@ public class Server implements Runnable {
         sigcliente=clientes[0];
         tmpcliente=sigcliente;
         cont=1;
-        String abc= "abcdf";
+//        String abc= "abcdf";
         boolean a="baacd".contains("aa");
         System.out.println(a);
         File imagen = new File("src/Media/Castillo2.JPG");

@@ -1,5 +1,7 @@
 package sample;
 
+import Listas.ListaCliente;
+import Listas.ListaPalabras;
 
 public class Datos {
     private String accion,client,respueta = "";
