@@ -9,7 +9,7 @@ public class ArbolBinario<t extends Comparable<t>>{
 	public void insert(t dato) {
 		this.root=this.insert(dato, this.root);
 	}
-	
+	//metodo para insertar datos en el Arbol Binario
 	private NodoArbol<t> insert(t dato, NodoArbol<t> current){
 		if (current==null) {
 			tamano++;
@@ -20,6 +20,7 @@ public class ArbolBinario<t extends Comparable<t>>{
 			current.right =insert(dato,current.right);
 		}return current;
 	}
+	//Recorre el arbol de manera raiz,izquierda y derecha 
 	public void preOrden() {
 		preOrden(root);
 	}
@@ -30,6 +31,7 @@ public class ArbolBinario<t extends Comparable<t>>{
 			preOrden(temp.right);
 		}
 	}
+	//Recorrer el arbol de manera izquierda, raiz y derecha
 	public void inOrden() {
 		inOrden1(root);
 	}
@@ -40,6 +42,7 @@ public class ArbolBinario<t extends Comparable<t>>{
 			inOrden1(temp.right);
 		}
 	}
+	//recorre el arbol de manera izquierda,derecha y raiz
 	public void postOrden() {
 		postOrden(root);
 	}
@@ -50,6 +53,7 @@ public class ArbolBinario<t extends Comparable<t>>{
 			System.out.print(temp.element+"\n");
 		}
 	}
+	// Metodo para buscar un dato en el arbol
 	public boolean buscarDato(t dato) {
 		return buscarDato_aux(dato,root);
 	}
