@@ -1,4 +1,10 @@
 package sample;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 
 import Listas.ListaCliente;
@@ -7,9 +13,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javafx.scene.image.ImageView;
 
 public class Server implements Runnable {
     ObjectMapper objectMapper = new ObjectMapper();
@@ -21,12 +27,11 @@ public class Server implements Runnable {
     int codigo=-1;
     int recorrido,cont, cantjugadores=-1;
     public static Logger log = LoggerFactory.getLogger(Server.class);
-
-
+    
+ 
     public static void main(String[] args) throws IOException {
-        new Server();
-    }
-
+    	Server server=new Server();
+    }		
 
     private void cambiar_cliente(){
         if (tmpcliente.equals(actcliente)){
