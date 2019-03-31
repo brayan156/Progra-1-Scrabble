@@ -1,5 +1,7 @@
 package Listas;
 
+import sample.Node;
+
 public class NodeList <T> {
     int largo;
     Node<T> head=null;

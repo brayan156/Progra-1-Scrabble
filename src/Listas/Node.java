@@ -1,5 +1,7 @@
 package Listas;
 
+import sample.Ficha;
+
 public class Node <T>{
     private T Node;
     public Node<T> next;

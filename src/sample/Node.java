@@ -1,7 +1,7 @@
 package sample;
 
 public class Node <T>{
-    private T Node;
+    public T Node;
     public Node<T> next;
 
     public Node(T Node){
