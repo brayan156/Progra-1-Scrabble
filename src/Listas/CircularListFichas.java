@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.io.IOException;
 
 public class CircularListFichas<T> {
-	Node<T> head;
+	private Node<T> head;
 	private Node<T> last, current;
 	private int size, random;
 	private List<Tuple> letterSet;
@@ -20,79 +20,20 @@ public class CircularListFichas<T> {
 		this.random = 0;
 	}
 	
-//	//ELIMINAR NODO
-//	public void deleteNode(String string) {
-//		@SuppressWarnings("unchecked")
-//		Node<T> del = (Node<T>) new Node<String>(string);
-//		this.deleteNode(del);
-//	}private Node<T> deleteNode(Node<T> item) {
-//		Node<T> tmp = current;
-//		this.current.next=current.next.next;
-//		this.current=tmp.next;
-//		tmp.next=null;
-//		this.size--;
-//		return tmp;
-//	}
-	
-	
-	/* Function to delete a given node from the list */
-	public  Node<T> deleteNode(String string)  
-	{  
-	    if (this.head == null)  
-	        return null;  
-	  
-	    // Find the required node  
-	    @SuppressWarnings("unchecked")
-		Node<T> current = this.head, previous= new Node<T>((T) string);  
-	    while (this.nodeLetter(current).equals(string)) {  
-	        if (current.next == this.head){  
-	            System.out.printf("\nGiven node is not found"+ 
-	                " in the list!!!");  
-	            break;  
-	        } 
-	        previous = current;  
-	        current = current.next;  
-	    }   
-	    // Check if node is only node  
-	    if (current.next == this.head) {  
-	    	this.head = null; 
-	    	System.out.println("Size of list  (D) "+this.getSize());
-	        return this.head;  
-	    }  
-	    // If more than one node, check if  
-	    // it is first node  
-	    if (current == this.head){  
-	        previous = this.head;  
-	        while (previous.next != this.head)  
-	            previous = previous.next;  
-	        this.head = current.next;  
-	        previous.next = this.head; 
-	        System.out.println("Size of list  (D) "+this.Banco.getSize());
-	    }  
-	  
-	    // check if node is last node  
-	    else if (current . next == this.head)  
-	    {  
-	        previous.next = this.head;
-	        System.out.println("Size of list  (D) "+this.Banco.getSize());
-	    }  
-	    else
-	    {  
-	        previous.next = current.next;  
-	        System.out.println("Size of list  (D) "+this.Banco.getSize());
-	    }  
-	    this.size--;
-	    System.out.println("Size of list  (D) "+this.Banco.getSize());
-	    return this.head; 
-	} 
-	     
+	//LISTA VACIA
+	@SuppressWarnings("unused")
+	private boolean isEmpty() {
+		return (head == null);
+	}
+			
     //ULTIMO VALOR
 	public Node<T> getLast() {
 		return last;
 	}
 	
 	//DISPLAY SIZE
-	public int getSize() {System.out.println("Size of list   "+this.size);
+	public int getSize() {
+//		System.out.println("Size of list   "+this.size);
 	return this.size;}
 	
 	//DISPLAY CIRCULAR LIST
@@ -109,83 +50,94 @@ public class CircularListFichas<T> {
     	        while (temp != head);  
     	    }  
     	}  
-	
-	//NUMERO RANDOM
-	public int getRandomInt() {
-		this.random = this.size;
-		return (int) Math.floor(Math.random() * Math.floor(random));	
-	}
-	
-	//LISTA VACIA
-	@SuppressWarnings("unused")
-	private boolean isEmpty() {
-		return (head == null);
-	}
-	
+    
 	//OBTENER LETRA EN EL NODO.
 	public String nodeLetter(Node<T> ficha_encapsulada) {
 		String letter = ((Ficha) ficha_encapsulada.getNode()).getLetter();
 		return letter;
 		}
 	
+	//NUMERO RANDOM
+	public int getRandomInt() {
+		this.random = this.size;
+		return (int) Math.floor(Math.random() * Math.floor(random));	
+	}
+
 	//FICHA RANDOM
-	public Node<T> returnRandomLetterNode(){
-		if (this.current == null) {
+	public String returnRandomLetterNode(){
+		System.out.println(".");
+		if (this.head == null) {
+			System.out.println(".");
 			return null;
 		}else {
-		int contador = this.getRandomInt();
-		while (contador  != 0) {
-			current = current.next;
-		}
-		String encapsulado = (((Ficha) current.getNode()).getLetter());
-		return this.deleteNode(encapsulado);
-		}
+			System.out.println(".");
+			this.current = this.head;
+			int contador = this.getRandomInt();
+			while (contador  != 0) {
+				System.out.println("random ---> "+contador);
+				this.current = this.current.next;
+				System.out.println(this.nodeLetter(this.current));
+				contador--;
+				}
+			System.out.println("del current "+this.nodeLetter(current));
+			return deleteNode(current);
+			}
 	}
 
 	//INSERTAR AL FINAL
-	public void insertionlast(String letra){
-		Ficha ficha = new Ficha(letra, 0, 0);
-		System.out.println("Cualidades... | letra="+ficha.getLetter()+" |  valor="+ficha.getValue());
-		@SuppressWarnings("unchecked")
-		Node<T> appending = (Node<T>) new Node<Ficha>(ficha);
-	    appending.setNext(head);
+	public void insertionlast(String letter){
+		
+		Ficha ficha = new Ficha(letter, 0, 0);
+//		System.out.println("Cualidades... | letra="+ficha.getLetter()+" |  valor="+ficha.getValue());	
+		
+//		Node<T> appending = new Node<T> (null);
+//		appending.setNode(ficha);
+//	    appending.setNext(head);
+		
+		Node<Ficha> appending = new Node<Ficha>(ficha);
+	    
 	    if(this.head == null){            
-	        this.head = appending;
-	        appending.setNext(head);
-	        this.last = head;
-	        this.current = head; 
+	        this.head=appending.getNode();
+	        this.last=appending.getNode();
+	        appending.setNext(this.head);
+    
 	    }else{
 	    	this.last.setNext(appending);
-	    	this.last = appending;   
-	    	
+	    	this.last.setNode((T) appending);
+	    	this.last.setNext(this.head);
 	    }this.size++;
 	    this.getSize();
 	}
 	
-//	//INSERTAR DE FORMA ORDENADA.
-//	public void sortedInsertion(String letra){
-//		Ficha ficha = new Ficha(letra, 0, 0);
-//		System.out.println("FICHA CREADA >>>   Letra>"+ficha.getLetter()+" Valor>"+ ficha.getValue());
-//		Node<T> node_ficha = (Node<T>) new Node<Ficha>(ficha);
-//		Node<T> current = head;
-//		//SI ES VACIA SE REFIERE HEAD SE REFIERE A SÍ MISMO	
-//	         /* Special case for head node */
-//	         if (this.isEmpty() || (this.nodeLetter(head).compareTo(this.nodeLetter(node_ficha)) > 0)){
-//	        	 head = node_ficha;
-//	        	 node_ficha.next = head; 
-//	             
-//	         } 
-//	         else { 
-//	            /* Locate the node before point of insertion. */	  
-//	            while (current.next != null && 
-//	            		(this.nodeLetter(head).compareTo(this.nodeLetter(node_ficha)) < 0)) {
-//	                  current = current.next; 
-//	  
-//	            node_ficha.next = current.next; 
-//	            current.next = node_ficha; 
-//	         } 
-//	         }
-//	     }
+	//DELETE
+	public  String deleteNode(Node<T> del) {  
+		Node<T> current = this.head;
+
+		while (this.nodeLetter(del) != this.nodeLetter(current)) {
+			System.out.println(".");
+			System.out.println("Nodo head --> "+current.getNode());
+			System.out.println("Nodo random --> "+del.getNode());
+			if (current.next == this.head) {
+				System.out.printf("\nGiven node is not found in the list!!!");  
+				break;}
+		}
+		Node<T> tmp = current;
+        current = (current.getNext());
+        current.setNext(tmp.getNext().getNext());
+        
+        System.out.println(".....");
+        
+        String nodoborrado= this.nodeLetter(del);
+        String nodocurrent=this.nodeLetter(current);
+        String nodocurrentnext=this.nodeLetter(current.getNext());
+        String nodocurrentnextnext=this.nodeLetter(current.getNext().getNext());
+        
+		System.out.println("del "+nodoborrado);
+		System.out.println("current "+nodocurrent);
+		System.out.println("current.next "+nodocurrentnext);
+		System.out.println("current.next.next "+nodocurrentnextnext);
+		return this.nodeLetter(current);
+	}
       
     //CREAR LISTA CON LETRA Y CANTIDAD CORRESPONDIENTE.
     private  List<Tuple> letterSets() {
@@ -241,11 +193,16 @@ public class CircularListFichas<T> {
     public static void main(String[] args) throws IOException {
     	CircularListFichas<Ficha> Banco1 = new CircularListFichas<Ficha>();
     	Banco1.getLetterSet();
-       	Banco1.insertionlast("S");
-       	Banco1.insertionlast("S");
-       	Banco1.insertionlast("S");
-       	Banco1.insertionlast("S");
-        Banco1.deleteNode("A");
-//    	Banco1.printList();
+    	
+       	Banco1.insertionlast("K");
+       	Banco1.insertionlast("A");
+       	Banco1.insertionlast("B");
+       	Banco1.insertionlast("C");
+       	Banco1.insertionlast("Z");
+       	Banco1.insertionlast("F");
+       	Banco1.insertionlast("H");
+       	Banco1.insertionlast("J");
+       	Banco1.returnRandomLetterNode();
+       	//    	Banco1.printList();
     }	
 }
