@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.concurrent.Callable;
@@ -23,6 +22,7 @@ public class Turno implements Callable<String> {
 
     @Override
     public String call() throws Exception {
+        String respuesta="";
         try{
             while (espera) {
                 Socket client = new Socket(InetAddress.getLocalHost(), 9500);
@@ -36,12 +36,21 @@ public class Turno implements Callable<String> {
                 log.debug("se creo objeto");
                 if (datos.getAccion().equals("Tu_turno")){
                     log.debug("se recibio turno");
+                    respuesta="Tu_turno";
                     espera=false;
+                    datosenvio.close();
                     client.close();
-
+                }
+                else if(datos.getAccion().equals("Actualizacion")){
+                    log.debug("se debe actualizar");
+                    respuesta="Actualizacion";
+                    espera=false;
+                    datosenvio.close();
+                    client.close();
                 }
                 else{
                     log.debug("esperando");
+                    datosenvio.close();
                     client.close();
                     Thread.sleep(5000);
 
@@ -52,6 +61,7 @@ public class Turno implements Callable<String> {
         catch (Exception e){
             e.printStackTrace();
         }
-        return "tu_turno_compa";
+        log.debug("se envio respuesta");
+        return respuesta;
     }
 }

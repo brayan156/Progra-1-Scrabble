@@ -12,12 +12,11 @@ import java.net.Socket;
 
 public class Server implements Runnable {
     ObjectMapper objectMapper = new ObjectMapper();
-    private ImageView matriz[][] = new ImageView[3][3];
+    private String matriz[][] = new String[15][15];
     public String clientes[]=new String[2];
-    String matrizJson,clientantJson, clientJson;
+    String actcliente;
     String sigcliente, tmpcliente;
     int codigo=-1;
-
     int recorrido,cont;
     public static Logger log = LoggerFactory.getLogger(Server.class);
 
@@ -28,9 +27,18 @@ public class Server implements Runnable {
 
 
     private void cambiar_cliente(){
-        sigcliente=clientes[cont];
-        if (cont+1==clientes.length){cont=0;}
-        else{cont++;}
+        if (tmpcliente==actcliente){
+            recorrido=2;
+        }
+        actcliente=clientes[cont];
+        if (cont+1==clientes.length){
+            cont=0;
+            sigcliente=clientes[cont];
+        }
+        else{
+            cont++;
+            sigcliente=clientes[cont];
+        }
     }
 
 
@@ -53,18 +61,30 @@ public class Server implements Runnable {
                 System.out.println(datos.getAccion().length());
                 if (datos.getAccion().equals("buscar_turno")){
                     log.debug("se entro");
-                    if (datos.getClient().equals(sigcliente)){
-                        System.out.println("ha entrado el cliente correcto");
-                        datos.setAccion("Tu_turno");
-                        this.cambiar_cliente();
-                        DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
-                        log.debug("se creo abertura de datos");
-                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
-                        log.debug("se logro enviar datos");
-                        datosenvio.close();
-                        misocket.close();
-
-
+                    if (datos.getClient().equals(actcliente)){
+                        System.out.println(recorrido);
+                        if (recorrido==2) {
+                            System.out.println("ha entrado el cliente correcto");
+                            datos.setAccion("Tu_turno");
+                            tmpcliente=actcliente;
+                            DataOutputStream datosenvio = new DataOutputStream(misocket.getOutputStream());
+                            log.debug("se creo abertura de datos");
+                            datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                            log.debug("se logro enviar datos");
+                            datosenvio.close();
+                            misocket.close();
+                        }
+                        else {
+                            System.out.println("cliente a actualizar");
+                            datos.setAccion("Actualizacion");
+                            this.cambiar_cliente();
+                            DataOutputStream datosenvio = new DataOutputStream(misocket.getOutputStream());
+                            log.debug("se creo abertura de datos");
+                            datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                            log.debug("se logro enviar actualizar");
+                            datosenvio.close();
+                            misocket.close();
+                        }
                     }
                     else{
                         datos.setAccion("Sigue_esperando");
@@ -77,9 +97,20 @@ public class Server implements Runnable {
                         log.debug("se logro terminar y en espera");
                     }
                 }
+                else if (datos.getAccion().equals("Actualizar")){
+                    datos.setAccion("Cambiar_matriz");
+                    datos.setMatriz(this.matriz);
+                    DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+                    log.debug("se creo abertura de datos");
+                    datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                    log.debug("se envió matriz");
+                    this.cambiar_cliente();
+                    datosenvio.close();
+                    misocket.close();
+
+                }
                 else if (datos.getAccion().equals("Pasar")) {
-                    if (cont+1==clientes.length){cont=0;}
-                    else{cont++;}
+                    cambiar_cliente();
                     misocket.close();
                 }
 //                else if (datos.getAccion().equals("comprobar")){
@@ -90,6 +121,7 @@ public class Server implements Runnable {
 //                        DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
 //                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
 //                        this.cambiar_cliente();
+//                        recorrido=1;
 //                        datosenvio.close();
 //                        misocket.close();
 //                    }
@@ -122,12 +154,12 @@ public class Server implements Runnable {
 
                 }
                 else if (datos.getAccion().equals("unirse")){
-                    if (datos.getCodigo()==codigo);
+//                    if (datos.getCodigo()==codigo);
                     datos.setRespueta("");
                 }
                 else if (datos.getAccion().equals("preguntar")){
-
                 }
+
 
             }
 
@@ -156,9 +188,13 @@ public class Server implements Runnable {
     public Server() throws IOException {
         clientes[0]="Paco";
         clientes[1]="Juan";
-        sigcliente=clientes[0];
-        tmpcliente=sigcliente;
+        actcliente=clientes[0];
+        tmpcliente=actcliente;
+        sigcliente=clientes[1];
         cont=1;
+        recorrido=1;
+        matriz[13][12]="Castillo2";
+        matriz[1][1]="Castillo2";
         String abc= "abcdf";
         boolean a="baacd".contains("aa");
         System.out.println(a);

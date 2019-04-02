@@ -1,6 +1,9 @@
 package sample;
 
 
+import Listas.ListaCliente;
+import Listas.ListaPalabras;
+
 public class Datos {
     private String accion,client,respueta = "";
     private String matriz[][]=new String[15][15];
@@ -74,3 +77,4 @@ public class Datos {
         this.codigo = codigo;
     }
 }
+

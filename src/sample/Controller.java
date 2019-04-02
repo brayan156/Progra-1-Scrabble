@@ -1,40 +1,42 @@
 package sample;
 
 
+import Listas.ListaFichas;
+import Listas.Matriz;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.animation.AnimationTimer;
+import javafx.beans.binding.When;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
-import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.input.MouseEvent;
-import javafx.event.EventHandler;
-
+import javafx.scene.layout.Pane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class Controller {
-    @FXML private Pane juegopane;
+    @FXML public  Pane juegopane= new Pane();
     public static Logger log = LoggerFactory.getLogger(Controller.class);
     private Double orgSceneX;
     private Double orgSceneY;
-    private Ficha matriz[][] = new Ficha[15][15];
+    public  Matriz matriz= new Matriz();
     public TextField nombrefield;
     public Datos datos= new Datos();
-    @FXML private Label labelturno;
+    @FXML private Label labelturno=new Label();
     ObjectMapper objectMapper=new ObjectMapper();
     public TextField comprobacionfield= new TextField();
+    public ListaFichas listaFichas=new ListaFichas();
+
 
 //    Menu de Inicio
     public TextField codigofield,nombref= new TextField();
@@ -42,23 +44,90 @@ public class Controller {
 
 
 
-    public void espera()  {
-            try {
-                datos.setClient(nombrefield.getText());
-                ExecutorService executor = Executors.newSingleThreadExecutor();
-                Future<String> future = executor.submit(new Turno(datos));
-                if (future.isDone()) {
-                    log.debug("se va a cambiar label");
-                    labelturno.setText(future.get());
+    public void espera() {
+        datos.setClient(nombrefield.getText());
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<String> future = executor.submit(new Turno(datos));
+        log.debug("aqui llega");
+        AnimationTimer timer = new AnimationTimer() {
+
+            @Override
+            public void handle(long now) {
+                try {
+                    if (future.isDone()) {
+                    String resp= "hola";
+                    log.debug("future terminó");
+                    if (resp.contains("Tu_turno")){
+                        log.debug("turno del cliente");
+                        log.debug("se va a cambiar label");
+                        labelturno.setText(resp);
+                    }
+                    else{
+                        log.debug("se llego a actualizar");
+                        datos.setAccion("Actualizar");
+                        Socket client = new Socket(InetAddress.getLocalHost(), 9500);
+                        log.debug("se conecto");
+                        DataOutputStream datosenvio= new DataOutputStream(client.getOutputStream());
+                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                        log.debug("se envio objeto");
+                        DataInputStream datosentrada= new DataInputStream(client.getInputStream());
+                        log.debug("entrada se conecto");
+                        Datos datosrecibidos=objectMapper.readValue(datosentrada.readUTF(), Datos.class);
+                        log.debug("se creo objeto");
+                        matriz.agregar(datosrecibidos.getMatriz(),juegopane);
+                        labelturno.setText("si lo logré");
+                        datosenvio.close();
+                        client.close();
+                    }
+                    stop();
+                }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-            catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
+        };
+        timer.start();
+    }
+//            try {
+//                datos.setClient(nombrefield.getText());
+////                ExecutorService executor = Executors.newSingleThreadExecutor();
+////                executor.execute(new Turno(datos,labelturno,juegopane,matriz));
+//                Thread hilo = new Thread(new Turno(datos,labelturno,juegopane,matriz));
+//                hilo.start();
+//                log.debug("aqui llega");
+//                if (future.isDone()) {
+//                    String resp= "hola";
+//                    log.debug("future terminó");
+//                    if (resp.contains("Tu_turno")){
+//                        log.debug("turno del cliente");
+//                        log.debug("se va a cambiar label");
+//                        labelturno.setText(resp);
+//                    }
+//                    else{
+//                        log.debug("se llego a actualizar");
+//                        datos.setAccion("Actualizar");
+//                        Socket client = new Socket(InetAddress.getLocalHost(), 9500);
+//                        log.debug("se conecto");
+//                        DataOutputStream datosenvio= new DataOutputStream(client.getOutputStream());
+//                        datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
+//                        log.debug("se envio objeto");
+//                        DataInputStream datosentrada= new DataInputStream(client.getInputStream());
+//                        log.debug("entrada se conecto");
+//                        Datos datosrecibidos=objectMapper.readValue(datosentrada.readUTF(), Datos.class);
+//                        log.debug("se creo objeto");
+//                        this.matriz.agregar(datosrecibidos.getMatriz(),juegopane);
+//                        datosenvio.close();
+//                        client.close();
+////                    }
+////                }
+//            }
+//            catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//    }
+
+
 //        AnimationTimer timer= new AnimationTimer() {
 //            @Override
 //            public void handle(long now) {
@@ -87,6 +156,7 @@ public class Controller {
 //                e.printStackTrace();
 //            }
 //        });
+//    }
 
 
 
@@ -99,7 +169,7 @@ public class Controller {
             DataOutputStream datosenvio= new DataOutputStream(client.getOutputStream());
             datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
             log.debug("se envio objeto");
-            this.espera();
+//            this.espera();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -135,7 +205,7 @@ public class Controller {
                 else{
                     Alert alert=new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Codigo");
-                    alert.setContentText("El codigo de entrada es"+datosrecibidos.getCodigo());
+//                    alert.setContentText("El codigo de entrada es"+datosrecibidos.getCodigo());
                     alert.showAndWait();
                     datosenvio.close();
                     client.close();
@@ -162,7 +232,7 @@ public class Controller {
             }
             else {
                 datos.setClient(nombrefield.getText());
-                datos.setCodigo(Integer.parseInt(codigofield.getText()));
+//                datos.setCodigo(Integer.parseInt(codigofield.getText()));
                 datos.setAccion("unirse");
                 Socket client = new Socket(InetAddress.getLocalHost(), 9500);
                 log.debug("unirse");
@@ -212,11 +282,15 @@ public class Controller {
         img.setId("Imagen");
         String ID = img.getId();
         System.out.println(ID);
-        juegopane.getChildren().add(img);
+        this.juegopane.getChildren().add(img);
         img.setOnMousePressed(pressear);
         img.setOnMouseDragged(draggear);
         img.setOnMouseReleased(meter);
         System.out.println(img.letra);
+        String[][] mat=new String[15][15];
+        mat[13][12]="Castillo2";
+        mat[1][1]="Castillo2";
+        matriz.agregar(mat, juegopane);
 
     }
 
@@ -240,39 +314,6 @@ public class Controller {
     EventHandler<MouseEvent> meter =
             t -> {
                 Ficha img= (Ficha) (t.getSource());
-                double x= 10-img.getFitWidth()/2;
-                double y= 10-img.getFitHeight()/2;
-                int contx=0;
-                int conty=0;
-
-                while (contx<15){
-                    if (img.getX() >= x && img.getX() <=x+30 ){
-                        while (conty<15){
-                            if(img.getY() >= y && img.getY() <=y+30 ){
-                                matriz[conty][contx] = img;
-                                System.out.println(img.getY());
-                                System.out.println(img.getX());
-                                System.out.println(matriz[conty][contx].getId()+" guardada en "+contx+","+conty);
-                                img.setY(y+img.getFitWidth()/2);
-                                img.setX(x+img.getFitHeight()/2);
-                                x=460;
-                                y=460;
-                                System.out.println(img.getImage().impl_getUrl());
-                                System.out.println(img.letra);
-                                System.out.println(img.valor);
-                            }
-                            else{
-                                conty++;
-                                y+=30;
-                            }
-                        }
-                    }
-                    else{
-                        contx++;
-                        x+=30;
-                    }
-
-
-                }
+                matriz.agregar(img);
             };
 }
