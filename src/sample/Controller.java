@@ -55,7 +55,7 @@ public class Controller {
             public void handle(long now) {
                 try {
                     if (future.isDone()) {
-                    String resp= "hola";
+                    String resp= future.get();
                     log.debug("future terminó");
                     if (resp.contains("Tu_turno")){
                         log.debug("turno del cliente");

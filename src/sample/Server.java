@@ -27,7 +27,7 @@ public class Server implements Runnable {
 
 
     private void cambiar_cliente(){
-        if (tmpcliente==actcliente){
+        if (tmpcliente.equals(actcliente)){
             recorrido=2;
         }
         actcliente=clientes[cont];
@@ -77,7 +77,6 @@ public class Server implements Runnable {
                         else {
                             System.out.println("cliente a actualizar");
                             datos.setAccion("Actualizacion");
-                            this.cambiar_cliente();
                             DataOutputStream datosenvio = new DataOutputStream(misocket.getOutputStream());
                             log.debug("se creo abertura de datos");
                             datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
@@ -154,7 +153,7 @@ public class Server implements Runnable {
 
                 }
                 else if (datos.getAccion().equals("unirse")){
-//                    if (datos.getCodigo()==codigo);
+                    if (datos.getCodigo()==codigo);
                     datos.setRespueta("");
                 }
                 else if (datos.getAccion().equals("preguntar")){
