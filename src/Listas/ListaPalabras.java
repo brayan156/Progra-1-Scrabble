@@ -22,6 +22,24 @@ public class ListaPalabras {
         n.next=this.head;
         head=n;
     }
+    public void eliminar(String palabra){
+        if (this.head.getNodo().equals(palabra)){
+            this.head=this.head.next;
+        }
+        else{
+            Nodo<String>tmp=this.head;
+            while (tmp.next!=null){
+                if (tmp.next.getNodo().equals(palabra)){
+                    tmp.next=tmp.next.next;
+                    break;
+                }
+                else {
+                    tmp=tmp.next;
+                }
+            }
+        }
+    }
+    
 
     public int getLargo() {
         return largo;
