@@ -276,7 +276,7 @@ public class Controller {
 
     public void clickon() {
         log.debug("si clickeaste compa");
-        Ficha img = new Ficha(100,100,"Castillo1");
+        Ficha img = new Ficha(100,480,"Castillo1");
         img.setFitHeight(30);
         img.setFitWidth(30);
         img.setId("Imagen");
@@ -287,11 +287,6 @@ public class Controller {
         img.setOnMouseDragged(draggear);
         img.setOnMouseReleased(meter);
         System.out.println(img.letra);
-        String[][] mat=new String[15][15];
-        mat[13][12]="Castillo2";
-        mat[1][1]="Castillo2";
-        matriz.agregar(mat, juegopane);
-
     }
 
     EventHandler<MouseEvent> pressear =
