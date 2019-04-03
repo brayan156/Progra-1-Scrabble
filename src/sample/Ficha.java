@@ -6,10 +6,10 @@ import javafx.scene.image.Image;
 
 public class Ficha extends ImageView {
     int posx,posy,value;
-    private String letter;
+    private String letra;
 
-    public Ficha(String string,int posx, int posy) {
-//        super(new Image("file:src/Media/"+letter+".JPG"));
+    public Ficha(int posx, int posy, String string) {
+//        super(new Image("file:src/Media/"+letra+".JPG"));
 //        System.out.println("si entra a clase ficha");
         if ("AEOISNLRUT".contains(string)){this.value=1;}
         else if ("DG".contains(string)){this.value=2;}
@@ -21,7 +21,7 @@ public class Ficha extends ImageView {
         else{this.value=0;}
         this.posx=posx;
         this.posy=posy;
-        this.letter = string;
+        this.letra = string;
         this.setX(this.posx);
         this.setY(this.posy);
     }
@@ -30,12 +30,12 @@ public class Ficha extends ImageView {
 		return value;
 	}
 
-	public void setLetter(String letter) {
-		this.letter = letter;
+	public void setLetter(String letra) {
+		this.letra = letra;
 	}
 
 	public String getLetter() {
-		return this.letter;
+		return this.letra;
 	}
 
 }
