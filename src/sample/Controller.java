@@ -2,13 +2,14 @@ package sample;
 
 
 import Listas.ListaFichas;
+import Listas.ListaPalabras;
 import Listas.Matriz;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.AnimationTimer;
-import javafx.beans.binding.When;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -40,6 +41,7 @@ public class Controller {
 
 //    Menu de Inicio
     public TextField codigofield,nombref= new TextField();
+    public ComboBox<Integer> jugadoresbox= new ComboBox<Integer>();
     public Pane menupane= new Pane();
 
 
@@ -89,74 +91,7 @@ public class Controller {
         };
         timer.start();
     }
-//            try {
-//                datos.setClient(nombrefield.getText());
-////                ExecutorService executor = Executors.newSingleThreadExecutor();
-////                executor.execute(new Turno(datos,labelturno,juegopane,matriz));
-//                Thread hilo = new Thread(new Turno(datos,labelturno,juegopane,matriz));
-//                hilo.start();
-//                log.debug("aqui llega");
-//                if (future.isDone()) {
-//                    String resp= "hola";
-//                    log.debug("future terminó");
-//                    if (resp.contains("Tu_turno")){
-//                        log.debug("turno del cliente");
-//                        log.debug("se va a cambiar label");
-//                        labelturno.setText(resp);
-//                    }
-//                    else{
-//                        log.debug("se llego a actualizar");
-//                        datos.setAccion("Actualizar");
-//                        Socket client = new Socket(InetAddress.getLocalHost(), 9500);
-//                        log.debug("se conecto");
-//                        DataOutputStream datosenvio= new DataOutputStream(client.getOutputStream());
-//                        datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
-//                        log.debug("se envio objeto");
-//                        DataInputStream datosentrada= new DataInputStream(client.getInputStream());
-//                        log.debug("entrada se conecto");
-//                        Datos datosrecibidos=objectMapper.readValue(datosentrada.readUTF(), Datos.class);
-//                        log.debug("se creo objeto");
-//                        this.matriz.agregar(datosrecibidos.getMatriz(),juegopane);
-//                        datosenvio.close();
-//                        client.close();
-////                    }
-////                }
-//            }
-//            catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//    }
 
-
-//        AnimationTimer timer= new AnimationTimer() {
-//            @Override
-//            public void handle(long now) {
-//            try {
-//                datos.setClient(nombrefield.getText());
-//                ExecutorService executor= Executors.newSingleThreadExecutor();
-//                Future<String> future= executor.submit(new Turno(datos));
-//                if (future.isDone()){
-//                    labelturno.setText(future.get());
-//                }
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            }
-//            }
-//        };
-//        timer.start();
-
-//        Platform.runLater(()->{
-//            try {
-//                labelturno.setText(future.get());
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            }
-//        });
-//    }
 
 
 
@@ -169,7 +104,7 @@ public class Controller {
             DataOutputStream datosenvio= new DataOutputStream(client.getOutputStream());
             datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
             log.debug("se envio objeto");
-//            this.espera();
+            this.espera();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -183,9 +118,9 @@ public class Controller {
             alert.showAndWait();
         }
         else{
-
             try {
                 this.datos.setClient(nombref.getText());
+                this.datos.setJugadores(jugadoresbox.getValue());
                 Socket client = new Socket(InetAddress.getLocalHost(), 9500);
                 log.debug("iniciar");
                 DataOutputStream datosenvio= new DataOutputStream(client.getOutputStream());
@@ -205,17 +140,16 @@ public class Controller {
                 else{
                     Alert alert=new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Codigo");
-//                    alert.setContentText("El codigo de entrada es"+datosrecibidos.getCodigo());
+                    alert.setContentText("El codigo de entrada es"+datosrecibidos.getCodigo());
                     alert.showAndWait();
                     datosenvio.close();
                     client.close();
                 }
 
-
             } catch (IOException e) {
                 Alert alert=new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Server usado");
-                alert.setContentText("el server esta siendo usado");
+                alert.setTitle("Error inesperado");
+                alert.setContentText("ocurrió un error inesperado");
                 alert.showAndWait();
             }
 
@@ -224,7 +158,7 @@ public class Controller {
 
     public void unirse (){
         try {
-            if (nombrefield.getText()=="" || codigofield.getText()==""){
+            if (nombrefield.getText().equals("") || codigofield.getText().equals("")){
                 Alert alert=new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Espacio en blanco");
                 alert.setContentText("debe escrbir el nombre de jugador y el codigo para unirse a una partida");
@@ -232,7 +166,7 @@ public class Controller {
             }
             else {
                 datos.setClient(nombrefield.getText());
-//                datos.setCodigo(Integer.parseInt(codigofield.getText()));
+                datos.setCodigo(Integer.parseInt(codigofield.getText()));
                 datos.setAccion("unirse");
                 Socket client = new Socket(InetAddress.getLocalHost(), 9500);
                 log.debug("unirse");
@@ -242,17 +176,17 @@ public class Controller {
                 log.debug("entrada se conecto");
                 Datos datosrecibidos = objectMapper.readValue(datosentrada.readUTF(), Datos.class);
                 log.debug("se creo objeto");
-                if (datosrecibidos.getRespueta().contains("partida_llena")) {
+                if (datosrecibidos.getRespueta().equals("Partida_llena")) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Server usado");
                     alert.setContentText("Partida llena");
                     alert.showAndWait();
-                } else if (datosrecibidos.getRespueta().contains("Codigo_Erroneo")) {
+                } else if (datosrecibidos.getRespueta().equals("Codigo_Erroneo")) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Codigo Erroneo");
                     alert.setContentText("el codigo es incorrecto");
                     alert.showAndWait();
-                } else if (datosrecibidos.getRespueta().contains("No hay partida")) {
+                } else if (datosrecibidos.getRespueta().equals("No hay partida")) {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Server sin uso");
                     alert.setContentText("No existe partida creada: inicie una o espere");
@@ -270,6 +204,48 @@ public class Controller {
         }
     }
     public void comprobar(){
+        try {
+            if (listaFichas.getLargo()==7){
+                Alert alert=new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Advertencia");
+                alert.setContentText("no se ha realizado ninguna jugada");
+                alert.showAndWait();
+            }
+            else {
+                datos.setAccion("comprobar");
+                datos.setMatriz(matriz.convertir());
+                datos.setListacliente(datos.getListacliente());
+                Socket client = null;
+                client = new Socket(InetAddress.getLocalHost(), 9500);
+                log.debug("unirse");
+                DataOutputStream datosenvio = new DataOutputStream(client.getOutputStream());
+                datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
+                DataInputStream datosentrada = new DataInputStream(client.getInputStream());
+                log.debug("entrada se conecto");
+                Datos datosrecibidos = objectMapper.readValue(datosentrada.readUTF(), Datos.class);
+                log.debug("se creo objeto");
+                if (datosrecibidos.getRespueta().equals("jugada_correcta")) {
+                    datos.setListacliente(datosrecibidos.getListacliente());
+                    //aqui va la actualizacion del puntaje
+                    labelturno.setText("En espera");
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Palbras incorrectas");
+//                    String palabraserrones=datosrecibidos.getListapalabras().obtenerstring();
+//                    alert.setContentText("las siguientes palabras con incorrectas"+palabraserrones);
+                    alert.showAndWait();
+                }
+            }
+        }
+
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void preguntar(){
 
     }
 

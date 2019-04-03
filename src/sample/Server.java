@@ -1,8 +1,9 @@
 package sample;
 
 
+import Listas.ListaCliente;
+import Listas.ListaPalabras;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.scene.image.ImageView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,11 +14,12 @@ import java.net.Socket;
 public class Server implements Runnable {
     ObjectMapper objectMapper = new ObjectMapper();
     private String matriz[][] = new String[15][15];
+    public ListaCliente clientesd= new ListaCliente();
     public String clientes[]=new String[2];
     String actcliente;
     String sigcliente, tmpcliente;
     int codigo=-1;
-    int recorrido,cont;
+    int recorrido,cont, cantjugadores=-1;
     public static Logger log = LoggerFactory.getLogger(Server.class);
 
 
@@ -110,13 +112,17 @@ public class Server implements Runnable {
                 }
                 else if (datos.getAccion().equals("Pasar")) {
                     cambiar_cliente();
+                    tmpcliente=actcliente;
                     misocket.close();
                 }
 //                else if (datos.getAccion().equals("comprobar")){
-//                    ListaPalabras lpalerroneas= this.comprobar(datos.getMatriz());
-//                    if (lpalerroneas.largo==0){
+//                    ListaPalabras lpal= this.comprobar(datos.getMatriz());
+//                    ListaPalabras lpalerroneas= this.sacarerroneas(lpal);
+//                    if (lpalerroneas.getLargo()==0){
+//                        ListaPalabras lpalcorrectas= this.sacarcorrectas(lpal);
+//                        clientesd.sumarpuntos(datos.getClient(), this.calcularpuntaje(lpalcorrectas));
 //                        datos.setRespueta("jugada_correcta");
-//                        datos.setListacliente(listacliente);
+//                        datos.setListacliente(clientesd);
 //                        DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
 //                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
 //                        this.cambiar_cliente();
@@ -126,11 +132,11 @@ public class Server implements Runnable {
 //                    }
 //                    else{
 //                        datos.setRespueta("jugada_incorrecta");
-//                        DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+//                        datos.setListapalabras(lpalerroneas);
+//                        DataOutputStream datosenvio = new DataOutputStream(misocket.getOutputStream());
 //                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
 //                        datosenvio.close();
 //                        misocket.close();
-//
 //                    }
 //                }
                 else if (datos.getAccion().equals("iniciar")){
@@ -152,10 +158,39 @@ public class Server implements Runnable {
                 }
 
                 }
-                else if (datos.getAccion().equals("unirse")){
-                    if (datos.getCodigo()==codigo);
-                    datos.setRespueta("");
+                else if (datos.getAccion().equals("unirse")) {
+                    if (codigo==-1) {
+                        datos.setRespueta("No hay partida");
+                        DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                        datosenvio.close();
+                        misocket.close();
+
+                    }
+                    else if (cantjugadores==clientesd.getLargo()){
+                        datos.setRespueta("Partida_llena");
+                        DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                        datosenvio.close();
+                        misocket.close();
+                    }
+                    else {
+                        if (datos.getCodigo() == codigo) {
+                            datos.setRespueta("Codigo Correcto");
+                            DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+                            datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                            datosenvio.close();
+                            misocket.close();
+                        } else {
+                            datos.setRespueta("Codigo Erroneo");
+                            DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+                            datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                            datosenvio.close();
+                            misocket.close();
+                        }
+                    }
                 }
+
                 else if (datos.getAccion().equals("preguntar")){
                 }
 
