@@ -1,4 +1,4 @@
-package Listas;
+package Circular_Letras;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,10 +8,9 @@ import sample.Ficha;
 public class Circular<T>{
 	//Links
 	private NodeLetter first, last;
-	private static int size;
+	private int size;
 	//GAME VARIABLES
 	private List<Tuple> letterSet;
-	private Circular<String> LetterBox;
 	
 	//CONSTRUCTOR.
 	public Circular() {
@@ -46,16 +45,17 @@ public class Circular<T>{
     
     //SIZE OF THE CIRCULAR LIST
     public int getSize() {
-    	NodeLetter currentcounting = this.getFirst();
-    	if (this.isEmpty()){Circular.size = 0;}
-    	else {
-    		Circular.size++;
-    		while (currentcounting.getNext() != this.getFirst()) {
-    			Circular.size++;
-    			currentcounting = currentcounting.getNext();}
-    	}
-    	System.out.println("Size | "+Circular.size);
-    	return Circular.size;
+    	return this.size;
+//    	NodeLetter currentcounting = this.getFirst();
+//    	if (this.isEmpty()){this.size = 0;}
+//    	else {
+//    		this.size++;
+//    		while (currentcounting.getNext() != this.getFirst()) {
+//    			this.size++;
+//    			currentcounting = currentcounting.getNext();}
+//    	}
+//    	System.out.println("Size | "+this.size);
+//    	return this.size;
     }
 
 	
@@ -72,7 +72,7 @@ public class Circular<T>{
 			this.last.setNext(this.getFirst());
 		}
 		System.out.print(last.getNode()+ " ");
-		System.out.println("");
+		this.size++;
 	}
 	
 	//DELETE
@@ -82,7 +82,7 @@ public class Circular<T>{
 		previous = null;
 		actual = this.first;
 		//create ficha.
-		Ficha ficha = new Ficha("NULL", 0, 0);
+		Ficha ficha = new Ficha(0, 0, "NULL");
 		
 		if (!this.isEmpty()) {
 			while((actual != null)&&(actual.getNode() != string)) {
@@ -130,14 +130,14 @@ public class Circular<T>{
                 actual.setNext(null);
                 ficha.setLetter(string);
              }    
-          }
+          }this.size--;
        }
        else
        {
           System.out.print("\n¡¡¡ No elements !!!");
        }
 //		System.out.println("Cualidades... | "+ "letra="
-//			+ficha.getLetter()+" |  valor="
+//			+ficha.getLetra()+" |  valor="
 //			+ficha.getValue());
 		this.display();
 //		this.getSize();
@@ -181,13 +181,12 @@ public class Circular<T>{
     }
 	//INSERT LETTER BY LETTER (REQUIRED AMOUNTS).
 	private void insertSetinCircularList() {
-		this.LetterBox = new Circular<String>();
 			for (int i=0; i<letterSet.size(); i++) {
 				Tuple tupla = letterSet.get(i);
 				int tupla_numero = tupla.gety();	
 				while (tupla_numero != 0) {
 	//            		System.out.println("Repeticiones... | contador="+tupla_numero+" |  current i="+ i);
-					this.LetterBox.insertlast(tupla.getx());
+					this.insertlast(tupla.getx());
 					tupla_numero--;
 	//        			System.out.println("Size of list   "+this.BancoFichas.getSize());
 	//            		System.out.println(" ");
@@ -197,14 +196,14 @@ public class Circular<T>{
 	
 	//FICHA RANDOM
 	public void getRandomNode(){
-//		int random = this.getSize();
-		int random = 98;
+		int random = this.getSize();
 		if (!this.isEmpty()) {
 			NodeLetter currentrandomize = this.first;
 			random = (int) Math.floor(Math.random() * Math.floor(random));
-			System.out.println(random);
+//			System.out.println(random);
 			while (random  != 0) {
 				currentrandomize = currentrandomize.next;
+				random--;
 			}
 			System.out.println(currentrandomize.getNode());
 			this.delete(currentrandomize.getNode());
