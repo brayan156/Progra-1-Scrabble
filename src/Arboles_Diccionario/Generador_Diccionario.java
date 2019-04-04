@@ -1,3 +1,5 @@
+package Arboles_Diccionario;
+
 import java.io.*;
 
 public class Generador_Diccionario {
