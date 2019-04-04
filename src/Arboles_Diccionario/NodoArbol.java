@@ -1,4 +1,5 @@
-package ;
+package Arboles_Diccionario;
+
 public class NodoArbol<t extends Comparable<t>>{
 	public NodoArbol<t> left;
 	public NodoArbol<t> right;

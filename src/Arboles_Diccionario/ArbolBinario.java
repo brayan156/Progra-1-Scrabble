@@ -1,3 +1,5 @@
+package Arboles_Diccionario;
+
 
 public class ArbolBinario<t extends Comparable<t>>{
 	private NodoArbol<t> root=null;

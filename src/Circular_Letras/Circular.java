@@ -2,6 +2,8 @@ package Circular_Letras;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 import sample.Ficha;
 
@@ -45,17 +47,8 @@ public class Circular<T>{
     
     //SIZE OF THE CIRCULAR LIST
     public int getSize() {
+    	System.out.println("Size | "+this.size);
     	return this.size;
-//    	NodeLetter currentcounting = this.getFirst();
-//    	if (this.isEmpty()){this.size = 0;}
-//    	else {
-//    		this.size++;
-//    		while (currentcounting.getNext() != this.getFirst()) {
-//    			this.size++;
-//    			currentcounting = currentcounting.getNext();}
-//    	}
-//    	System.out.println("Size | "+this.size);
-//    	return this.size;
     }
 
 	
@@ -82,7 +75,7 @@ public class Circular<T>{
 		previous = null;
 		actual = this.first;
 		//create ficha.
-		Ficha ficha = new Ficha(0, 0, "NULL");
+		Ficha ficha = new Ficha(0, 0, null);
 		
 		if (!this.isEmpty()) {
 			while((actual != null)&&(actual.getNode() != string)) {
@@ -196,12 +189,11 @@ public class Circular<T>{
 	
 	//FICHA RANDOM
 	public void getRandomNode(){
-		int random = this.getSize();
 		if (!this.isEmpty()) {
 			NodeLetter currentrandomize = this.first;
-			random = (int) Math.floor(Math.random() * Math.floor(random));
+			int random = new Random().nextInt(this.getSize());
 //			System.out.println(random);
-			while (random  != 0) {
+			while (random != 0) {
 				currentrandomize = currentrandomize.next;
 				random--;
 			}

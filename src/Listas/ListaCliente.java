@@ -9,20 +9,19 @@ public class ListaCliente{
 
     public void addLast (Cliente e){
         if (this.head.getNodo()==null){
-            this.head= new Nodo(e);
+            this.head= new Nodo<Cliente>(e);
         }
         else {
-            Nodo tmp= this.head;
+            Nodo<Cliente> tmp= this.head;
             while (tmp.next!= null) {
-                tmp = tmp.next;
+                tmp = tmp.getNext();
             }
-            tmp.next=new Nodo(e);
+            tmp.setNext(new Nodo<Cliente>(e));
         }
     }
     public void addFirst(Cliente e) {
-        Nodo n = new Nodo(e);
-        n.next=this.head;
-        head=n;
+        new Nodo<Cliente>(e).setNext(this.head);
+        head=new Nodo<Cliente>(e);
     }
 
     public int getLargo() {
@@ -33,11 +32,11 @@ public class ListaCliente{
         this.largo = largo;
     }
 
-    public Nodo getHead() {
+    public Nodo<Cliente> getHead() {
         return head;
     }
 
-    public void setHead(Nodo head) {
+    public void setHead(Nodo<Cliente> head) {
         this.head = head;
     }
 }
