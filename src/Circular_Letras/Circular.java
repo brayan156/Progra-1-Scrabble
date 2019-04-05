@@ -107,7 +107,7 @@ public class Circular<T>{
                 this.first = this.first.getNext();
                 this.last.setNext(this.first);
                 actual.setNext(null);
-                ficha.setLetter(string);
+                ficha.setLetra(string);
              }
              
              else if (actual == this.last)//caso 2: elimina this.last
@@ -115,13 +115,13 @@ public class Circular<T>{
                 previous.setNext(this.last.getNext());
                 this.last = previous;
                 actual.setNext(null);
-                ficha.setLetter(string);
+                ficha.setLetra(string);
              }                        
              else  // caso 3: elimina en medio 
              {
                 previous.setNext(actual.getNext());
                 actual.setNext(null);
-                ficha.setLetter(string);
+                ficha.setLetra(string);
              }    
           }this.size--;
        }
