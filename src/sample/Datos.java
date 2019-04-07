@@ -1,7 +1,5 @@
 package sample;
 
-import Listas.ListaCliente;
-import Listas.ListaPalabras;
 
 import Listas.ListaCliente;
 import Listas.ListaPalabras;

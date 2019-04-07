@@ -3,8 +3,6 @@ package Circular_Letras;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.IntStream;
-
 import sample.Ficha;
 
 public class Circular<T>{
@@ -75,7 +73,7 @@ public class Circular<T>{
 		previous = null;
 		actual = this.first;
 		//create ficha.
-		Ficha ficha = new Ficha(0, 0, null);
+		Ficha ficha = new Ficha(0, 0, "");
 		
 		if (!this.isEmpty()) {
 			while((actual != null)&&(actual.getNode() != string)) {
@@ -134,6 +132,7 @@ public class Circular<T>{
 //			+ficha.getValue());
 		this.display();
 //		this.getSize();
+		System.out.println(ficha);
     return ficha;
 	}
     

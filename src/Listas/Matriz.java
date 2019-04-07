@@ -56,6 +56,7 @@ public class Matriz {
                     this.matriz[conty][contx] = new Ficha((int)inix+30*contx+height/2,(int)iniy+30*conty+width/2,matriz[conty][contx]);
                     this.matriz[conty][contx].setFitHeight(height);
                     this.matriz[conty][contx].setFitWidth(width);
+                    this.matriz[conty][contx].crearimagen();
                     System.out.println("estoy pintando");
                     pane.getChildren().add(this.matriz[conty][contx]);
                     conty++;
