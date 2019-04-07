@@ -1,10 +1,10 @@
-package Arboles_Diccionario;
-
+package Pruebas;
 import java.io.*;
 
 public class Generador_Diccionario {
 	
 	ArbolBinario<String> Datos = new ArbolBinario<String>();
+	Lista<String> palabras_incorrectas = new Lista<String>();
 	
 	public void Generador_lista_Diccionario() {
 		File archivo = null;
@@ -61,6 +61,12 @@ public class Generador_Diccionario {
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
+		}
+	}
+	public void ListaIncorrecta_P(String palabra) {
+		if (Datos.buscarDato(palabra)) {
+		}else {
+			palabras_incorrectas.addlist(palabra);
 		}
 	}
 }
