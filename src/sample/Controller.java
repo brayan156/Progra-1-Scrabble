@@ -282,8 +282,7 @@ public class Controller {
                 img.setY(newTranslateY);
 
             };
-    @SuppressWarnings("deprecation")
-	EventHandler<MouseEvent> meter =
+    EventHandler<MouseEvent> meter =
             t -> {
                 Ficha img= (Ficha) (t.getSource());
                 matriz.agregar(img);
