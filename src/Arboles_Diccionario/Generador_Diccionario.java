@@ -65,7 +65,7 @@ public class Generador_Diccionario {
 	}
 	public void ListaIncorrecta_P(String palabra) {
 		if (Datos.buscarDato(palabra)) {
-		}else {
+		}else {//mae es un metodo muy simple xD
 			palabras_incorrectas.addlist(palabra);
 		}
 	}
