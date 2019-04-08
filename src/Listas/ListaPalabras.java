@@ -4,23 +4,10 @@ public class ListaPalabras {
     int largo;
     Nodo<String> head= null;
 
-
-    public void addLast (String e){
-        if (this.head.getNodo()==null){
-            this.head= new Nodo(e);
-        }
-        else {
-            Nodo tmp= this.head;
-            while (tmp.next!= null) {
-                tmp = tmp.next;
-            }
-            tmp.next=new Nodo(e);
-        }
-    }
     public void addFirst(String e) {
         Nodo n = new Nodo(e);
         n.next=this.head;
-        head=n;
+        this.head=n;
     }
     public void eliminar(String palabra){
         if (this.head.getNodo().equals(palabra)){
@@ -38,6 +25,14 @@ public class ListaPalabras {
                 }
             }
         }
+    }
+    public String buscar (int n){
+        Nodo<String>tmp=this.head;
+        while (n>0){
+            tmp=tmp.next;
+            n--;
+        }
+        return tmp.getNodo();
     }
     
 
