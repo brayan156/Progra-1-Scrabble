@@ -118,7 +118,7 @@ public class UI_inicial extends Application{
 				try {
 					root = FXMLLoader.load(getClass().getResource("Sample.fxml"));
 					secondStage.setTitle("Scrabble");// meter un filtro para la cantidad de jugadores que aguante el server
-					secondStage.setScene(new Scene(root, 1000, 650));//me crea una nuevo escenario y me carga todo lo del fxml
+					secondStage.setScene(new Scene(root, 702, 522));//me crea una nuevo escenario y me carga todo lo del fxml
 					secondStage.setResizable(false);
 					secondStage.show();
 	            	primaryStage.close();
