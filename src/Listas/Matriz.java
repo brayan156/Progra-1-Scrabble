@@ -1,13 +1,13 @@
 package Listas;
 
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.AnchorPane;
 import sample.Ficha;
 
 public class Matriz {
     public Ficha[][] matriz= new Ficha[15][15];
-    public int width=30,height=30;
-    double inix= 10-height/2;
-    double iniy= 10-width/2;
+    public int width=41,height=41;
+    double inix= 0-height/2;
+    double iniy= 0-width/2;
 
 
     public void agregar(Ficha img){
@@ -15,9 +15,9 @@ public class Matriz {
         double x= inix;
         double y= iniy;
         while (contx<15){
-            if (img.getX() >= x && img.getX() <=x+30 ){
+            if (img.getX() >= x && img.getX() <=x+41 ){
                 while (conty<15){
-                    if(img.getY() >= y && img.getY() <=y+30 ){
+                    if(img.getY() >= y && img.getY() <=y+41 ){
                         matriz[conty][contx] = img;
                         System.out.println(img.getY());
                         System.out.println(img.getX());
@@ -25,13 +25,13 @@ public class Matriz {
                         img.setY(y+img.getFitWidth()/2);
                         img.setX(x+img.getFitHeight()/2);
                         System.out.println(img.getImage().impl_getUrl());
-                        System.out.println(img.letra);
-                        System.out.println(img.valor);
+                        System.out.println(img.getLetra());
+                        System.out.println(img.getValor());
                         break;
                     }
                     else{
                         conty++;
-                        y+=30;
+                        y+=41;
 
                     }
                 }
@@ -39,7 +39,7 @@ public class Matriz {
             }
             else{
                 contx++;
-                x+=30;
+                x+=41;
 
 
             }
@@ -47,13 +47,13 @@ public class Matriz {
 
         }
     }
-    public void agregar(String[][] matriz, Pane pane) {
+    public void agregar(String[][] matriz, AnchorPane pane) {
         System.out.println("al menos entre aca");
         int contx = 0, conty = 0;
         while (contx < 15) {
             while (conty < 15) {
                 if (matriz[conty][contx]!=null && this.matriz[conty][contx]==null) {
-                    this.matriz[conty][contx] = new Ficha((int)inix+30*contx+height/2,(int)iniy+30*conty+width/2,matriz[conty][contx]);
+                    this.matriz[conty][contx] = new Ficha((int)inix+41*contx+height/2,(int)iniy+41*conty+width/2,matriz[conty][contx]);
                     this.matriz[conty][contx].setFitHeight(height);
                     this.matriz[conty][contx].setFitWidth(width);
                     this.matriz[conty][contx].crearimagen();
@@ -76,7 +76,7 @@ public class Matriz {
         while (contx < 15) {
             while (conty < 15) {
                 if (this.matriz[conty][contx] != null) {
-                    matrizstr[conty][contx] = this.matriz[conty][contx].letra;
+                    matrizstr[conty][contx] = this.matriz[conty][contx].getLetra();
                     conty++;
                 } else {
                     conty++;

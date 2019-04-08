@@ -1,66 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="juegopane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseExited="#poner_nombre" prefHeight="522.0" prefWidth="702.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane prefHeight="754.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <GridPane gridLinesVisible="true" layoutX="10.0" layoutY="10.0" prefHeight="450.0" prefWidth="450.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
-      <Button fx:id="pasar" layoutX="483.0" layoutY="474.0" mnemonicParsing="false" onAction="#espera" text="Pasar" />
-      <Label fx:id="labelturno" layoutX="513.0" layoutY="371.0" prefHeight="45.0" prefWidth="122.0" text="Turno:">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Label>
-      <ImageView fx:id="castillo2" fitHeight="150.0" fitWidth="200.0" layoutX="482.0" layoutY="226.0" onMouseClicked="#clickon" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitWidth="595.0" layoutX="154.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Media/Castillo2.jpg" />
+            <Image url="@../Media/scrabble.png" />
          </image>
       </ImageView>
-      <Label layoutX="474.0" layoutY="35.0" prefHeight="17.0" prefWidth="63.0" text="Nombre:" />
-      <TextField fx:id="nombreJugador" editable="false" layoutX="527.0" layoutY="31.0" onAction="#poner_nombre" onDragEntered="#iniciar" />
+      <Line endX="903.5" fill="#00000051" layoutY="72.0" stroke="#00000080" />
+      <Line endX="627.0" endY="753.0" fill="#00000080" startX="627.0" startY="72.0" stroke="#00000080" />
+    <AnchorPane fx:id="juegopane" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="77.0">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <children>
+            <GridPane alignment="CENTER" focusTraversable="false" gridLinesVisible="true">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="41.0" minWidth="41.0" percentWidth="0.0" prefWidth="41.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="41.0" minHeight="41.0" percentHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+               <effect>
+                  <ColorAdjust contrast="-1.0" />
+               </effect>
+            </GridPane>
+            <HBox fx:id="field_fichas" alignment="CENTER" layoutY="630.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" spacing="1.0">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <padding>
+                  <Insets bottom="3.0" />
+               </padding>
+            </HBox>
+            <TextField fx:id="nombrefield" layoutX="310.0" layoutY="625.0" prefHeight="41.0" promptText="username">
+               <padding>
+                  <Insets bottom="3.0" />
+               </padding>
+            </TextField>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="628.0" layoutY="77.0">
+         <children>
+            <StackPane layoutX="-2.0">
+               <children>
+                  <Label fx:id="labelturno" alignment="CENTER" contentDisplay="CENTER" prefHeight="128.0" prefWidth="273.0" text="On Hold" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                     <font>
+                        <Font name="Century Gothic Bold Italic" size="60.0" />
+                     </font>
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </StackPane>
+            <VBox layoutX="160.0" layoutY="497.0" prefHeight="180.0" prefWidth="110.0" spacing="10.0">
+               <children>
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#comprobar" prefHeight="50.0" prefWidth="110.0" text="Check" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+                  <Button contentDisplay="CENTER" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" onAction="#shuffle" prefHeight="50.0" prefWidth="110.0" text="Shuffle" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="pasar" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pasar_turno" prefHeight="50.0" prefWidth="110.0" text="Pass" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </VBox>
+         </children>
+      </AnchorPane>
    </children>
-</Pane>
+</AnchorPane>

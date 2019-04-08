@@ -3,8 +3,6 @@ package Circular_Letras;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.IntStream;
-
 import sample.Ficha;
 
 public class Circular<T>{

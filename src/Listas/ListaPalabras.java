@@ -68,7 +68,7 @@ public class ListaPalabras {
             System.out.println("voy a convertir a ficha");
             while (n < this.largo) {
                 listaFichas.addFirst(new Ficha(0, 0, this.buscar(n)));
-                System.out.println(listaFichas.buscar(0).letra);
+                System.out.println(listaFichas.buscar(0).getLetra());
                 n++;
             }
         }
