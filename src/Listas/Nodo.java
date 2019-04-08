@@ -1,12 +1,15 @@
 package Listas;
 
 public class Nodo<T>{
-    private T nodo;
-    public Nodo <T> next;
+    private T nodo=null;
+    public Nodo <T> next=null;
 
     public Nodo(T nodo){
         this.nodo= nodo;
         this.next= null;
+    }
+
+    public Nodo() {
     }
 
     public T getNodo() {
@@ -17,11 +20,11 @@ public class Nodo<T>{
         this.nodo = nodo;
     }
 
-    public Nodo getNext() {
+    public Nodo <T> getNext() {
         return next;
     }
 
-    public void setNext(Nodo next) {
+    public void setNext(Nodo <T> next) {
         this.next = next;
     }
 }

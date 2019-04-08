@@ -1,7 +1,9 @@
 package sample;
 
 
+import Circular_Letras.Circular;
 import Listas.ListaCliente;
+import Listas.ListaFichas;
 import Listas.ListaPalabras;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -21,6 +23,8 @@ public class Server implements Runnable {
     int codigo=-1;
     int recorrido,cont, cantjugadores=-1;
     public static Logger log = LoggerFactory.getLogger(Server.class);
+    Circular<Ficha> BancoFichas = new Circular<Ficha>();
+
 
 
     public static void main(String[] args) throws IOException {
@@ -42,7 +46,17 @@ public class Server implements Runnable {
             sigcliente=clientes[cont];
         }
     }
-
+    public ListaPalabras completarlista (ListaFichas fichas){
+        while (fichas.getLargo()<7){
+            if (BancoFichas.getSize()!=0) {
+                fichas.addFirst(BancoFichas.getRandomNode());
+                System.out.println(fichas.getLargo());
+                System.out.println(fichas.buscar(0).letra);
+            }
+            else{break;}
+        }
+        return fichas.convertirstrings();
+    }
 
 
     @Override
@@ -101,10 +115,12 @@ public class Server implements Runnable {
                 else if (datos.getAccion().equals("Actualizar")){
                     datos.setAccion("Cambiar_matriz");
                     datos.setMatriz(this.matriz);
+                    datos.setListafichas(this.completarlista(datos.getListafichas().convertirfichas()));
                     DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
                     log.debug("se creo abertura de datos");
+                    System.out.println(objectMapper.writeValueAsString(datos));
                     datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
-                    log.debug("se envió matriz");
+                    log.debug("se envio matriz");
                     this.cambiar_cliente();
                     datosenvio.close();
                     misocket.close();
@@ -229,13 +245,8 @@ public class Server implements Runnable {
         recorrido=1;
         matriz[13][12]="Castillo2";
         matriz[1][1]="Castillo2";
-        String abc= "abcdf";
-        boolean a="baacd".contains("aa");
-        System.out.println(a);
+        BancoFichas.getLetterSet();
         File imagen = new File("src/Media/Castillo2.JPG");
-        System.out.println(imagen.exists());
-        System.out.println("b".compareTo("a"));
-        Ficha ficha = new Ficha(23,44,"Castillo2");
         Thread hilo = new Thread(this);
         hilo.start();
     }

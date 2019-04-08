@@ -3,6 +3,8 @@ package Circular_Letras;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
+
 import sample.Ficha;
 
 public class Circular<T>{
@@ -132,7 +134,6 @@ public class Circular<T>{
 //			+ficha.getValue());
 		this.display();
 //		this.getSize();
-		System.out.println(ficha);
     return ficha;
 	}
     
@@ -187,7 +188,8 @@ public class Circular<T>{
     }
 	
 	//FICHA RANDOM
-	public void getRandomNode(){
+	public Ficha getRandomNode(){
+		Ficha ficha=new Ficha(0,0,"");
 		if (!this.isEmpty()) {
 			NodeLetter currentrandomize = this.first;
 			int random = new Random().nextInt(this.getSize());
@@ -196,9 +198,10 @@ public class Circular<T>{
 				currentrandomize = currentrandomize.next;
 				random--;
 			}
-			System.out.println(currentrandomize.getNode());
-			this.delete(currentrandomize.getNode());
-		}return;
+//			System.out.println(currentrandomize.getNode());
+			ficha=this.delete(currentrandomize.getNode());
+
+		}return ficha;
 	}
 
 	//SETS && GETS.

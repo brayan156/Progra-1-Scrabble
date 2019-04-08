@@ -4,6 +4,9 @@ package sample;
 import Listas.ListaFichas;
 import Listas.ListaPalabras;
 import Listas.Matriz;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
@@ -23,6 +26,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.concurrent.*;
 
 public class Controller {
@@ -67,23 +71,9 @@ public class Controller {
                         log.debug("se va a cambiar label");
                         labelturno.setText(resp);
                     }
-                    else{
-                        log.debug("se llego a actualizar");
-                        datos.setAccion("Actualizar");
-                        Socket client = new Socket(InetAddress.getLocalHost(), 9500);
-                        log.debug("se conecto");
-                        DataOutputStream datosenvio= new DataOutputStream(client.getOutputStream());
-                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
-                        log.debug("se envio objeto");
-                        DataInputStream datosentrada= new DataInputStream(client.getInputStream());
-                        log.debug("entrada se conecto");
-                        Datos datosrecibidos=objectMapper.readValue(datosentrada.readUTF(), Datos.class);
-                        log.debug("se creo objeto");
-                        matriz.agregar(datosrecibidos.getMatriz(),juegopane);
-                        labelturno.setText("si lo logré");
-                        datosenvio.close();
-                        client.close();
+                    else{actualizar();
                     }
+                    log.debug("se para animation timer");
                     stop();
                 }
 
@@ -95,7 +85,32 @@ public class Controller {
         timer.start();
     }
 
+    public void actualizar(){
+        try {
+            log.debug("se llego a actualizar");
+            datos.setAccion("Actualizar");
+//            listaFichas.addFirst(new Ficha(0,0,"A"));
+            datos.setListafichas(listaFichas.convertirstrings());
+            Socket client = new Socket(InetAddress.getLocalHost(), 9500);
+            log.debug("se conecto");
+            DataOutputStream datosenvio = new DataOutputStream(client.getOutputStream());
+            datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+            log.debug("se envio objeto");
+            DataInputStream datosentrada = new DataInputStream(client.getInputStream());
+            log.debug("entrada se conecto");
+            Datos datosrecibidos = objectMapper.readValue(datosentrada.readUTF(), Datos.class);
+            log.debug("se creo objeto");
+            matriz.agregar(datosrecibidos.getMatriz(), juegopane);
+            System.out.println(objectMapper.writeValueAsString(datosrecibidos));
+            this.pintarfichas(datosrecibidos.getListafichas().convertirfichas());
+            labelturno.setText("si lo logré");
+            datosenvio.close();
+            client.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+    }
 
 
     public void pasar_turno(){
@@ -218,6 +233,7 @@ public class Controller {
                 datos.setAccion("comprobar");
                 datos.setMatriz(matriz.convertir());
                 datos.setListacliente(datos.getListacliente());
+                datos.setListafichas(listaFichas.convertirstrings());
                 Socket client = null;
                 client = new Socket(InetAddress.getLocalHost(), 9500);
                 log.debug("unirse");
@@ -228,7 +244,9 @@ public class Controller {
                 Datos datosrecibidos = objectMapper.readValue(datosentrada.readUTF(), Datos.class);
                 log.debug("se creo objeto");
                 if (datosrecibidos.getRespueta().equals("jugada_correcta")) {
-                    datos.setListacliente(datosrecibidos.getListacliente());
+                    datosrecibidos.setListacliente(datosrecibidos.getListacliente());
+                    this.pintarfichas(datosrecibidos.getListafichas().convertirfichas());
+
                     //aqui va la actualizacion del puntaje
                     labelturno.setText("En espera");
                 } else {
@@ -250,6 +268,34 @@ public class Controller {
 
     public void preguntar(){
 
+    }
+
+    public void pintarfichas(ListaFichas fichas){
+        int cont=0,conlf=this.listaFichas.getLargo()-1;
+        int posx=100,posy=480;
+        while (conlf>=0){
+            log.debug("voy a quitar fichas");
+            juegopane.getChildren().removeAll(this.listaFichas.buscar(conlf));
+            conlf--;
+        }
+        while (cont<7){
+            log.debug("voy a pintar ficha");
+            Ficha fichatmp= fichas.buscar(cont);
+            fichatmp.crearimagen();
+            fichatmp.setFitHeight(30);
+            fichatmp.setFitWidth(30);
+            fichatmp.setPosx(posx);
+            fichatmp.setPosy(posy);
+            fichatmp.setX(posx);
+            fichatmp.setY(posy);
+            fichatmp.setOnMousePressed(pressear);
+            fichatmp.setOnMouseDragged(draggear);
+            fichatmp.setOnMouseReleased(meter);
+            juegopane.getChildren().addAll(fichatmp);
+            posx+=30;
+            cont++;
+        }
+        this.listaFichas=fichas;
     }
 
 
