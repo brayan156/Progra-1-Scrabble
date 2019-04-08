@@ -40,11 +40,14 @@ public class Controller {
 
 
 //    Menu de Inicio
-    public TextField codigofield,nombref= new TextField();
+    public TextField codigofield,nombref,nombreJugador= new TextField();
     public ComboBox<Integer> jugadoresbox= new ComboBox<Integer>();
     public Pane menupane= new Pane();
-
-
+    
+    public void poner_nombre() {
+    	UI_inicial dato= new UI_inicial();// aqui llamar a la clase UI_inicial, para sacar el atributo del nombre del jugador
+    	nombreJugador.setText(dato.nombre);//aqui lo pone
+    }// en el setText me pone el texto del TextField de la pantalla
 
     public void espera() {
         datos.setClient(nombrefield.getText());
