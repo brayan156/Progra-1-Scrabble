@@ -63,10 +63,15 @@ public class Generador_Diccionario {
 			}
 		}
 	}
-	public void ListaIncorrecta_P(String palabra) {
-		if (Datos.buscarDato(palabra)) {
-		}else {//mae es un metodo muy simple xD
-			palabras_incorrectas.addlist(palabra);
-		}
+	public Lista<String> ListaIncorrecta_P(Lista<String> datosL) {
+		int cont=0;
+		Lista<String> palabras_incorrectas = new Lista<String>();//la lista con las palabras incorrectas
+		
+		while(datosL.tamaño>cont) {
+			String contenedor = datosL.SacarPosicion(cont);
+			if (Datos.buscarDato(contenedor)!=true){//filtro para las palabras que no estan en el arbol
+				palabras_incorrectas.addlist(contenedor);
+			}cont++;
+		}return palabras_incorrectas;
 	}
 }
