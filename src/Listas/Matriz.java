@@ -6,8 +6,8 @@ import sample.Ficha;
 public class Matriz {
     public Ficha[][] matriz= new Ficha[15][15];
     public int width=41,height=41;
-    double inix= 0-height/2;
-    double iniy= 0-width/2;
+    double inix= 5-height/2;
+    double iniy= 77-width/2;
 
 
     public void agregar(Ficha img){
@@ -17,16 +17,21 @@ public class Matriz {
         while (contx<15){
             if (img.getX() >= x && img.getX() <=x+41 ){
                 while (conty<15){
-                    if(img.getY() >= y && img.getY() <=y+41 ){
+                    if(img.getY() >= y && img.getY() <=y+41 && (matriz[conty][contx] ==null || matriz[conty][contx]==img)){
                         matriz[conty][contx] = img;
                         System.out.println(img.getY());
                         System.out.println(img.getX());
-                        System.out.println(matriz[conty][contx].getId()+" guardada en "+contx+","+conty);
+                        System.out.println(matriz[conty][contx].getId()+" guardada en "+conty+","+contx);
                         img.setY(y+img.getFitWidth()/2);
                         img.setX(x+img.getFitHeight()/2);
                         System.out.println(img.getImage().impl_getUrl());
                         System.out.println(img.getLetra());
                         System.out.println(img.getValor());
+                        break;
+                    }
+                    else if(img.getY() >= y && img.getY() <=y+41 && matriz[conty][contx] !=null){
+                        img.setY(img.getPosy());
+                        img.setX(img.getPosx());
                         break;
                     }
                     else{
@@ -40,11 +45,7 @@ public class Matriz {
             else{
                 contx++;
                 x+=41;
-
-
             }
-
-
         }
     }
     public void agregar(String[][] matriz, AnchorPane pane) {

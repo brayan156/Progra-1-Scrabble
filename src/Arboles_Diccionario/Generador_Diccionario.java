@@ -1,10 +1,12 @@
-package Pruebas;
+package Arboles_Diccionario;
+import Listas.ListaPalabras;
+
 import java.io.*;
 
 public class Generador_Diccionario {
 	
 	ArbolBinario<String> Datos = new ArbolBinario<String>();
-	Lista<String> palabras_incorrectas = new Lista<String>();
+	ListaPalabras palabras_incorrectas = new ListaPalabras();
 	
 	public void Generador_lista_Diccionario() {
 		File archivo = null;
@@ -63,15 +65,15 @@ public class Generador_Diccionario {
 			}
 		}
 	}
-	public Lista<String> ListaIncorrecta_P(Lista<String> datosL) {
-		int cont=0;
-		Lista<String> palabras_incorrectas = new Lista<String>();//la lista con las palabras incorrectas
-		
-		while(datosL.tamaño>cont) {//cambie por su variable del largo de la lista
-			String contenedor = datosL.buscar(cont);
-			if (Datos.buscarDato(contenedor)!=true){//filtro para las palabras que no estan en el arbol
-				palabras_incorrectas.addlist(contenedor);
-			}cont++;
-		}return palabras_incorrectas;
-	}
+//	public Lista<String> ListaIncorrecta_P(Lista<String> datosL) {
+//		int cont=0;
+//		Lista<String> palabras_incorrectas = new Lista<String>();//la lista con las palabras incorrectas
+//
+//		while(datosL.tamaño>cont) {//cambie por su variable del largo de la lista
+//			String contenedor = datosL.buscar(cont);
+//			if (Datos.buscarDato(contenedor)!=true){//filtro para las palabras que no estan en el arbol
+//				palabras_incorrectas.addlist(contenedor);
+//			}cont++;
+//		}return palabras_incorrectas;
+//	}
 }

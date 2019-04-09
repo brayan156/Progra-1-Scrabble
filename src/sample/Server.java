@@ -23,7 +23,7 @@ public class Server implements Runnable {
     int codigo=-1;
     int recorrido,cont, cantjugadores=-1;
     public static Logger log = LoggerFactory.getLogger(Server.class);
-    private static Circular<Ficha> BancoFichas = new Circular<Ficha>();
+    Circular<Ficha> BancoFichas = new Circular<Ficha>();
 
 
 
@@ -48,10 +48,10 @@ public class Server implements Runnable {
     }
     public ListaPalabras completarlista (ListaFichas fichas){
         while (fichas.getLargo()<7){
-            if (getBancoFichas().getSize()!=0) {
-                fichas.addFirst(getBancoFichas().getRandomNode());
+            if (BancoFichas.getSize()!=0) {
+                fichas.addFirst(BancoFichas.getRandomNode());
                 System.out.println(fichas.getLargo());
-                System.out.println(fichas.buscar(0).getLetra());
+                System.out.println(fichas.buscar(0).letra);
             }
             else{break;}
         }
@@ -245,8 +245,8 @@ public class Server implements Runnable {
         recorrido=1;
         matriz[13][12]="Castillo2";
         matriz[1][1]="Castillo2";
-        getBancoFichas().getLetterSet();
-//        new File("src/Media/Castillo2.JPG");
+        BancoFichas.getLetterSet();
+        File imagen = new File("src/Media/Castillo2.JPG");
         Thread hilo = new Thread(this);
         hilo.start();
     }

@@ -1,14 +1,11 @@
 package sample;
 
-import sample.Server;
 import Listas.ListaFichas;
-import Listas.ListaPalabras;
 import Listas.Matriz;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.impl.PropertyValue;
 
 import javafx.animation.AnimationTimer;
 import javafx.collections.ObservableList;
@@ -20,7 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -56,7 +52,13 @@ public class Controller {
     public TextField codigofield,nombref= new TextField();
     public ComboBox<Integer> jugadoresbox= new ComboBox<Integer>();
     public AnchorPane menupane= new AnchorPane();
-    
+
+
+//    public void poner_nombre() {
+//        UI_inicial dato= new UI_inicial();// aqui llamar a la clase UI_inicial, para sacar el atributo del nombre del jugador
+//        nombreJugador.setText(dato.nombre);//aqui lo pone
+//    }// en el setText me pone el texto del TextField de la pantalla
+//
     
     //HBOX ATRIBUTOS
     @FXML private HBox field_fichas = new HBox();
@@ -64,23 +66,23 @@ public class Controller {
     
     //HBOX Method
     public void shuffle() {
-    	log.debug("Pidió una ficha más. ");
+    	log.debug("Pidiï¿½ una ficha mï¿½s. ");
         if (cantidadfichas_HBox==7) {System.out.println("Pero ya tiene "+cantidadfichas_HBox+".");return;}
         else {
 //        Ficha extra_ficha = Server.getBancoFichas().getRandomNode();
 //      img.setPosx(0); img.setPosy(0);
         	
         //crear ficha.
-        Ficha extra_ficha = new Ficha(0,0,"B");
+        Ficha extra_ficha = new Ficha(100,100,"B");
         extra_ficha.crearimagen();
         extra_ficha.setFitHeight(41);
         extra_ficha.setFitWidth(41);
         //add to HBox the extraficha.
-        field_fichas.getChildren().add(extra_ficha);
+        juegopane.getChildren().add(extra_ficha);
         //llamar a acciones
         extra_ficha.setOnMousePressed(pressear);
         extra_ficha.setOnMouseDragged(draggear);
-        extra_ficha.setOnMouseReleased(meter);
+        extra_ficha.setOnMouseReleased(quitarclick);
         extra_ficha.setId(extra_ficha.getLetra()); 
         System.out.print(Server.getBancoFichas().getRandomNode().getLetra());
         System.out.println(extra_ficha.getLetra());
@@ -309,7 +311,7 @@ public class Controller {
 
     public void pintarfichas(ListaFichas fichas){
         int cont=0,conlf=this.listaFichas.getLargo()-1;
-        int posx=100,posy=480;
+        int posx=5,posy=707;
         while (conlf>=0){
             log.debug("voy a quitar fichas");
             juegopane.getChildren().removeAll(this.listaFichas.buscar(conlf));
@@ -327,7 +329,7 @@ public class Controller {
             fichatmp.setY(posy);
             fichatmp.setOnMousePressed(pressear);
             fichatmp.setOnMouseDragged(draggear);
-            fichatmp.setOnMouseReleased(meter);
+            fichatmp.setOnMouseReleased(quitarclick);
             juegopane.getChildren().addAll(fichatmp);
             posx+=41;
             cont++;
@@ -335,6 +337,21 @@ public class Controller {
         this.listaFichas=fichas;
     }
 
+    public void clickon() {
+        log.debug("si clickeaste compa");
+        Ficha img = new Ficha(100,480,"Castillo1");
+        img.crearimagen();
+        img.setFitHeight(30);
+        img.setFitWidth(30);
+        img.setId("Imagen");
+        String ID = img.getId();
+        System.out.println(ID);
+        this.juegopane.getChildren().add(img);
+        img.setOnMousePressed(pressear);
+        img.setOnMouseDragged(draggear);
+        img.setOnMouseReleased(quitarclick);
+        System.out.println(img.getLetra());
+    }
 
 
     
@@ -348,7 +365,7 @@ public class Controller {
 
     EventHandler<MouseEvent> draggear =
             t -> {
-                ImageView img= (ImageView)(t.getSource());
+                Ficha img= (Ficha) (t.getSource());
                 double offsetX = orgSceneX - t.getSceneX();
                 double offsetY = orgSceneY - t.getSceneY();
                 double newTranslateX = orgSceneX - offsetX -img.getFitWidth()/2;
@@ -357,9 +374,14 @@ public class Controller {
                 img.setY(newTranslateY);
 
             };
-    EventHandler<MouseEvent> meter =
+    EventHandler<MouseEvent> quitarclick =
             t -> {
                 Ficha img= (Ficha) (t.getSource());
+                if (img.getX()>=5-img.getFitWidth()/2 && img.getX()<=5-img.getFitWidth()/2+15*img.getFitWidth() && img.getY()>=77-img.getFitHeight()/2 && img.getY()<=77-img.getFitHeight()/2+15*img.getFitHeight())
                 matriz.agregar(img);
+                else{
+                    img.setY(img.getPosy());
+                    img.setX(img.getPosx());
+                }
             };
 }
