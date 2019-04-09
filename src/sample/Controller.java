@@ -1,6 +1,6 @@
 package sample;
 
-
+import sample.Server;
 import Listas.ListaFichas;
 import Listas.ListaPalabras;
 import Listas.Matriz;
@@ -8,16 +8,23 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.deser.impl.PropertyValue;
+
 import javafx.animation.AnimationTimer;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,11 +33,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.concurrent.*;
 
 public class Controller {
-    @FXML public  Pane juegopane= new Pane();
+    @FXML public  AnchorPane juegopane= new AnchorPane();
     public static Logger log = LoggerFactory.getLogger(Controller.class);
     private Double orgSceneX;
     private Double orgSceneY;
@@ -41,18 +49,47 @@ public class Controller {
     ObjectMapper objectMapper=new ObjectMapper();
     public TextField comprobacionfield= new TextField();
     public ListaFichas listaFichas=new ListaFichas();
-
+    
+   
 
 //    Menu de Inicio
-    public TextField codigofield,nombref,nombreJugador= new TextField();
+    public TextField codigofield,nombref= new TextField();
     public ComboBox<Integer> jugadoresbox= new ComboBox<Integer>();
-    public Pane menupane= new Pane();
+    public AnchorPane menupane= new AnchorPane();
     
-    public void poner_nombre() {
-    	UI_inicial dato= new UI_inicial();// aqui llamar a la clase UI_inicial, para sacar el atributo del nombre del jugador
-    	nombreJugador.setText(dato.nombre);//aqui lo pone
-    }// en el setText me pone el texto del TextField de la pantalla
+    
+    //HBOX ATRIBUTOS
+    @FXML private HBox field_fichas = new HBox();
+    private int cantidadfichas_HBox = 0;
+    
+    //HBOX Method
+    public void shuffle() {
+    	log.debug("Pidió una ficha más. ");
+        if (cantidadfichas_HBox==7) {System.out.println("Pero ya tiene "+cantidadfichas_HBox+".");return;}
+        else {
+//        Ficha extra_ficha = Server.getBancoFichas().getRandomNode();
+//      img.setPosx(0); img.setPosy(0);
+        	
+        //crear ficha.
+        Ficha extra_ficha = new Ficha(0,0,"B");
+        extra_ficha.crearimagen();
+        extra_ficha.setFitHeight(41);
+        extra_ficha.setFitWidth(41);
+        //add to HBox the extraficha.
+        field_fichas.getChildren().add(extra_ficha);
+        //llamar a acciones
+        extra_ficha.setOnMousePressed(pressear);
+        extra_ficha.setOnMouseDragged(draggear);
+        extra_ficha.setOnMouseReleased(meter);
+        extra_ficha.setId(extra_ficha.getLetra()); 
+        System.out.print(Server.getBancoFichas().getRandomNode().getLetra());
+        System.out.println(extra_ficha.getLetra());
+        cantidadfichas_HBox++;
+        }
+    }
 
+
+    
     public void espera() {
         datos.setClient(nombrefield.getText());
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -282,8 +319,8 @@ public class Controller {
             log.debug("voy a pintar ficha");
             Ficha fichatmp= fichas.buscar(cont);
             fichatmp.crearimagen();
-            fichatmp.setFitHeight(30);
-            fichatmp.setFitWidth(30);
+            fichatmp.setFitHeight(41);
+            fichatmp.setFitWidth(41);
             fichatmp.setPosx(posx);
             fichatmp.setPosy(posy);
             fichatmp.setX(posx);
@@ -292,27 +329,16 @@ public class Controller {
             fichatmp.setOnMouseDragged(draggear);
             fichatmp.setOnMouseReleased(meter);
             juegopane.getChildren().addAll(fichatmp);
-            posx+=30;
+            posx+=41;
             cont++;
         }
         this.listaFichas=fichas;
     }
 
 
-    public void clickon() {
-        log.debug("si clickeaste compa");
-        Ficha img = new Ficha(100,480,"Castillo1");
-        img.setFitHeight(30);
-        img.setFitWidth(30);
-        img.setId("Imagen");
-        String ID = img.getId();
-        System.out.println(ID);
-        this.juegopane.getChildren().add(img);
-        img.setOnMousePressed(pressear);
-        img.setOnMouseDragged(draggear);
-        img.setOnMouseReleased(meter);
-        System.out.println(img.letra);
-    }
+
+    
+    
 
     EventHandler<MouseEvent> pressear =
             t -> {

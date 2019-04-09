@@ -5,12 +5,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
 public class Ficha extends ImageView {
-     public int posx,posy,valor;
-     public String letra,url;
+     private int posx,posy,valor;
+     private String letra,url;
 
     public Ficha(int posx, int posy, String letra) {
         super();
-        url="file:src/Media/"+letra+".JPG";
+        setUrl("file:src/Media/"+letra+".JPG");
         if ("AEOISNLRUT".contains(letra)){this.valor=1;}
         else if ("DG".contains(letra)){this.valor=2;}
         else if ("CBMP".contains(letra)){this.valor=3;}
@@ -58,4 +58,10 @@ public class Ficha extends ImageView {
     public void crearimagen(){
         this.setImage(new Image("file:src/Media/"+letra+".JPG"));
     }
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 }

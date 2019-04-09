@@ -26,14 +26,14 @@ public class ListaFichas {
         largo+=1;
     }
     public void eliminar (int posx){
-        if (this.head.getNodo().posx ==posx){
+        if (this.head.getNodo().getPosx() ==posx){
             this.head=this.head.next;
             largo-=0;
         }
         else{
             Nodo<Ficha>tmp=this.head;
             while (tmp.next!=null){
-                if (tmp.next.getNodo().posx ==posx){
+                if (tmp.next.getNodo().getPosx() ==posx){
                     tmp.next=tmp.next.next;
                     largo-=0;
                     break;
