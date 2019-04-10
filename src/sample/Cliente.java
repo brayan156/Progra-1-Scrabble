@@ -4,6 +4,14 @@ public class Cliente {
     private String nombre;
     private int puntaje;
 
+    public Cliente(String nombre) {
+        this.nombre = nombre;
+        puntaje=0;
+    }
+
+    public Cliente() {
+    }
+
     public String getNombre() {
         return nombre;
     }

@@ -61,7 +61,18 @@ public class Matriz {
                     System.out.println("estoy pintando");
                     pane.getChildren().add(this.matriz[conty][contx]);
                     conty++;
-                } else {
+                }
+                else if(matriz[conty][contx]!=null && this.matriz[conty][contx]!=null){
+                    pane.getChildren().remove(this.matriz[conty][contx]);
+                    this.matriz[conty][contx] = new Ficha((int)inix+41*contx+height/2,(int)iniy+41*conty+width/2,matriz[conty][contx]);
+                    this.matriz[conty][contx].setFitHeight(height);
+                    this.matriz[conty][contx].setFitWidth(width);
+                    this.matriz[conty][contx].crearimagen();
+                    System.out.println("estoy pintando y quitando");
+                    pane.getChildren().add(this.matriz[conty][contx]);
+                    conty++;
+                }
+                else {
                     conty++;
 
                 }
@@ -87,5 +98,22 @@ public class Matriz {
             conty = 0;
         }
         return matrizstr;
+    }
+    public void reordenar(ListaFichas listaFichas){
+        int contx = 0, conty = 0;
+        while (contx < 15) {
+            while (conty < 15) {
+                if (this.matriz[conty][contx].getPosy() != this.matriz[conty][contx].getY() && this.matriz[conty][contx].getPosx() != this.matriz[conty][contx].getX()) {
+                    listaFichas.addLast(this.matriz[conty][contx]);
+                    this.matriz[conty][contx].setX(this.matriz[conty][contx].getPosx());
+                    this.matriz[conty][contx].setY(this.matriz[conty][contx].getPosy());
+                    conty++;
+                } else {
+                    conty++;
+                }
+            }
+            contx++;
+            conty = 0;
+        }
     }
 }

@@ -3,27 +3,33 @@ package Listas;
 import sample.Cliente;
 
 public class ListaCliente{
-    int largo;
+    int largo=0;
     Nodo<Cliente> head= null;
 
 
     public void addLast (Cliente e){
-        if (this.head.getNodo()==null){
-            this.head= new Nodo(e);
+        if (this.head==null){
+            this.head= new Nodo<Cliente>(e);
+            largo++;
         }
         else {
             Nodo tmp= this.head;
             while (tmp.next!= null) {
                 tmp = tmp.next;
             }
-            tmp.next=new Nodo(e);
+            tmp.next=new Nodo<Cliente>(e);
+            largo++;
         }
     }
-    public void addFirst(Cliente e) {
-        Nodo n = new Nodo(e);
-        n.next=this.head;
-        head=n;
+    public Cliente buscar (int n){
+        Nodo<Cliente>tmp=this.head;
+        while (n>0){
+            tmp=tmp.next;
+            n--;
+        }
+        return tmp.getNodo();
     }
+
 
     public int getLargo() {
         return largo;

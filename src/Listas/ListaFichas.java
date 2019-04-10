@@ -8,7 +8,7 @@ public class ListaFichas {
 
 
     public void addLast (Ficha e){
-        if (this.head.getNodo()==null){
+        if (this.head==null){
             this.head= new Nodo<Ficha>(e);
         }
         else {
@@ -28,14 +28,14 @@ public class ListaFichas {
     public void eliminar (int posx){
         if (this.head.getNodo().getPosx() ==posx){
             this.head=this.head.next;
-            largo-=0;
+            largo-=1;
         }
         else{
             Nodo<Ficha>tmp=this.head;
             while (tmp.next!=null){
                 if (tmp.next.getNodo().getPosx() ==posx){
                     tmp.next=tmp.next.next;
-                    largo-=0;
+                    largo-=1;
                     break;
                 }
                 else { tmp=tmp.next; }

@@ -23,7 +23,7 @@ public class Server implements Runnable {
     int codigo=-1;
     int recorrido,cont, cantjugadores=-1;
     public static Logger log = LoggerFactory.getLogger(Server.class);
-    Circular<Ficha> BancoFichas = new Circular<Ficha>();
+    private static Circular<Ficha> BancoFichas = new Circular<Ficha>();
 
 
 
@@ -36,14 +36,14 @@ public class Server implements Runnable {
         if (tmpcliente.equals(actcliente)){
             recorrido=2;
         }
-        actcliente=clientes[cont];
-        if (cont+1==clientes.length){
+        actcliente=clientesd.buscar(cont).getNombre();
+        if (cont+1==clientesd.getLargo()){
             cont=0;
-            sigcliente=clientes[cont];
+            sigcliente=clientesd.buscar(cont).getNombre();
         }
         else{
             cont++;
-            sigcliente=clientes[cont];
+            sigcliente=clientesd.buscar(cont).getNombre();
         }
     }
     public ListaPalabras completarlista (ListaFichas fichas){
@@ -51,7 +51,7 @@ public class Server implements Runnable {
             if (BancoFichas.getSize()!=0) {
                 fichas.addFirst(BancoFichas.getRandomNode());
                 System.out.println(fichas.getLargo());
-                System.out.println(fichas.buscar(0).letra);
+                System.out.println(fichas.buscar(0).getLetra());
             }
             else{break;}
         }
@@ -115,7 +115,6 @@ public class Server implements Runnable {
                 else if (datos.getAccion().equals("Actualizar")){
                     datos.setAccion("Cambiar_matriz");
                     datos.setMatriz(this.matriz);
-                    datos.setListafichas(this.completarlista(datos.getListafichas().convertirfichas()));
                     DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
                     log.debug("se creo abertura de datos");
                     System.out.println(objectMapper.writeValueAsString(datos));
@@ -129,6 +128,7 @@ public class Server implements Runnable {
                 else if (datos.getAccion().equals("Pasar")) {
                     cambiar_cliente();
                     tmpcliente=actcliente;
+                    recorrido=2;
                     misocket.close();
                 }
 //                else if (datos.getAccion().equals("comprobar")){
@@ -156,9 +156,16 @@ public class Server implements Runnable {
 //                    }
 //                }
                 else if (datos.getAccion().equals("iniciar")){
+                    log.debug("se entro a iniciar");
                 if (codigo==-1){
                     codigo = (int) Math.floor(Math.random()*1000000);
                     datos.setRespueta("codigo_enviado");
+                    datos.setCodigo(codigo);
+                    datos.setListafichas(this.completarlista(new ListaFichas()));
+                    cantjugadores= Integer.parseInt(datos.getJugadores().substring(datos.getJugadores().length()-1));
+                    clientesd.addLast(new Cliente(datos.getClient()));
+                    System.out.println("cantidad de jugadores:"+cantjugadores);
+                    System.out.println("cliente añadido:"+clientesd.buscar(clientesd.getLargo()-1).getNombre());
                     DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
                     datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
                     datosenvio.close();
@@ -175,6 +182,7 @@ public class Server implements Runnable {
 
                 }
                 else if (datos.getAccion().equals("unirse")) {
+                    log.debug("entra a unirse");
                     if (codigo==-1) {
                         datos.setRespueta("No hay partida");
                         DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
@@ -193,6 +201,14 @@ public class Server implements Runnable {
                     else {
                         if (datos.getCodigo() == codigo) {
                             datos.setRespueta("Codigo Correcto");
+                            clientesd.addLast(new Cliente(datos.getClient()));
+                            datos.setListafichas(this.completarlista(new ListaFichas()));
+                            if (clientesd.getLargo()==cantjugadores){
+                                actcliente=clientesd.buscar(0).getNombre();
+                                tmpcliente=actcliente;
+                                sigcliente=clientesd.buscar(1).getNombre();
+                                recorrido=2;
+                            }
                             DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
                             datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
                             datosenvio.close();
@@ -209,6 +225,7 @@ public class Server implements Runnable {
 
                 else if (datos.getAccion().equals("preguntar")){
                 }
+                else{log.debug("no hice nada");}
 
 
             }
@@ -220,41 +237,12 @@ public class Server implements Runnable {
     }
 
 
-//    {
-//        try {
-//            car = objectMapper.readValue(carJson, Car.class);
-//            carJson = objectMapper.writeValueAsString(matriz);
-//            objectMapper.readValue();
-//
-//            System.out.println(carJson);
-//            System.out.println("car brand = " + matriz[1][1]);
-//            System.out.println("car doors = " + matriz[1][2]);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-
     public Server() throws IOException {
-        clientes[0]="Paco";
-        clientes[1]="Juan";
-        actcliente=clientes[0];
-        tmpcliente=actcliente;
-        sigcliente=clientes[1];
-        cont=1;
-        recorrido=1;
-        matriz[13][12]="Castillo2";
-        matriz[1][1]="Castillo2";
         BancoFichas.getLetterSet();
-        File imagen = new File("src/Media/Castillo2.JPG");
+//        new File("src/Media/Castillo2.JPG");
         Thread hilo = new Thread(this);
         hilo.start();
     }
-
-
-	public static Circular<Ficha> getBancoFichas() {
-		return BancoFichas;
-	}
 
 
 }

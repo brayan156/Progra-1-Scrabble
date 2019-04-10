@@ -82,7 +82,7 @@
                   <Insets bottom="3.0" />
                </padding>
             </HBox>
-            <TextField fx:id="nombrefield" layoutX="310.0" layoutY="625.0" prefHeight="41.0" promptText="username">
+            <TextField fx:id="comprobacionfield" layoutX="310.0" layoutY="625.0" prefHeight="41.0" promptText="digite palabra">
                <padding>
                   <Insets bottom="3.0" />
                </padding>
@@ -105,7 +105,7 @@
             </StackPane>
             <VBox layoutX="160.0" layoutY="497.0" prefHeight="180.0" prefWidth="110.0" spacing="10.0">
                <children>
-                  <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#espera" prefHeight="50.0" prefWidth="110.0" text="Check" textAlignment="CENTER">
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#comprobar" prefHeight="50.0" prefWidth="110.0" text="Check" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="15.0" />
                      </font>

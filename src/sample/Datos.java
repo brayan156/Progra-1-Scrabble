@@ -6,12 +6,12 @@ import Listas.ListaFichas;
 import Listas.ListaPalabras;
 
 public class Datos {
-    private String accion,client,respueta = "";
+    private String accion,client,respueta,jugadores = "";
     private String matriz[][]=new String[15][15];
     private ListaCliente listacliente=new ListaCliente();
     private ListaPalabras listapalabras= new ListaPalabras();
     private ListaPalabras listafichas=new ListaPalabras();
-    private int jugadores,codigo=-1;
+    private int codigo=-1;
 
 
 
@@ -63,11 +63,11 @@ public class Datos {
         this.listapalabras = listapalabras;
     }
 
-    public int getJugadores() {
+    public String getJugadores() {
         return jugadores;
     }
 
-    public void setJugadores(int jugadores) {
+    public void setJugadores(String jugadores) {
         this.jugadores = jugadores;
     }
 
