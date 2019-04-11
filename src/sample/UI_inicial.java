@@ -36,7 +36,7 @@ public class UI_inicial extends Application{
 		final StackPane layout1 = new StackPane();//metemos los elementos de la intefaz en un layout para meterlos de una al escenario
 		Scene scene1=new Scene(layout1, 1000, 650);// el orden de ingreso, importa para la colocacion de los botones,labels...
 		
-		final Image rutaIF = new Image("file:src/Media/Castillo1.jpg");
+		final Image rutaIF = new Image("file:src/Media/fondo1.jpg");
 		ImageView imagen_Fondo = new ImageView(rutaIF);
 		imagen_Fondo.setTranslateX(0);
 		imagen_Fondo.setTranslateY(0);
@@ -55,10 +55,10 @@ public class UI_inicial extends Application{
 		unirseP.setTranslateX(200);
 		unirseP.setTranslateY(-100);
 		
-		final Image path = new Image("file:src/Media/Scrabble.png");//OJO cambiar la ruta
+		final Image path = new Image("file:src/Media/scrabble1.png");//OJO cambiar la ruta
 		ImageView imageView = new ImageView(path);//cambiar la ruta de la imagen  
-		imageView.setTranslateX(-250);
-		imageView.setTranslateY(-270);
+		imageView.setTranslateX(0);
+		imageView.setTranslateY(-215);
 		
 		Cjugadores = new ChoiceBox();
 		Cjugadores.setTranslateX(-200);

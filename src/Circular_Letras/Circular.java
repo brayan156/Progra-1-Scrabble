@@ -175,10 +175,10 @@ public class Circular<T>{
 	private void insertSetinCircularList() {
 			for (int i=0; i<letterSet.size(); i++) {
 				Tuple tupla = letterSet.get(i);
-				int tupla_numero = tupla.gety();	
+				int tupla_numero = tupla.getY();	
 				while (tupla_numero != 0) {
 	//            		System.out.println("Repeticiones... | contador="+tupla_numero+" |  current i="+ i);
-					this.insertlast(tupla.getx());
+					this.insertlast(tupla.getX());
 					tupla_numero--;
 	//        			System.out.println("Size of list   "+this.BancoFichas.getSize());
 	//            		System.out.println(" ");

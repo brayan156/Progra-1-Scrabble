@@ -1,8 +1,26 @@
 package sample;
 
-import Listas.ListaFichas;
-import Listas.Matriz;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import Circular_Letras.Tuple;
+import Listas.ListaFichas;
+import Listas.ListaPalabras;
+import Listas.Matriz;
+import Listas.Nodo;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
@@ -12,17 +30,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.util.concurrent.*;
 
 public class Controller {
     @FXML public  AnchorPane juegopane= new AnchorPane();
@@ -36,46 +43,112 @@ public class Controller {
     ObjectMapper objectMapper=new ObjectMapper();
     public TextField comprobacionfield= new TextField();
     public ListaFichas listaFichas=new ListaFichas();
-
-
-
-
-
+    
+    //BOX Suministrar ATRIBUTOS 
+    private List<Tuple> listaPosicionamiento; 
+    private int cantidadfichas_HBox = 0; 
+	private int currStr=0;
+	private static int dimension = 41; 
+ 
+	
+/*Methods*/ 
     public void poner_nombre(String nombre) {
         System.out.println(nombre);
         // aqui llamar a la clase UI_inicial, para sacar el atributo del nombre del jugador
         datos.setClient(nombre);//aqui lo pone
     }// en el setText me pone el texto del TextField de la pantalla
-
     
-    //HBOX ATRIBUTOS
-    @FXML private HBox field_fichas = new HBox();
-    private int cantidadfichas_HBox = 0;
-    
-    //HBOX Method
-    public void shuffle() {
-    	log.debug("Pidió una ficha más. ");
-        if (cantidadfichas_HBox==7) {System.out.println("Pero ya tiene "+cantidadfichas_HBox+".");return;}
-        else {
-//        Ficha extra_ficha = Server.getBancoFichas().getRandomNode();
-//      img.setPosx(0); img.setPosy(0);
-        	
-        //crear ficha.
-        Ficha extra_ficha = new Ficha(100,100,"B");
-        extra_ficha.crearimagen();
-        extra_ficha.setFitHeight(41);
-        extra_ficha.setFitWidth(41);
-        //add to HBox the extraficha.
-        juegopane.getChildren().add(extra_ficha);
-        //llamar a acciones
-        extra_ficha.setOnMousePressed(pressear);
-        extra_ficha.setOnMouseDragged(draggear);
-        extra_ficha.setOnMouseReleased(quitarclick);
-        extra_ficha.setId(extra_ficha.getLetra());
-        System.out.println(extra_ficha.getLetra());
-        cantidadfichas_HBox++;
-        }
-    }
+	public void shuffle() throws Exception { 
+		//pendiente 
+	} 
+	
+    //HBOX Method 
+    public void suministrar() throws Exception { 
+    	try{ 
+    		log.debug("Pidio una ficha mas. "); 
+    	 
+    	//variable para almacenar la posicion para actualizar. 
+    	int posNueva = 0; 
+    	if (cantidadfichas_HBox==7) { 
+			System.out.println("Pero ya tiene "+cantidadfichas_HBox+"."); 
+			return;} 
+    	//si son 0 fichas, llamar acomodar todo en no. 
+    	else if (this.cantidadfichas_HBox==0) { 
+    		this.acomodarlistaPosicionamiento(); 
+    	} 
+    	//obtener posicion "no", mas proxima. 
+    	posNueva = this.listaPosicionamiento.get(this.indicePosVacia()).getY(); 
+    	 
+		//convertir listaFichas (fichas) en listaPalabras (str). 
+    	ListaPalabras entLetra = this.listaFichas.convertirstrings(); 
+    	Nodo<String> cabezal = entLetra.getHead(); 
+    	if (cabezal!=null){ 
+    		if (cabezal.equals(entLetra.getHead())) { 
+    			return; 
+    		} 
+    	} 
+////////// 
+    	///////// para probar la entrada de las fichas de servidor. 
+    	entLetra.addLast("A"); entLetra.addLast("S"); entLetra.addLast("D"); 
+    	entLetra.addLast("T"); entLetra.addLast("R"); entLetra.addLast("L"); 
+    	entLetra.addLast("C"); 
+    	///////// para probar la entrada de las fichas de servidor.    
+////////// 
+    	System.out.println(entLetra.getHead()); 
+    	//crear ficha. 
+		Ficha extra_ficha = new Ficha(posNueva,705, entLetra.getNodeinPos(this.currStr)); 
+		extra_ficha.crearimagen(); 
+		extra_ficha.setFitHeight(Controller.dimension); 
+		extra_ficha.setFitWidth(Controller.dimension); 
+		if (this.currStr==entLetra.getLargo()-1) { 
+			this.currStr=0; //si ya es igual al tamano de la lista, se setea a 0. 
+			System.out.println("Entra, currStr = 0"); 
+		}		 
+		//add to pane the extraficha. 
+		juegopane.getChildren().add(extra_ficha); 
+		//llamar a acciones. 
+		extra_ficha.setOnMousePressed(pressear); 
+		extra_ficha.setOnMouseDragged(draggear); 
+		extra_ficha.setOnMouseReleased(quitarclick); 
+		extra_ficha.setId(extra_ficha.getLetra());  
+		this.cantidadfichas_HBox++; 
+		this.currStr++; 
+    	} 
+    	catch(Exception e) { 
+    		System.out.println("Esperando jugadores para empezar."); 
+    		} 
+    } 
+    //BOX_LISTA.POSICION METODO 
+    private void acomodarlistaPosicionamiento() { 
+    	this.listaPosicionamiento = Arrays.asList( 
+    			new Tuple("no", 5), 
+        		new Tuple("no", 49),  
+        		new Tuple("no", 93),  
+        		new Tuple("no", 137), 
+        		new Tuple("no", 181), 
+        		new Tuple("no", 225),  
+        		new Tuple("no", 269)); 
+    } 
+    //acomoda el espacio que queda vacio en "no", despues de soltar el click, mediante el retorno de la posicion anterior 
+	private void acomodarespacioPosicionamiento(int posx) { 
+		for (int e=0; e < this.listaPosicionamiento.size(); e++) { 
+			Tuple tupla = this.listaPosicionamiento.get(e); 
+			if (tupla.getY() == posx) { 
+				tupla.setX("no"); 
+				System.out.print("cambiado"); 
+				return;}} 
+	} 
+    //retorna el indice de la tupla con la posicion que no tiene una ficha asignada. 
+    private Integer indicePosVacia() { 
+    	int index = 0; 
+    	for (int e=0; e < this.listaPosicionamiento.size(); e++) { 
+    		Tuple tupla = this.listaPosicionamiento.get(e); 
+    		if (tupla.getX() == "no") { 
+    			tupla.setX("si"); 
+    			index = e; 
+    			break;}} 
+    	return index; 
+    } 
 
 
     
@@ -215,15 +288,15 @@ public class Controller {
             log.debug("voy a pintar ficha");
             Ficha fichatmp= fichas.buscar(cont);
             fichatmp.crearimagen();
-            fichatmp.setFitHeight(41);
-            fichatmp.setFitWidth(41);
+            fichatmp.setFitHeight(Controller.dimension);
+            fichatmp.setFitWidth(Controller.dimension);
             fichatmp.setPosx(posx);
             fichatmp.setPosy(posy);
             fichatmp.setOnMousePressed(pressear);
             fichatmp.setOnMouseDragged(draggear);
             fichatmp.setOnMouseReleased(quitarclick);
             juegopane.getChildren().add(fichatmp);
-            posx+=41;
+            posx+=Controller.dimension;
             cont++;
         }
         this.listaFichas=fichas;
@@ -233,8 +306,8 @@ public class Controller {
         log.debug("si clickeaste compa");
         Ficha img = new Ficha(100,480,"Castillo1");
         img.crearimagen();
-        img.setFitHeight(30);
-        img.setFitWidth(30);
+        img.setFitHeight(Controller.dimension);
+        img.setFitWidth(Controller.dimension);
         img.setId("Imagen");
         String ID = img.getId();
         System.out.println(ID);
@@ -251,14 +324,14 @@ public class Controller {
 
     EventHandler<MouseEvent> pressear =
             t -> {
-                Ficha img= (Ficha) (t.getSource());
-                if (img.getX()>=5-img.getFitWidth()/2 && img.getX()<=5-img.getFitWidth()/2+15*img.getFitWidth() && img.getY()>=77-img.getFitHeight()/2 && img.getY()<=77-img.getFitHeight()/2+15*img.getFitHeight()){
-                    matriz.matriz[(int)((img.getY()-(77-img.getFitHeight()/2))/img.getFitHeight())][(int)((img.getX()-(5-img.getFitWidth()/2))/img.getFitWidth())]=null;
-                    System.out.println((int)((img.getY()-(77-img.getFitHeight()/2))/img.getFitHeight())+","+(int)((img.getX()-(5-img.getFitWidth()/2))/img.getFitWidth()));
-                }
-                else if (img.getX()==img.getPosx() && img.getY()==img.getPosy()){
-                    listaFichas.eliminar(img.getPosx());
-                }
+//                Ficha img= (Ficha) (t.getSource());
+//                if (img.getX()>=5-img.getFitWidth()/2 && img.getX()<=5-img.getFitWidth()/2+15*img.getFitWidth() && img.getY()>=77-img.getFitHeight()/2 && img.getY()<=77-img.getFitHeight()/2+15*img.getFitHeight()){
+//                    matriz.matriz[(int)((img.getY()-(77-img.getFitHeight()/2))/img.getFitHeight())][(int)((img.getX()-(5-img.getFitWidth()/2))/img.getFitWidth())]=null;
+//                    System.out.println((int)((img.getY()-(77-img.getFitHeight()/2))/img.getFitHeight())+","+(int)((img.getX()-(5-img.getFitWidth()/2))/img.getFitWidth()));
+//                }
+//                else if (img.getX()==img.getPosx() && img.getY()==img.getPosy()){
+//                    listaFichas.eliminar(img.getPosx());
+//                }
                 orgSceneX = t.getSceneX();
                 orgSceneY = t.getSceneY();
             };
@@ -277,9 +350,14 @@ public class Controller {
     EventHandler<MouseEvent> quitarclick =
             t -> {
                 Ficha img= (Ficha) (t.getSource());
-                if (img.getX()>=5-img.getFitWidth()/2 && img.getX()<=5-img.getFitWidth()/2+15*img.getFitWidth() && img.getY()>=77-img.getFitHeight()/2 && img.getY()<=77-img.getFitHeight()/2+15*img.getFitHeight())
+                if (img.getX()>=5-img.getFitWidth()/2 && 
+                		img.getX()<=5-img.getFitWidth()/2+15*img.getFitWidth() && 
+                		img.getY()>=77-img.getFitHeight()/2 && 
+                		img.getY()<=77-img.getFitHeight()/2+15*img.getFitHeight()) {
                 matriz.agregar(img);
-                else{
+                this.cantidadfichas_HBox-=1; 
+                this.acomodarespacioPosicionamiento(img.getPosx()); 
+                }else{
                     img.setY(img.getPosy());
                     img.setX(img.getPosx());
                     listaFichas.addLast(img);
