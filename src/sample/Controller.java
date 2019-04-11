@@ -1,7 +1,6 @@
 package sample;
 
 import Listas.ListaFichas;
-import Listas.ListaPalabras;
 import Listas.Matriz;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -9,7 +8,6 @@ import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -56,7 +54,7 @@ public class Controller {
     
     //HBOX Method
     public void shuffle() {
-    	log.debug("Pidiï¿½ una ficha mï¿½s. ");
+    	log.debug("Pidió una ficha más. ");
         if (cantidadfichas_HBox==7) {System.out.println("Pero ya tiene "+cantidadfichas_HBox+".");return;}
         else {
 //        Ficha extra_ficha = Server.getBancoFichas().getRandomNode();
@@ -169,9 +167,8 @@ public class Controller {
                 datos.setAccion("comprobar");
                 datos.setMatriz(matriz.convertir());
                 datos.setListacliente(datos.getListacliente());
-                datos.setListafichas(listaFichas.convertirstrings());
-                Socket client = null;
-                client = new Socket(InetAddress.getLocalHost(), 9500);
+                datos.setListafichas(listaFichas.convertirstrings());//se envia la lista de fichas que no han sido usadas
+                Socket client = new Socket(InetAddress.getLocalHost(), 9500);
                 log.debug("unirse");
                 DataOutputStream datosenvio = new DataOutputStream(client.getOutputStream());
                 datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
@@ -181,7 +178,7 @@ public class Controller {
                 log.debug("se creo objeto");
                 if (datosrecibidos.getRespueta().equals("jugada_correcta")) {
                     datosrecibidos.setListacliente(datosrecibidos.getListacliente());
-                    this.pintarfichas(datosrecibidos.getListafichas().convertirfichas());
+                    this.pintarfichas(datosrecibidos.getListafichas().convertirfichas());//se manda a pintar la lista de fichas que envia el server ya completa
 
                     //aqui va la actualizacion del puntaje
                     labelturno.setText("En espera");
@@ -206,15 +203,15 @@ public class Controller {
 
     }
 
-    public void pintarfichas(ListaFichas fichas){
-        int cont=0,conlf=this.listaFichas.getLargo()-1;
+    public void pintarfichas(ListaFichas fichas){ //recibe la lista que envia el server de las fichas que el cliente no uso
+        int cont=0,conlf=this.listaFichas.getLargo()-1; // y las nuevas
         int posx=5,posy=707;
-        while (conlf>=0){
+        while (conlf>=0){ //aqui se eliminan la imagenes viejas
             log.debug("voy a quitar fichas");
             juegopane.getChildren().remove(this.listaFichas.buscar(conlf));
             conlf--;
         }
-        while (cont<7){
+        while (cont<7){ //aqui se pintan las imagenes nuevas
             log.debug("voy a pintar ficha");
             Ficha fichatmp= fichas.buscar(cont);
             fichatmp.crearimagen();
