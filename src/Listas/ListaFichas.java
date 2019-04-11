@@ -12,11 +12,11 @@ public class ListaFichas {
             this.head= new Nodo<Ficha>(e);
         }
         else {
-            Nodo<Ficha> tmp= this.head;
+            Nodo tmp= this.head;
             while (tmp.next!= null) {
                 tmp = tmp.next;
             }
-            tmp.next=new Nodo<Ficha>(e);
+            tmp.next=new Nodo(e);
         }
     }
     public void addFirst(Ficha e) {
@@ -60,11 +60,11 @@ public class ListaFichas {
         this.largo = largo;
     }
 
-    public Nodo<Ficha> getHead() {
+    public Nodo getHead() {
         return head;
     }
 
-    public void setHead(Nodo<Ficha> head) {
+    public void setHead(Nodo head) {
         this.head = head;
     }
     public ListaPalabras convertirstrings(){

@@ -113,7 +113,7 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button contentDisplay="CENTER" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" onAction="#suministrar" prefHeight="50.0" prefWidth="110.0" text="Shuffle" textAlignment="CENTER">
+                  <Button contentDisplay="CENTER" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" onAction="#shuffle" prefHeight="50.0" prefWidth="110.0" text="Shuffle" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="15.0" />
                      </font>
