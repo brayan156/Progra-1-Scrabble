@@ -74,5 +74,21 @@ public class ListaPalabras {
         }
         return listaFichas;
     }
+    public int sacarpuntaje(){
+        int puntaje=0,n=0;
+        String palabra;
+        Ficha ficha;
+        while (n<this.getLargo()){
+            palabra= this.buscar(n);
+            int i=0;
+            while (i<palabra.length()) {
+                ficha = new Ficha(0, 0, palabra.substring(i, i + 1));
+                puntaje += ficha.getValor();
+                i++;
+            }
+            n++;
+        }
+        return puntaje;
+    }
 }
 
