@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -74,19 +73,16 @@
                   <ColorAdjust contrast="-1.0" />
                </effect>
             </GridPane>
-            <HBox fx:id="field_fichas" alignment="CENTER" layoutY="630.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="31.0" spacing="1.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <padding>
-                  <Insets bottom="3.0" />
-               </padding>
-            </HBox>
-            <TextField fx:id="comprobacionfield" layoutX="310.0" layoutY="625.0" prefHeight="41.0" promptText="digite palabra">
+            <TextField fx:id="comprobacionfield" layoutX="320.0" layoutY="625.0" prefHeight="41.0" promptText="digite palabra">
                <padding>
                   <Insets bottom="3.0" />
                </padding>
             </TextField>
+            <ImageView fitHeight="25.0" fitWidth="313.0" layoutY="645.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../Media/boxreddy.jpg" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="628.0" layoutY="77.0">

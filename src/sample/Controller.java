@@ -96,7 +96,7 @@ public class Controller {
 ////////// 
     	System.out.println(entLetra.getHead()); 
     	//crear ficha. 
-		Ficha extra_ficha = new Ficha(posNueva,705, entLetra.getNodeinPos(this.currStr)); 
+		Ficha extra_ficha = new Ficha(posNueva,701, entLetra.getNodeinPos(this.currStr)); 
 		extra_ficha.crearimagen(); 
 		extra_ficha.setFitHeight(Controller.dimension); 
 		extra_ficha.setFitWidth(Controller.dimension); 
@@ -121,13 +121,13 @@ public class Controller {
     //BOX_LISTA.POSICION METODO 
     private void acomodarlistaPosicionamiento() { 
     	this.listaPosicionamiento = Arrays.asList( 
-    			new Tuple("no", 5), 
-        		new Tuple("no", 49),  
-        		new Tuple("no", 93),  
-        		new Tuple("no", 137), 
-        		new Tuple("no", 181), 
-        		new Tuple("no", 225),  
-        		new Tuple("no", 269)); 
+    			new Tuple("no", 12), 
+        		new Tuple("no", 55),  
+        		new Tuple("no", 98),  
+        		new Tuple("no", 141), 
+        		new Tuple("no", 184), 
+        		new Tuple("no", 227),  
+        		new Tuple("no", 270)); 
     } 
     //acomoda el espacio que queda vacio en "no", despues de soltar el click, mediante el retorno de la posicion anterior 
 	private void acomodarespacioPosicionamiento(int posx) { 

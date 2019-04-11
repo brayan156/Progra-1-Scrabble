@@ -102,7 +102,7 @@ public class ArbolBinario<t extends Comparable<t>>{
 			
 			String incognita = (String) dato;
 			
-			incognita = incognita.substring(beginIndex, endIndex)
+//			incognita = incognita.substring(beginIndex, endIndex)
 			
 			if (this.buscarDato((t) incognita))
 				return true;
