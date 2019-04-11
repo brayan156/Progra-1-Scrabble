@@ -98,13 +98,13 @@ public class ArbolBinario<t extends Comparable<t>>{
 	private boolean isComodin_aux(t dato) {
 		if (this.arrayLetras==null) this.setarraysLetras();
 		for (int i=0; i < this.arrayLetras.size(); i++) { 
-//			t wordXcomodin = this.replace(dato,this.indexComodin, this.arrayLetras.get(i));
-			
-			String incognita = (String) dato;
-			
+////			t wordXcomodin = this.replace(dato,this.indexComodin, this.arrayLetras.get(i));
+//			
+//			String incognita = (String) dato;
+//			
 //			incognita = incognita.substring(beginIndex, endIndex)
-			
-			if (this.buscarDato((t) incognita))
+//			
+			if (this.buscarDato(incognita))
 				return true;
 		}return false;
 	}

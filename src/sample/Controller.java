@@ -1,5 +1,6 @@
 package sample;
 
+import java.awt.Button;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -40,9 +41,15 @@ public class Controller {
     @FXML public TextField nombrefield;
     public Datos datos= new Datos();
     @FXML private Label labelturno=new Label();
+    @FXML public Button pasar = new Button();
     ObjectMapper objectMapper=new ObjectMapper();
     public TextField comprobacionfield= new TextField();
     public ListaFichas listaFichas=new ListaFichas();
+    
+    //BOX Estadisticas Puntajes
+    @FXML public Label cliente1,cliente2,cliente3,cliente4,
+    puntaje1,puntaje2,puntaje3,puntaje4 = new Label();
+    
     
     //BOX Suministrar ATRIBUTOS 
     private List<Tuple> listaPosicionamiento; 
