@@ -1,18 +1,24 @@
 package Circular_Letras;
 
 public class Tuple{ 
-	  public final String x; 
-	  public final int y; 
-	  public Tuple(String x, int y) { 
-	    this.x = x; 
-	    this.y = y; 
-	  }
-	public int gety() {
-		// TODO Auto-generated method stub
+	public  String x; 
+	public  int y;
+	
+	public Tuple(String x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	public int getY() {
 		return this.y;
-	} 
-	public String getx() {
-		// TODO Auto-generated method stub
+	}
+	
+	public String getX() {
 		return this.x;
 	}
+
+	public void setX(String x) {
+		this.x = x;
 	}
+
+}
