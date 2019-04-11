@@ -52,7 +52,7 @@ public class Turno implements Callable<String> {
                     log.debug("esperando");
                     datosenvio.close();
                     client.close();
-                    Thread.sleep(5000);
+                    Thread.sleep(2000);
 
 
                 }

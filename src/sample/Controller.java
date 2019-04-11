@@ -223,6 +223,7 @@ public class Controller {
             DataOutputStream datosenvio= new DataOutputStream(client.getOutputStream());
             datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
             log.debug("se envio objeto");
+            labelturno.setText("Espera");
             this.espera();
         } catch (IOException e) {
             e.printStackTrace();

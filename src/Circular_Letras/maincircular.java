@@ -23,6 +23,7 @@ public static void main(String[] args) {
    	BancoFichas1.getRandomNode();
 //   	BancoFichas1.getRandomNode();	
 
+
    	}
 }
 

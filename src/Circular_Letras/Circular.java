@@ -93,10 +93,11 @@ public class Circular<T>{
           {
         	  // Delete the only element case
         	  if(this.first.getNode() == string && 
-        			  this.first.getNext().getNode() == this.first.getNode())
+        			  this.first.getNext() == this.first)
         	  {
-        		  this.first.setNext(null);
-        		  this.first = null;
+        	  	ficha.setLetra(string);
+        	  	this.first.setNext(null);
+        	  	this.first = null;
 //        		  System.out.println("head set to null.. "+this.first);
         	    }
         	  
@@ -198,6 +199,7 @@ public class Circular<T>{
 			}
 //			System.out.println(currentrandomize.getNode());
 			ficha=this.delete(currentrandomize.getNode());
+			System.out.println(ficha.getLetra());
 
 		}return ficha;
 	}
