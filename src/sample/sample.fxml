@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="754.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane fx:id="juegopane" prefHeight="754.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <ImageView fitWidth="595.0" layoutX="154.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -27,7 +27,7 @@
       </ImageView>
       <Line endX="903.5" fill="#00000051" layoutY="72.0" stroke="#00000080" />
       <Line endX="627.0" endY="753.0" fill="#00000080" startX="627.0" startY="72.0" stroke="#00000080" />
-    <AnchorPane fx:id="juegopane" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="77.0">
+    <AnchorPane AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="77.0">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -82,7 +82,7 @@
                   <Insets bottom="3.0" />
                </padding>
             </HBox>
-            <TextField fx:id="nombrefield" layoutX="310.0" layoutY="625.0" prefHeight="41.0" promptText="username">
+            <TextField fx:id="comprobacionfield" layoutX="310.0" layoutY="625.0" prefHeight="41.0" promptText="digite palabra">
                <padding>
                   <Insets bottom="3.0" />
                </padding>
@@ -113,7 +113,7 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button contentDisplay="CENTER" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" onAction="#shuffle" prefHeight="50.0" prefWidth="110.0" text="Shuffle" textAlignment="CENTER">
+                  <Button contentDisplay="CENTER" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" onAction="#suministrar" prefHeight="50.0" prefWidth="110.0" text="Shuffle" textAlignment="CENTER">
                      <font>
                         <Font name="System Bold Italic" size="15.0" />
                      </font>
