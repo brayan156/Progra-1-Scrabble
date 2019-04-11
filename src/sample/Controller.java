@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Circular_Letras.Tuple;
+import Listas.ListaCliente;
 import Listas.ListaFichas;
 import Listas.ListaPalabras;
 import Listas.Matriz;
@@ -261,11 +262,37 @@ public class Controller {
                     if (datosrecibidos.getRespueta().equals("jugada_correcta")) {
                         datosrecibidos.setListacliente(datosrecibidos.getListacliente());
                         this.pintarfichas(datosrecibidos.getListafichas().convertirfichas());//se manda a pintar la lista de fichas que envia el server ya completa
-
-                        //aqui va la actualizacion del puntaje
-                        labelturno.setText("On Hold");
-                    } else {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        ListaCliente clienteypuntaje = datosrecibidos.getListacliente();
+                        //aqui va la actualizacion del puntaje.
+                        int indice = 0;
+                        int puntaje;
+                        //ordenar por puntaje
+                        clienteypuntaje.bubbleSort();
+                        while (indice != clienteypuntaje.getLargo()) {
+                        	if (indice==0) {
+                        		puntaje = clienteypuntaje.buscar(indice).getPuntaje();
+                        		this.cliente1.setText(clienteypuntaje.buscar(indice).getNombre());
+                        		this.puntaje1.setText(Integer.toString(puntaje));
+                        	}
+                        	else if(indice==1) {
+                        		puntaje = clienteypuntaje.buscar(indice).getPuntaje();
+                        		this.cliente2.setText(clienteypuntaje.buscar(indice).getNombre());
+                        		this.puntaje2.setText(Integer.toString(puntaje));
+                        	}
+                        	else if(indice==2) {
+                        		puntaje = clienteypuntaje.buscar(indice).getPuntaje();
+                        		this.cliente3.setText(clienteypuntaje.buscar(indice).getNombre());
+                        		this.puntaje3.setText(Integer.toString(puntaje));
+                        	}
+                        	else if(indice==3) {
+                        		puntaje = clienteypuntaje.buscar(indice).getPuntaje();
+                        		this.cliente4.setText(clienteypuntaje.buscar(indice).getNombre());
+                        		this.puntaje4.setText(Integer.toString(puntaje));
+                        	} indice++;
+                        }labelturno.setText("On Hold");
+                    }
+                    else {
+                    	Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Palbras incorrectas");
 //                    String palabraserrones=datosrecibidos.getListapalabras().obtenerstring();
 //                    alert.setContentText("las siguientes palabras con incorrectas"+palabraserrones);
