@@ -73,10 +73,13 @@ public class Generador_Diccionario {
 
 		while(datosL.getLargo()>cont) {//cambie por su variable del largo de la lista
 			String contenedor = datosL.buscar(cont);
+			//el metodo para cambiar _ por cada letra iria justo aqui
+			//tiene que encontrar si existe Datos.buscarDato(contenedor)=true y si no agrega palabras_incorrectas.addFirst(contenedor);
 			if (!Datos.buscarDato(contenedor)){//filtro para las palabras que no estan en el arbol
 				palabras_incorrectas.addFirst(contenedor);
 				System.out.println(palabras_incorrectas.buscar(0));
-			}cont++;
+			}
+			cont++;
 		}return palabras_incorrectas;
 	}
 	public ListaPalabras ListaCorrecta_P(ListaPalabras datosL) {
