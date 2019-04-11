@@ -9,9 +9,6 @@ public class Nodo<T>{
         this.next= null;
     }
 
-    public Nodo() {
-    }
-
     public T getNodo() {
         return nodo;
     }

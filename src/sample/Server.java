@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -59,6 +60,7 @@ public class Server implements Runnable {
         }
         return fichas.convertirstrings();
     }
+    public ListaPalabras comprobar(String[][] matriz){return new ListaPalabras();}
 
 
     @Override
@@ -134,30 +136,30 @@ public class Server implements Runnable {
                     recorrido=2;
                     misocket.close();
                 }
-//                else if (datos.getAccion().equals("comprobar")){
-//                    ListaPalabras lpal= this.comprobar(datos.getMatriz());
-//                    ListaPalabras lpalerroneas= this.sacarerroneas(lpal);
-//                    if (lpalerroneas.getLargo()==0){
-//                        ListaPalabras lpalcorrectas= this.sacarcorrectas(lpal);
-//                        clientesd.sumarpuntos(datos.getClient(), this.calcularpuntaje(lpalcorrectas));
-//                        datos.setRespueta("jugada_correcta");
-//                        datos.setListacliente(clientesd);
-//                        DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
-//                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
-//                        this.cambiar_cliente();
-//                        recorrido=1;
-//                        datosenvio.close();
-//                        misocket.close();
-//                    }
-//                    else{
-//                        datos.setRespueta("jugada_incorrecta");
-//                        datos.setListapalabras(lpalerroneas);
-//                        DataOutputStream datosenvio = new DataOutputStream(misocket.getOutputStream());
-//                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
-//                        datosenvio.close();
-//                        misocket.close();
-//                    }
-//                }
+                else if (datos.getAccion().equals("comprobar")){
+                    ListaPalabras lpal= this.comprobar(datos.getMatriz());
+                    ListaPalabras lpalerroneas= this.diccionario.ListaIncorrecta_P(lpal);
+                    if (lpalerroneas.getLargo()==0){
+                        ListaPalabras lpalcorrectas= this.diccionario.ListaCorrecta_P(lpal);
+                        clientesd.sumarpuntos(datos.getClient(), lpalcorrectas.sacarpuntaje());
+                        datos.setRespueta("jugada_correcta");
+                        datos.setListacliente(clientesd);
+                        DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
+                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                        this.cambiar_cliente();
+                        recorrido=1;
+                        datosenvio.close();
+                        misocket.close();
+                    }
+                    else{
+                        datos.setRespueta("jugada_incorrecta");
+                        datos.setListapalabras(lpalerroneas);
+                        DataOutputStream datosenvio = new DataOutputStream(misocket.getOutputStream());
+                        datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                        datosenvio.close();
+                        misocket.close();
+                    }
+                }
                 else if (datos.getAccion().equals("iniciar")){
                     log.debug("se entro a iniciar");
                 if (codigo==-1){

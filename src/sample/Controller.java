@@ -200,7 +200,7 @@ public class Controller {
             log.debug("se creo objeto");
             matriz.agregar(datosrecibidos.getMatriz(), juegopane);
             System.out.println(objectMapper.writeValueAsString(datosrecibidos));
-            labelturno.setText("si lo logré");
+            labelturno.setText("On Hold");
             datosenvio.close();
             client.close();
         } catch (IOException e) {
@@ -213,15 +213,17 @@ public class Controller {
     public void pasar_turno(){
 
         try {
-            datos.setAccion("Pasar");
-            this.matriz.reordenar(listaFichas);
-            Socket client = new Socket(InetAddress.getLocalHost(), 9500);
-            log.debug("se conecto");
-            DataOutputStream datosenvio= new DataOutputStream(client.getOutputStream());
-            datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
-            log.debug("se envio objeto");
-            labelturno.setText("Espera");
-            this.espera();
+            if (!labelturno.getText().equals("On Hold")) {
+                datos.setAccion("Pasar");
+                this.matriz.reordenar(listaFichas);
+                Socket client = new Socket(InetAddress.getLocalHost(), 9500);
+                log.debug("se conecto");
+                DataOutputStream datosenvio = new DataOutputStream(client.getOutputStream());
+                datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
+                log.debug("se envio objeto");
+                labelturno.setText("On Hold");
+                this.espera();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -230,37 +232,38 @@ public class Controller {
 
     public void comprobar(){
         try {
-            if (listaFichas.getLargo()==7){
-                Alert alert=new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Advertencia");
-                alert.setContentText("no se ha realizado ninguna jugada");
-                alert.showAndWait();
-            }
-            else {
-                datos.setAccion("comprobar");
-                datos.setMatriz(matriz.convertir());
-                datos.setListacliente(datos.getListacliente());
-                datos.setListafichas(listaFichas.convertirstrings());//se envia la lista de fichas que no han sido usadas
-                Socket client = new Socket(InetAddress.getLocalHost(), 9500);
-                log.debug("unirse");
-                DataOutputStream datosenvio = new DataOutputStream(client.getOutputStream());
-                datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
-                DataInputStream datosentrada = new DataInputStream(client.getInputStream());
-                log.debug("entrada se conecto");
-                Datos datosrecibidos = objectMapper.readValue(datosentrada.readUTF(), Datos.class);
-                log.debug("se creo objeto");
-                if (datosrecibidos.getRespueta().equals("jugada_correcta")) {
-                    datosrecibidos.setListacliente(datosrecibidos.getListacliente());
-                    this.pintarfichas(datosrecibidos.getListafichas().convertirfichas());//se manda a pintar la lista de fichas que envia el server ya completa
-
-                    //aqui va la actualizacion del puntaje
-                    labelturno.setText("En espera");
+            if (!labelturno.getText().equals("On Hold")) {
+                if (listaFichas.getLargo() == 7) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Advertencia");
+                    alert.setContentText("no se ha realizado ninguna jugada");
+                    alert.showAndWait();
                 } else {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Palbras incorrectas");
+                    datos.setAccion("comprobar");
+                    datos.setMatriz(matriz.convertir());
+                    datos.setListacliente(datos.getListacliente());
+                    datos.setListafichas(listaFichas.convertirstrings());//se envia la lista de fichas que no han sido usadas
+                    Socket client = new Socket(InetAddress.getLocalHost(), 9500);
+                    log.debug("unirse");
+                    DataOutputStream datosenvio = new DataOutputStream(client.getOutputStream());
+                    datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
+                    DataInputStream datosentrada = new DataInputStream(client.getInputStream());
+                    log.debug("entrada se conecto");
+                    Datos datosrecibidos = objectMapper.readValue(datosentrada.readUTF(), Datos.class);
+                    log.debug("se creo objeto");
+                    if (datosrecibidos.getRespueta().equals("jugada_correcta")) {
+                        datosrecibidos.setListacliente(datosrecibidos.getListacliente());
+                        this.pintarfichas(datosrecibidos.getListafichas().convertirfichas());//se manda a pintar la lista de fichas que envia el server ya completa
+
+                        //aqui va la actualizacion del puntaje
+                        labelturno.setText("On Hold");
+                    } else {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Palbras incorrectas");
 //                    String palabraserrones=datosrecibidos.getListapalabras().obtenerstring();
 //                    alert.setContentText("las siguientes palabras con incorrectas"+palabraserrones);
-                    alert.showAndWait();
+                        alert.showAndWait();
+                    }
                 }
             }
         }
@@ -338,14 +341,15 @@ public class Controller {
 
     EventHandler<MouseEvent> draggear =
             t -> {
-                Ficha img= (Ficha) (t.getSource());
-                double offsetX = orgSceneX - t.getSceneX();
-                double offsetY = orgSceneY - t.getSceneY();
-                double newTranslateX = orgSceneX - offsetX -img.getFitWidth()/2;
-                double newTranslateY = orgSceneY - offsetY -img.getFitHeight()/2;
-                img.setX(newTranslateX);
-                img.setY(newTranslateY);
-
+                if (!labelturno.getText().equals("On Hold")) {
+                    Ficha img = (Ficha) (t.getSource());
+                    double offsetX = orgSceneX - t.getSceneX();
+                    double offsetY = orgSceneY - t.getSceneY();
+                    double newTranslateX = orgSceneX - offsetX - img.getFitWidth() / 2;
+                    double newTranslateY = orgSceneY - offsetY - img.getFitHeight() / 2;
+                    img.setX(newTranslateX);
+                    img.setY(newTranslateY);
+                }
             };
     EventHandler<MouseEvent> quitarclick =
             t -> {

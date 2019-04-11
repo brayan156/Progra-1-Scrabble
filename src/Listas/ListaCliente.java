@@ -29,7 +29,18 @@ public class ListaCliente{
         }  
         return tmp.getNodo();  
     }  
-  
+    
+    public void sumarpuntos(String cliente, int puntos){
+        int n=0;
+        while(n<this.largo){
+            Cliente client= this.buscar(n);
+            if (client.getNombre().equals(cliente)){
+                client.setPuntaje(client.getPuntaje()+puntos);
+                break;
+            }
+            else {n++;}
+        }
+    }
   
     public int getLargo() {  
         return largo;  
