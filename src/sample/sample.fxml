@@ -91,13 +91,21 @@
          <children>
             <StackPane layoutX="2.0" layoutY="2.0">
                <children>
-                  <Label fx:id="labelturno" alignment="CENTER" contentDisplay="CENTER" prefHeight="115.0" prefWidth="275.0" text="On Hold" textAlignment="CENTER" textFill="#f52929" textOverrun="CLIP" wrapText="true">
+                  <Label fx:id="labelturno" alignment="CENTER" contentDisplay="CENTER" prefHeight="115.0" prefWidth="275.0" text="On Hold" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
                      <font>
                         <Font name="Copperplate Gothic Light" size="53.0" />
                      </font>
                      <padding>
                         <Insets right="5.0" />
                      </padding>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop color="#f52a2a" />
+                              <Stop color="#a45151" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
                   </Label>
                </children>
             </StackPane>
@@ -107,7 +115,7 @@
             <Line endY="305.0" layoutX="280.0" layoutY="130.0" strokeWidth="3.0" />
             <Line endX="138.0" layoutX="141.0" layoutY="170.0" startX="-135.0" strokeWidth="5.0" />
             <Line endY="305.0" layoutX="170.0" layoutY="130.0" strokeWidth="3.0" />
-            <Label fx:id="labelturno11" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="132.0" prefHeight="34.0" prefWidth="161.0" text="PLAYERS" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="132.0" prefHeight="34.0" prefWidth="161.0" text="PLAYERS" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
                <font>
                   <Font name="Bernard MT Condensed" size="32.0" />
                </font>
@@ -115,7 +123,7 @@
                   <Insets right="5.0" />
                </padding>
             </Label>
-            <Label fx:id="labelturno1" alignment="CENTER" contentDisplay="CENTER" layoutX="173.0" layoutY="132.0" prefHeight="34.0" prefWidth="104.0" text="POINTS" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="173.0" layoutY="132.0" prefHeight="34.0" prefWidth="104.0" text="POINTS" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
                <font>
                   <Font name="Bernard MT Condensed" size="32.0" />
                </font>
@@ -123,38 +131,6 @@
                   <Insets right="5.0" />
                </padding>
             </Label>
-            <StackPane layoutX="2.0" layoutY="447.0">
-               <children>
-                  <VBox spacing="10.0">
-                     <children>
-                        <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#comprobar" prefHeight="65.0" prefWidth="130.0" text="Check" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold Italic" size="15.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </Button>
-                        <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#suministrar" prefHeight="65.0" prefWidth="130.0" text="Shuffle" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold Italic" size="15.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="pasar" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pasar_turno" prefHeight="65.0" prefWidth="130.0" text="Pass" textAlignment="CENTER">
-                           <font>
-                              <Font name="System Bold Italic" size="15.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </Button>
-                     </children>
-                  </VBox>
-               </children>
-               <padding>
-                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-               </padding>
-            </StackPane>
             <VBox layoutX="7.0" layoutY="173.0" prefHeight="262.0" prefWidth="160.0" spacing="45.0">
                <children>
                   <StackPane>
@@ -246,7 +222,7 @@
                         </Label>
                      </children>
                   </StackPane>
-                  <StackPane fx:id="puntaje">
+                  <StackPane>
                      <children>
                         <Label fx:id="puntaje2" text="Label">
                            <font>
@@ -299,6 +275,38 @@
                   </StackPane>
                </children>
             </VBox>
+            <StackPane layoutX="2.0" layoutY="447.0">
+               <children>
+                  <VBox spacing="10.0">
+                     <children>
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#comprobar" prefHeight="65.0" prefWidth="130.0" text="Check" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold Italic" size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Button>
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#suministrar" prefHeight="65.0" prefWidth="130.0" text="Shuffle" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold Italic" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="pasar" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pasar_turno" prefHeight="65.0" prefWidth="130.0" text="Pass" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold Italic" size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+               </padding>
+            </StackPane>
          </children>
       </AnchorPane>
    </children>
