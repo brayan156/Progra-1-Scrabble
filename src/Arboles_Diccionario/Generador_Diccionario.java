@@ -21,7 +21,7 @@ public class Generador_Diccionario {
 			while ((linea=br.readLine())!=null) {
 				linea= eliminador_basura_palabra(linea);//me elimina trash values, para que entre limpio
 				System.out.println(linea);
-				Datos.insert(linea);//para que se meta a la lista como en minuscula
+				Datos.insert(linea.toUpperCase());//para que se meta a la lista como en mayuscula
 			}//En mi compu dura como 2 mint
 		}catch(Exception e){
 	         e.printStackTrace();
@@ -52,7 +52,7 @@ public class Generador_Diccionario {
 			fw = new FileWriter(file.getAbsoluteFile(),true);
 			bw = new BufferedWriter(fw);
 			
-			bw.write("\n"+palabra.toLowerCase());//se mete al text
+			bw.write("\n"+palabra.toUpperCase());//se mete al text
 			Datos.insert(palabra);//se mete a la lista simple
 		}catch (IOException e) {
 			e.printStackTrace();
