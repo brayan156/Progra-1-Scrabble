@@ -21,6 +21,7 @@ public class Generador_Diccionario {
 			while ((linea=br.readLine())!=null) {
 				linea= eliminador_basura_palabra(linea);//me elimina trash values, para que entre limpio
 //				System.out.println(linea);
+				linea=sin_tilde(linea);//Le quita las tildes
 				Datos.insert(linea.toUpperCase());//para que se meta a la lista como en mayuscula
 			}//En mi compu dura como 2 mint
 		}catch(Exception e){
@@ -53,6 +54,9 @@ public class Generador_Diccionario {
 			bw = new BufferedWriter(fw);
 			
 			bw.write("\n"+palabra.toUpperCase());//se mete al text
+			
+			linea= eliminador_basura_palabra(linea);//me elimina trash values, para que entre limpio
+			linea=sin_tilde(linea);//Le quita las tildes
 			Datos.insert(palabra.toUpperCase());//se mete a la lista simple
 		}catch (IOException e) {
 			e.printStackTrace();
@@ -93,5 +97,17 @@ public class Generador_Diccionario {
 				System.out.println(palabras_correctas.buscar(0));
 			}cont++;
 		}return palabras_correctas;
+	}
+	//metodo par la eliminacion de tildes y varas raras en el lemario
+	public String sin_tilde(String texto) {
+	    String original = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ";
+	    // Cadena de caracteres ASCII que reemplazarán los originales.
+	    String ascii = "AAAAAAACEEEEIIIIDNOOOOOOUUUUYBaaaaaaaceeeeiiiionoooooouuuuyy";
+	    String output = texto;
+	    for (int i=0; i<original.length(); i++) {
+	    // Reemplazamos los caracteres especiales.
+	    	output = output.replace(original.charAt(i), ascii.charAt(i));
+	    	}//for i
+	    return output;// me retorna la palabra ya si la tilde o una de las variaciones que se ven en original
 	}
 }
