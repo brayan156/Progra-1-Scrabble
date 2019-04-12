@@ -8,8 +8,9 @@ import Circular_Letras.Tuple;
 public class ArbolBinario<t extends Comparable<t>>{
 	private NodoArbol<t> root=null;
 	public int tamano=0;
-	private int indexComodin = 0;
+//	private int indexComodin = 0;
 	private List<Character> arrayLetras = null;
+	private List<String> arrayStringLetras = null;
 	
 	public boolean isEmpty() {
 		return root==null;
@@ -62,20 +63,21 @@ public class ArbolBinario<t extends Comparable<t>>{
 		}
 	}
 	// Metodo para buscar un dato en el arbol
-	public boolean buscarDato(t dato) {
+	public boolean buscarDato(String dato) {
 		if (this.isComodin(dato)) {return isComodin_aux(dato);}
 		return buscarDato_aux(dato,root);
 	}	
-	private boolean buscarDato_aux(t dato, NodoArbol<t> temp) {
+	
+	private boolean buscarDato_aux(String dato, NodoArbol<t> temp) {
 		if (temp.element.equals(dato)) {
 			return true;
-		}else if (dato.compareTo(temp.element)< 0) {
+		}else if (dato.compareTo((String) temp.element)< 0) {
 			if (temp.left==null) {
 				return false;
 			}else {
 				return buscarDato_aux(dato,temp.left);
 			}
-		}else if (dato.compareTo(temp.element)> 0) {
+		}else if (dato.compareTo((String) temp.element)> 0) {
 			if (temp.right==null) {
 				return false;
 			}else {
@@ -84,36 +86,40 @@ public class ArbolBinario<t extends Comparable<t>>{
 		}return false;
 	}
 	
-	private boolean isComodin(t dato) {
+	private boolean isComodin(String dato) {
 		int index=0;
 		while (index != ((String) dato).length()) {
 			if (((String) dato).charAt(index) == '_') {
-				this.indexComodin = index;
+//				this.indexComodin = index;
 				return true;}
 			index++;
 			continue;
 		}return false;
 	}
 	
-	private boolean isComodin_aux(t dato) {
+	private boolean isComodin_aux(String dato) {
 		if (this.arrayLetras==null) this.setarraysLetras();
 		for (int i=0; i < this.arrayLetras.size(); i++) { 
-////			t wordXcomodin = this.replace(dato,this.indexComodin, this.arrayLetras.get(i));
-//			
-//			String incognita = (String) dato;
-//			
-//			incognita = incognita.substring(beginIndex, endIndex)
-//			
+			String incognita = ((String) dato).replace('_', this.arrayLetras.get(i));
+//			System.out.println("Palabra  "+incognita);
+			if (this.buscarDato(incognita))
+				return true;
+		} for (int i=0; i < this.arrayStringLetras.size(); i++) {
+			String incognita = ((String) dato).replace("_", this.arrayStringLetras.get(i));
+//			System.out.println("Palabra  "+incognita);
 			if (this.buscarDato(incognita))
 				return true;
 		}return false;
 	}
-    private void setarraysLetras() { 
+
+	private void setarraysLetras() { 
     	this.arrayLetras = Arrays.asList(
-    			'A','B','C','D','E','F','G',
-    			'H','I','J','K','L','M','N','Ñ',
-    			'O','P','Q','R','S','T','U',
-    			'V','W','X','Y','Z');
+    			'a','b','c','d','e','f','g',
+    			'h','i','j','k','l','m','n','ñ',
+    			'o','p','q','r','s','t','u',
+    			'v','w','x','y','z');
+    	this.arrayStringLetras = Arrays.asList(
+    			"ch","ll","rr");
     } 
 }
 	
