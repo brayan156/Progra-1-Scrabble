@@ -14,6 +14,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
@@ -105,107 +107,22 @@
             <Line endY="305.0" layoutX="280.0" layoutY="130.0" strokeWidth="3.0" />
             <Line endX="138.0" layoutX="141.0" layoutY="170.0" startX="-135.0" strokeWidth="5.0" />
             <Line endY="305.0" layoutX="170.0" layoutY="130.0" strokeWidth="3.0" />
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="132.0" prefHeight="34.0" prefWidth="161.0" text="PLAYERS" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+            <Label fx:id="labelturno11" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="132.0" prefHeight="34.0" prefWidth="161.0" text="PLAYERS" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
                <font>
-                  <Font name="Bernard MT Condensed" size="30.0" />
+                  <Font name="Bernard MT Condensed" size="32.0" />
                </font>
                <padding>
                   <Insets right="5.0" />
                </padding>
             </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="173.0" layoutY="132.0" prefHeight="34.0" prefWidth="104.0" text="POINTS" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+            <Label fx:id="labelturno1" alignment="CENTER" contentDisplay="CENTER" layoutX="173.0" layoutY="132.0" prefHeight="34.0" prefWidth="104.0" text="POINTS" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
                <font>
-                  <Font name="Bernard MT Condensed" size="30.0" />
+                  <Font name="Bernard MT Condensed" size="32.0" />
                </font>
                <padding>
                   <Insets right="5.0" />
                </padding>
             </Label>
-            <VBox layoutX="10.0" layoutY="175.0" prefHeight="258.0" prefWidth="155.0" spacing="45.0">
-               <children>
-                  <StackPane>
-                     <children>
-                        <Label fx:id="cliente1" text="Label" textFill="#00000093">
-                           <font>
-                              <Font name="Bauhaus 93" size="25.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </StackPane>
-                  <StackPane>
-                     <children>
-                        <Label fx:id="cliente2" text="Label" textFill="#00000093">
-                           <font>
-                              <Font name="Bauhaus 93" size="25.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </StackPane>
-                  <StackPane>
-                     <children>
-                        <Label fx:id="cliente3" text="Label" textFill="#00000093">
-                           <font>
-                              <Font name="Bauhaus 93" size="25.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </StackPane>
-                  <StackPane>
-                     <children>
-                        <Label fx:id="cliente4" text="Label" textFill="#00000093">
-                           <font>
-                              <Font name="Bauhaus 93" size="25.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </StackPane>
-               </children>
-               <padding>
-                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-               </padding>
-            </VBox>
-            <VBox layoutX="174.0" layoutY="175.0" prefHeight="258.0" prefWidth="100.0" spacing="45.0">
-               <children>
-                  <StackPane>
-                     <children>
-                        <Label fx:id="puntaje1" text="Label" textFill="#00000093">
-                           <font>
-                              <Font name="Bauhaus 93" size="25.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </StackPane>
-                  <StackPane>
-                     <children>
-                        <Label fx:id="puntaje2" text="Label" textFill="#00000093">
-                           <font>
-                              <Font name="Bauhaus 93" size="25.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </StackPane>
-                  <StackPane>
-                     <children>
-                        <Label fx:id="puntaje3" text="Label" textFill="#00000093">
-                           <font>
-                              <Font name="Bauhaus 93" size="25.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </StackPane>
-                     <children>
-                        <Label fx:id="puntaje4" text="Label" textFill="#00000093">
-                           <font>
-                              <Font name="Bauhaus 93" size="25.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </StackPane>
-               </children>
-               <padding>
-                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
-               </padding>
-            </VBox>
             <StackPane layoutX="2.0" layoutY="447.0">
                <children>
                   <VBox spacing="10.0">
@@ -238,6 +155,150 @@
                   <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                </padding>
             </StackPane>
+            <VBox layoutX="7.0" layoutY="173.0" prefHeight="262.0" prefWidth="160.0" spacing="45.0">
+               <children>
+                  <StackPane>
+                     <children>
+                        <Label fx:id="cliente1" text="Label">
+                           <font>
+                              <Font name="Bauhaus 93" size="26.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="#000000ea" />
+                                    <Stop color="#00000062" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <StackPane>
+                     <children>
+                        <Label fx:id="cliente2" text="Label">
+                           <font>
+                              <Font name="Bauhaus 93" size="26.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="#000000ea" />
+                                    <Stop color="#00000062" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <StackPane>
+                     <children>
+                        <Label fx:id="cliente3" text="Label">
+                           <font>
+                              <Font name="Bauhaus 93" size="26.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="#000000ea" />
+                                    <Stop color="#00000062" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <StackPane>
+                     <children>
+                        <Label fx:id="cliente4" text="Label">
+                           <font>
+                              <Font name="Bauhaus 93" size="26.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="#000000ea" />
+                                    <Stop color="#00000062" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                     </children>
+                  </StackPane>
+               </children>
+            </VBox>
+            <VBox layoutX="169.0" layoutY="173.0" prefHeight="262.0" prefWidth="112.0" spacing="45.0">
+               <children>
+                  <StackPane>
+                     <children>
+                        <Label fx:id="puntaje1" text="Label">
+                           <font>
+                              <Font name="Bauhaus 93" size="26.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="#5e0303" />
+                                    <Stop color="RED" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <StackPane fx:id="puntaje">
+                     <children>
+                        <Label fx:id="puntaje2" text="Label">
+                           <font>
+                              <Font name="Bauhaus 93" size="26.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="#5e0303" />
+                                    <Stop color="RED" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <StackPane>
+                     <children>
+                        <Label fx:id="puntaje3" text="Label">
+                           <font>
+                              <Font name="Bauhaus 93" size="26.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="#5e0303" />
+                                    <Stop color="RED" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <StackPane>
+                     <children>
+                        <Label fx:id="puntaje4" text="Label">
+                           <font>
+                              <Font name="Bauhaus 93" size="26.0" />
+                           </font>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="#5e0303" />
+                                    <Stop color="RED" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
+                        </Label>
+                     </children>
+                  </StackPane>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </children>
