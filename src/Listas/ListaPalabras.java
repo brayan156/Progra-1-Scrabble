@@ -4,7 +4,7 @@ import sample.Ficha;
 
 public class ListaPalabras {
     int largo;
-    private Nodo<String> head; 
+    Nodo<String> head;
 
     public ListaPalabras() {
         largo=0;
@@ -12,24 +12,14 @@ public class ListaPalabras {
     }
 
     public void addFirst(String e) {
-        Nodo<String> n = new Nodo<String>(e);
-        n.next=this.head;
-        this.head=n;
-        largo+=1;
+        if (e==""){}
+        else {
+            Nodo<String> n = new Nodo<String>(e);
+            n.next = this.head;
+            this.head = n;
+            largo += 1;
+        }
     }
-    
-   public void addLast(String e) 
-   { 
-      if( this.head == null) 
-         addFirst(e); 
-      else 
-      { 
-         Nodo<String> tmp = this.head; 
-         while(tmp.next != null) tmp = tmp.getNext(); 
-         tmp.next = new Nodo<String>(e); 
-      } 
-   } 
-   
     public void eliminar(String palabra){
         if (this.head.getNodo().equals(palabra)){
             this.head=this.head.next;
@@ -87,21 +77,6 @@ public class ListaPalabras {
         }
         return listaFichas;
     }
-    
-   //Takes index as argument and return data at index 
-	public String getNodeinPos(int index) { 
-		Nodo<String> current = this.head;  
-       int count = 0; /* index of Node we are  
-                         currently looking at */ 
-       while (current != null)  
-       { if (count == index) 
-       	return current.getNodo(); 
-       count++; 
-       current = current.next;  
-       }  
-       System.out.println("No existe esta posicion  >"+index); 
-       return null;  
-   }  
     public int sacarpuntaje(){
         int puntaje=0,n=0;
         String palabra;
@@ -117,6 +92,15 @@ public class ListaPalabras {
             n++;
         }
         return puntaje;
+    }
+    public String concatenarpalabras(){
+        int cont=1;
+        String lista=this.buscar(0);
+        while (cont<this.largo){
+            lista+=","+this.buscar(cont);
+            cont++;
+        }
+        return lista;
     }
 }
 

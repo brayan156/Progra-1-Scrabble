@@ -10,7 +10,7 @@ public class Matriz {
     double iniy= 77-width/2;
 
 
-    public void agregar(Ficha img){
+    public void agregar(Ficha img, Listapares pares){
         int contx=0, conty=0;
         double x= inix;
         double y= iniy;
@@ -19,6 +19,7 @@ public class Matriz {
                 while (conty<15){
                     if(img.getY() >= y && img.getY() <=y+41 && (matriz[conty][contx] ==null || matriz[conty][contx]==img)){
                         matriz[conty][contx] = img;
+                        pares.addFirst(new Pares(conty,contx));
                         System.out.println(img.getY());
                         System.out.println(img.getX());
                         System.out.println(matriz[conty][contx].getId()+" guardada en "+conty+","+contx);
@@ -116,4 +117,5 @@ public class Matriz {
             conty = 0;
         }
     }
+
 }

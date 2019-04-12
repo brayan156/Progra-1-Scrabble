@@ -6,6 +6,7 @@ import Circular_Letras.Circular;
 import Listas.ListaCliente;
 import Listas.ListaFichas;
 import Listas.ListaPalabras;
+import Listas.Matrizstring;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,6 @@ import java.net.Socket;
 
 public class Server implements Runnable {
     ObjectMapper objectMapper = new ObjectMapper();
-    private String matriz[][] = new String[15][15];
     public ListaCliente clientesd= new ListaCliente();
     public String clientes[]=new String[2];
     String actcliente;
@@ -27,6 +27,7 @@ public class Server implements Runnable {
     public static Logger log = LoggerFactory.getLogger(Server.class);
     private static Circular<Ficha> BancoFichas = new Circular<Ficha>();
     Generador_Diccionario diccionario= new Generador_Diccionario();
+    Matrizstring matriz=new Matrizstring();
 
 
 
@@ -119,7 +120,7 @@ public class Server implements Runnable {
                 else if (datos.getAccion().equals("Actualizar")){
                     log.debug("se entro a actualizar");
                     datos.setAccion("Cambiar_matriz");
-                    datos.setMatriz(this.matriz);
+                    datos.setMatriz(this.matriz.getMatrizs());
                     DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
                     log.debug("se creo abertura de datos");
                     System.out.println(objectMapper.writeValueAsString(datos));
@@ -137,13 +138,18 @@ public class Server implements Runnable {
                     misocket.close();
                 }
                 else if (datos.getAccion().equals("comprobar")){
-                    ListaPalabras lpal= this.comprobar(datos.getMatriz());
+                    log.debug("entre a comprobar");
+                    matriz.setMatrizs(datos.getMatriz());
+                    ListaPalabras lpal= matriz.Verificar(datos.getListapares());
                     ListaPalabras lpalerroneas= this.diccionario.ListaIncorrecta_P(lpal);
                     if (lpalerroneas.getLargo()==0){
+                        log.debug("se hizo una jugada correcta");
+                        datos.setListafichas(this.completarlista(datos.getListafichas().convertirfichas()));
                         ListaPalabras lpalcorrectas= this.diccionario.ListaCorrecta_P(lpal);
                         clientesd.sumarpuntos(datos.getClient(), lpalcorrectas.sacarpuntaje());
                         datos.setRespueta("jugada_correcta");
                         datos.setListacliente(clientesd);
+                        log.debug("se envia al cliente su jugada correcta");
                         DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
                         datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
                         this.cambiar_cliente();
@@ -152,6 +158,7 @@ public class Server implements Runnable {
                         misocket.close();
                     }
                     else{
+                        log.debug("se hizo una jugada incorrecta");
                         datos.setRespueta("jugada_incorrecta");
                         datos.setListapalabras(lpalerroneas);
                         DataOutputStream datosenvio = new DataOutputStream(misocket.getOutputStream());
@@ -251,6 +258,11 @@ public class Server implements Runnable {
         Thread hilo = new Thread(this);
         hilo.start();
     }
-
+    public String reverse(String palabra) {
+        if (palabra.length() == 1)
+            return palabra;
+        else
+            return reverse(palabra.substring(1))+palabra.charAt(0);
+    }
 
 }

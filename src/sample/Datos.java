@@ -4,6 +4,7 @@ package sample;
 import Listas.ListaCliente;
 import Listas.ListaFichas;
 import Listas.ListaPalabras;
+import Listas.Listapares;
 
 public class Datos {
     private String accion,client,respueta,jugadores = "";
@@ -11,6 +12,7 @@ public class Datos {
     private ListaCliente listacliente=new ListaCliente();
     private ListaPalabras listapalabras= new ListaPalabras();
     private ListaPalabras listafichas=new ListaPalabras();
+    private Listapares listapares=new Listapares();
     private int codigo=-1;
 
 
@@ -85,6 +87,14 @@ public class Datos {
 
     public void setListafichas(ListaPalabras listafichas) {
         this.listafichas = listafichas;
+    }
+
+    public Listapares getListapares() {
+        return listapares;
+    }
+
+    public void setListapares(Listapares listapares) {
+        this.listapares = listapares;
     }
 }
 
