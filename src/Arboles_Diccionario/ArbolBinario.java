@@ -65,7 +65,7 @@ public class ArbolBinario<t extends Comparable<t>>{
 	// Metodo para buscar un dato en el arbol
 	public boolean buscarDato(String dato) {
 		if (this.isComodin(dato)) {return isComodin_aux(dato);}
-		return buscarDato_aux(dato.toLowerCase(),root);
+		return buscarDato_aux(dato.toUpperCase(),root);
 	}	
 	
 	private boolean buscarDato_aux(String dato, NodoArbol<t> temp) {
@@ -101,12 +101,12 @@ public class ArbolBinario<t extends Comparable<t>>{
 		if (this.arrayLetras==null) this.setarraysLetras();
 		for (int i=0; i < this.arrayLetras.size(); i++) { 
 			String incognita = ((String) dato).replace('_', this.arrayLetras.get(i));
-			System.out.println("Palabra  "+incognita);
+//			System.out.println("Palabra  "+incognita);
 			if (this.buscarDato(incognita))
 				return true;
 		} for (int i=0; i < this.arrayStringLetras.size(); i++) {
 			String incognita = ((String) dato).replace("_", this.arrayStringLetras.get(i));
-			System.out.println("Palabra  "+incognita);
+//			System.out.println("Palabra  "+incognita);
 			if (this.buscarDato(incognita))
 				return true;
 		}return false;

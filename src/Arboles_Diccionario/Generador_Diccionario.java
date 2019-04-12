@@ -20,7 +20,7 @@ public class Generador_Diccionario {
 
 			while ((linea=br.readLine())!=null) {
 				linea= eliminador_basura_palabra(linea);//me elimina trash values, para que entre limpio
-				System.out.println(linea);
+//				System.out.println(linea);
 				Datos.insert(linea.toUpperCase());//para que se meta a la lista como en mayuscula
 			}//En mi compu dura como 2 mint
 		}catch(Exception e){
