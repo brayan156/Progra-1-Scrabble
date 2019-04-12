@@ -3,26 +3,15 @@ package Arboles_Diccionario;
 public class mainDiccionario {
 
 	public static void main(String[] args) {
-		ArbolBinario<String> Datos = new ArbolBinario<String>();
-		Datos.insert("hola");
-		Datos.insert("adios");
-		Datos.insert("perro");
-		Datos.insert("calle");
-		Datos.insert("chao");
-		Datos.insert("español");
-		Datos.insert("llave");
-		Datos.insert("carro");
-		Datos.insert("ayer");
+		Generador_Diccionario ejem = new Generador_Diccionario();
+		ejem.Generador_lista_Diccionario();//meto el txt en la lista		
 		
-		System.out.println("Palabra  "+"ca_o  "+Datos.buscarDato("ca_o"));
-		System.out.println("Palabra  "+"pe_o  "+Datos.buscarDato("pe_o"));
-		System.out.println("Palabra  "+"_ave  "+Datos.buscarDato("_ave"));
-		System.out.println("Palabra  "+"ca_e  "+Datos.buscarDato("ca_e"));
-		System.out.println("Palabra  "+"espa_ol  "+Datos.buscarDato("espa_ol"));
-		System.out.println("Palabra  "+"h_la  "+Datos.buscarDato("h_la"));
-		System.out.println("Palabra  "+"_ao  "+Datos.buscarDato("_ao"));
-		System.out.println("Palabra  "+"a_ios  "+Datos.buscarDato("a_ios"));
-		System.out.println("Palabra  "+"ayer_  "+Datos.buscarDato("ayer_"));
+		System.out.println("Palabra  "+"z_zo  "+ejem.Datos.buscarDato("z_zo"));
+		System.out.println("Palabra  "+"bara_o  "+ejem.Datos.buscarDato("bara_o"));
+		System.out.println("Palabra  "+"barati_o  "+ejem.Datos.buscarDato("barati_o"));
+		System.out.println("Palabra  "+"_mpiedoso  "+ejem.Datos.buscarDato("_mpiedoso"));
+		System.out.println("Palabra  "+"espa_ol  "+ejem.Datos.buscarDato("espa_ol"));
+		System.out.println("Palabra  "+"soco_er  "+ejem.Datos.buscarDato("soco_er"));
 		
 	}
 
