@@ -53,7 +53,7 @@ public class Generador_Diccionario {
 			bw = new BufferedWriter(fw);
 			
 			bw.write("\n"+palabra.toUpperCase());//se mete al text
-			Datos.insert(palabra);//se mete a la lista simple
+			Datos.insert(palabra.toUpperCase());//se mete a la lista simple
 		}catch (IOException e) {
 			e.printStackTrace();
 		}finally {
