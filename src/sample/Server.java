@@ -12,14 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server implements Runnable {
     ObjectMapper objectMapper = new ObjectMapper();
-    public ListaCliente clientesd= new ListaCliente();
-    public String clientes[]=new String[2];
+    public ListaCliente clientes = new ListaCliente();
     String actcliente;
     String sigcliente, tmpcliente;
     int codigo=-1;
@@ -40,28 +38,18 @@ public class Server implements Runnable {
         if (tmpcliente.equals(actcliente)){
             recorrido=2;
         }
-        actcliente=clientesd.buscar(cont).getNombre();
-        if (cont+1==clientesd.getLargo()){
+        actcliente= clientes.buscar(cont).getNombre();
+        if (cont+1== clientes.getLargo()){
             cont=0;
-            sigcliente=clientesd.buscar(cont).getNombre();
+            sigcliente= clientes.buscar(cont).getNombre();
         }
         else{
             cont++;
-            sigcliente=clientesd.buscar(cont).getNombre();
+            sigcliente= clientes.buscar(cont).getNombre();
         }
     }
-    public ListaPalabras completarlista (ListaFichas fichas){
-        while (fichas.getLargo()<7){
-            if (BancoFichas.getSize()!=0) {
-                fichas.addFirst(BancoFichas.getRandomNode());
-                System.out.println(fichas.getLargo());
-                System.out.println(fichas.buscar(0).getLetra());
-            }
-            else{break;}
-        }
-        return fichas.convertirstrings();
-    }
-    public ListaPalabras comprobar(String[][] matriz){return new ListaPalabras();}
+
+
 
 
     @Override
@@ -121,6 +109,7 @@ public class Server implements Runnable {
                     log.debug("se entro a actualizar");
                     datos.setAccion("Cambiar_matriz");
                     datos.setMatriz(this.matriz.getMatrizs());
+                    datos.setListacliente(clientes);
                     DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
                     log.debug("se creo abertura de datos");
                     System.out.println(objectMapper.writeValueAsString(datos));
@@ -144,11 +133,11 @@ public class Server implements Runnable {
                     ListaPalabras lpalerroneas= this.diccionario.ListaIncorrecta_P(lpal);
                     if (lpalerroneas.getLargo()==0){
                         log.debug("se hizo una jugada correcta");
-                        datos.setListafichas(this.completarlista(datos.getListafichas().convertirfichas()));
+                        datos.setListafichas(BancoFichas.completarlista(datos.getListafichas().convertirfichas()));
                         ListaPalabras lpalcorrectas= this.diccionario.ListaCorrecta_P(lpal);
-                        clientesd.sumarpuntos(datos.getClient(), lpalcorrectas.sacarpuntaje());
+                        clientes.sumarpuntos(datos.getClient(), lpalcorrectas.sacarpuntaje());
                         datos.setRespueta("jugada_correcta");
-                        datos.setListacliente(clientesd);
+                        System.out.println(objectMapper.writeValueAsString(clientes));
                         log.debug("se envia al cliente su jugada correcta");
                         DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
                         datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
@@ -173,11 +162,11 @@ public class Server implements Runnable {
                     codigo = (int) Math.floor(Math.random()*1000000);
                     datos.setRespueta("codigo_enviado");
                     datos.setCodigo(codigo);
-                    datos.setListafichas(this.completarlista(new ListaFichas()));
+                    datos.setListafichas(BancoFichas.completarlista(new ListaFichas()));
                     cantjugadores= Integer.parseInt(datos.getJugadores().substring(datos.getJugadores().length()-1));
-                    clientesd.addLast(new Cliente(datos.getClient()));
+                    clientes.addLast(new Cliente(datos.getClient()));
                     System.out.println("cantidad de jugadores:"+cantjugadores);
-                    System.out.println("cliente añadido:"+clientesd.buscar(clientesd.getLargo()-1).getNombre());
+                    System.out.println("cliente añadido:"+ clientes.buscar(clientes.getLargo()-1).getNombre());
                     DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
                     datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
                     datosenvio.close();
@@ -203,7 +192,7 @@ public class Server implements Runnable {
                         misocket.close();
 
                     }
-                    else if (cantjugadores==clientesd.getLargo()){
+                    else if (cantjugadores== clientes.getLargo()){
                         datos.setRespueta("Partida_llena");
                         DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
                         datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
@@ -213,12 +202,12 @@ public class Server implements Runnable {
                     else {
                         if (datos.getCodigo() == codigo) {
                             datos.setRespueta("Codigo Correcto");
-                            clientesd.addLast(new Cliente(datos.getClient()));
-                            datos.setListafichas(this.completarlista(new ListaFichas()));
-                            if (clientesd.getLargo()==cantjugadores){
-                                actcliente=clientesd.buscar(0).getNombre();
+                            clientes.addLast(new Cliente(datos.getClient()));
+                            datos.setListafichas(BancoFichas.completarlista(new ListaFichas()));
+                            if (clientes.getLargo()==cantjugadores){
+                                actcliente= clientes.buscar(0).getNombre();
                                 System.out.println(actcliente);
-                                sigcliente=clientesd.buscar(1).getNombre();
+                                sigcliente= clientes.buscar(1).getNombre();
                                 System.out.println(sigcliente);
                                 cont=1;
                                 recorrido=2;
@@ -258,11 +247,6 @@ public class Server implements Runnable {
         Thread hilo = new Thread(this);
         hilo.start();
     }
-    public String reverse(String palabra) {
-        if (palabra.length() == 1)
-            return palabra;
-        else
-            return reverse(palabra.substring(1))+palabra.charAt(0);
-    }
+
 
 }

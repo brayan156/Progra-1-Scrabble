@@ -15,6 +15,7 @@ public class ListaPalabras {
         if (e==""){}
         else {
             Nodo<String> n = new Nodo<String>(e);
+            System.out.println("se anadio "+n.getNodo());
             n.next = this.head;
             this.head = n;
             largo += 1;

@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="juegopane" prefHeight="754.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane fx:id="juegopane" prefHeight="754.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <ImageView fitWidth="595.0" layoutX="154.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -287,7 +287,7 @@
                               <Insets />
                            </VBox.margin>
                         </Button>
-                        <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#suministrar" prefHeight="65.0" prefWidth="130.0" text="Shuffle" textAlignment="CENTER">
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="65.0" prefWidth="130.0" text="Shuffle" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold Italic" size="15.0" />
                            </font>

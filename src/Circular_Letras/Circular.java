@@ -3,6 +3,9 @@ package Circular_Letras;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import Listas.ListaFichas;
+import Listas.ListaPalabras;
 import sample.Ficha;
 
 public class Circular<T>{
@@ -203,6 +206,19 @@ public class Circular<T>{
 
 		}return ficha;
 	}
+
+	public ListaPalabras completarlista (ListaFichas fichas){
+		while (fichas.getLargo()<7){
+			if (this.getSize()!=0) {
+				fichas.addFirst(this.getRandomNode());
+				System.out.println(fichas.getLargo());
+				System.out.println(fichas.buscar(0).getLetra());
+			}
+			else{break;}
+		}
+		return fichas.convertirstrings();
+	}
+
 
 	//SETS && GETS.
 	public NodeLetter getFirst() {

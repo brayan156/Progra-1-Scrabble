@@ -2,7 +2,6 @@ package sample;
 
 
 import Listas.ListaCliente;
-import Listas.ListaFichas;
 import Listas.ListaPalabras;
 import Listas.Listapares;
 

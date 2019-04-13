@@ -10,7 +10,7 @@ public class Matriz {
     double iniy= 77-width/2;
 
 
-    public void agregar(Ficha img, Listapares pares){
+    public void agregar(Ficha img, Listapares pares, ListaFichas listaFichas){
         int contx=0, conty=0;
         double x= inix;
         double y= iniy;
@@ -33,6 +33,7 @@ public class Matriz {
                     else if(img.getY() >= y && img.getY() <=y+41 && matriz[conty][contx] !=null){
                         img.setY(img.getPosy());
                         img.setX(img.getPosx());
+                        listaFichas.addFirst(img);
                         break;
                     }
                     else{

@@ -3,9 +3,13 @@ package Listas;
 import sample.Cliente;
 
 public class ListaCliente{
-    int largo=0;
-    Nodo<Cliente> head= null;
+    public int largo=0;
+    public Nodo<Cliente> head= null;
 
+    public ListaCliente() {
+        this.largo = 0;
+        this.head = null;
+    }
 
     public void addLast (Cliente e){
         if (this.head==null){
@@ -22,11 +26,14 @@ public class ListaCliente{
         }
     }
     public Cliente buscar (int n){
-        Nodo<Cliente>tmp=this.head;
+        System.out.println(n);
+        Nodo<Cliente> tmp=this.head;
         while (n>0){
             tmp=tmp.next;
             n--;
         }
+        System.out.println("voy a retornar nodo");
+        System.out.println(tmp.getNodo().getPuntaje());
         return tmp.getNodo();
     }
 
@@ -72,7 +79,9 @@ public class ListaCliente{
         while(n<this.largo){
             Cliente client= this.buscar(n);
             if (client.getNombre().equals(cliente)){
+                System.out.println("voy a aumetar el pntaje");
                 client.setPuntaje(client.getPuntaje()+puntos);
+                System.out.println(client.getPuntaje()+puntos);
                 break;
             }
             else {n++;}
@@ -88,11 +97,11 @@ public class ListaCliente{
         this.largo = largo;
     }
 
-    public Nodo getHead() {
+    public Nodo<Cliente> getHead() {
         return head;
     }
 
-    public void setHead(Nodo head) {
+    public void setHead(Nodo<Cliente> head) {
         this.head = head;
     }
 }

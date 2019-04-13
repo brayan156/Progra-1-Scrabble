@@ -175,7 +175,7 @@ public class UI_inicial extends Application{
 					loader = new FXMLLoader(getClass().getResource("Sample.fxml"));
 					root=loader.load();
 					Controller controller= loader.getController();
-					controller.poner_nombre(nombre);
+					controller.enviar_propiedades(nombre);
 					controller.pintarfichas(datosrecibidos.getListafichas().convertirfichas());
 					controller.espera();
 					secondStage.setTitle("Scrabble");
@@ -240,7 +240,7 @@ public class UI_inicial extends Application{
 					loader = new FXMLLoader(getClass().getResource("Sample.fxml"));
 					root=loader.load();
 					Controller controller= loader.getController();
-					controller.poner_nombre(nombre);
+					controller.enviar_propiedades(nombre);
 					controller.pintarfichas(datosrecibidos.getListafichas().convertirfichas());
 					controller.espera();
 					secondStage.setTitle("Scrabble");

@@ -32,7 +32,6 @@ public class Controller {
     private Double orgSceneX;
     private Double orgSceneY;
     public  Matriz matriz= new Matriz();
-    @FXML public TextField nombrefield;
     public Datos datos= new Datos();
     @FXML private Label labelturno=new Label();
     ObjectMapper objectMapper=new ObjectMapper();
@@ -42,8 +41,8 @@ public class Controller {
 
 
     //BOX Estadisticas Puntajes
-    @FXML public Label cliente1,cliente2,cliente3,cliente4,
-            puntaje1,puntaje2,puntaje3,puntaje4 = new Label();
+    @FXML public Label cliente1= new Label(),cliente2= new Label(),cliente3= new Label(),cliente4= new Label();
+    @FXML public Label puntaje1= new Label(),puntaje2= new Label(),puntaje3= new Label(),puntaje4 = new Label();
 
 
 //    //BOX Suministrar ATRIBUTOS
@@ -57,7 +56,7 @@ public class Controller {
 
 
 
-    public void poner_nombre(String nombre) {
+    public void enviar_propiedades(String nombre) {
         System.out.println(nombre);
         // aqui llamar a la clase UI_inicial, para sacar el atributo del nombre del jugador
         datos.setClient(nombre);//aqui lo pone
@@ -158,8 +157,6 @@ public class Controller {
 
 
 
-
-
     public void espera() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<String> future = executor.submit(new Turno(datos));
@@ -206,6 +203,40 @@ public class Controller {
             log.debug("se creo objeto");
             matriz.agregar(datosrecibidos.getMatriz(), juegopane);
             System.out.println(objectMapper.writeValueAsString(datosrecibidos));
+            //aqui va la actualizacion del puntaje.
+            int indice = 0;
+            int puntaje=0;
+            ListaCliente clienteypuntaje = datosrecibidos.getListacliente();
+            //ordenar por puntaje
+            System.out.println(objectMapper.writeValueAsString(clienteypuntaje));
+            while (indice != clienteypuntaje.getLargo()) {
+                log.debug("procede a cambiar labels");
+                if (indice==0) {
+                    System.out.println("escribiendo label 1");
+                    puntaje = clienteypuntaje.buscar(indice).getPuntaje();
+                    log.debug("saco el puntaje");
+                    this.cliente1.setText(clienteypuntaje.buscar(indice).getNombre());
+                    this.puntaje1.setText(Integer.toString(puntaje));
+                }
+                else if(indice==1) {
+                    System.out.println("escribiendo label 2");
+                    puntaje = clienteypuntaje.buscar(indice).getPuntaje();
+                    this.cliente2.setText(clienteypuntaje.buscar(indice).getNombre());
+                    this.puntaje2.setText(Integer.toString(puntaje));
+                }
+                else if(indice==2) {
+                    System.out.println("escribiendo label 3");
+                    puntaje = clienteypuntaje.buscar(indice).getPuntaje();
+                    this.cliente3.setText(clienteypuntaje.buscar(indice).getNombre());
+                    this.puntaje3.setText(Integer.toString(puntaje));
+                }
+                else if(indice==3) {
+                    System.out.println("escribiendo label 4");
+                    puntaje = clienteypuntaje.buscar(indice).getPuntaje();
+                    this.cliente4.setText(clienteypuntaje.buscar(indice).getNombre());
+                    this.puntaje4.setText(Integer.toString(puntaje));
+                } indice++;
+            }
             labelturno.setText("On Hold");
             datosenvio.close();
             client.close();
@@ -265,34 +296,6 @@ public class Controller {
                         datosrecibidos.setListacliente(datosrecibidos.getListacliente());
                         this.pintarfichas(datosrecibidos.getListafichas().convertirfichas());//se manda a pintar la lista de fichas que envia el server ya completa
                         listapares.limpiar();
-                        //aqui va la actualizacion del puntaje.
-                        int indice = 0;
-                        int puntaje;
-                        ListaCliente clienteypuntaje = datosrecibidos.getListacliente();
-                        //ordenar por puntaje
-                        clienteypuntaje.bubbleSort();
-                        while (indice != clienteypuntaje.getLargo()) {
-                            if (indice==0) {
-                                puntaje = clienteypuntaje.buscar(indice).getPuntaje();
-                                this.cliente1.setText(clienteypuntaje.buscar(indice).getNombre());
-                                this.puntaje1.setText(Integer.toString(puntaje));
-                            }
-                            else if(indice==1) {
-                                puntaje = clienteypuntaje.buscar(indice).getPuntaje();
-                                this.cliente2.setText(clienteypuntaje.buscar(indice).getNombre());
-                                this.puntaje2.setText(Integer.toString(puntaje));
-                            }
-                            else if(indice==2) {
-                                puntaje = clienteypuntaje.buscar(indice).getPuntaje();
-                                this.cliente3.setText(clienteypuntaje.buscar(indice).getNombre());
-                                this.puntaje3.setText(Integer.toString(puntaje));
-                            }
-                            else if(indice==3) {
-                                puntaje = clienteypuntaje.buscar(indice).getPuntaje();
-                                this.cliente4.setText(clienteypuntaje.buscar(indice).getNombre());
-                                this.puntaje4.setText(Integer.toString(puntaje));
-                            } indice++;
-                        }
                         labelturno.setText("On Hold");
                         datosenvio.close();
                         client.close();
@@ -403,11 +406,11 @@ public class Controller {
                 if (!labelturno.getText().equals("On Hold")) {
                     Ficha img = (Ficha) (t.getSource());
                     if (img.getX() >= 5 - img.getFitWidth() / 2 && img.getX() <= 5 - img.getFitWidth() / 2 + 15 * img.getFitWidth() && img.getY() >= 77 - img.getFitHeight() / 2 && img.getY() <= 77 - img.getFitHeight() / 2 + 15 * img.getFitHeight())
-                        matriz.agregar(img,listapares);
+                        matriz.agregar(img,listapares,listaFichas);
                     else {
                         img.setY(img.getPosy());
                         img.setX(img.getPosx());
-                        listaFichas.addLast(img);
+                        listaFichas.addFirst(img);
                     }
                 }
             };

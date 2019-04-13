@@ -1,8 +1,8 @@
 package sample;
 
 public class Cliente {
-    private String nombre;
-    private int puntaje;
+    public String nombre="";
+    public int puntaje=0;
 
     public Cliente(String nombre) {
         this.nombre = nombre;

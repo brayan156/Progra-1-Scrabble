@@ -55,9 +55,9 @@ public class Generador_Diccionario {
 			
 			bw.write("\n"+palabra.toUpperCase());//se mete al text
 			
-			linea= eliminador_basura_palabra(linea);//me elimina trash values, para que entre limpio
+			String linea= eliminador_basura_palabra(palabra);//me elimina trash values, para que entre limpio
 			linea=sin_tilde(linea);//Le quita las tildes
-			Datos.insert(palabra.toUpperCase());//se mete a la lista simple
+			Datos.insert(linea.toUpperCase());//se mete a la lista simple
 		}catch (IOException e) {
 			e.printStackTrace();
 		}finally {
