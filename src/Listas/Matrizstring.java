@@ -86,32 +86,6 @@ public class Matrizstring {
         int r=pares.buscar(cont).getR();
         int c=pares.buscar(cont).getC();
         ListaPalabras palabras= new ListaPalabras();
-        while (cont<pares.largo){
-            int cond=0;
-            int y=pares.buscar(cont).getR();
-            int x=pares.buscar(cont).getC();
-            if (y==14){cond+=1;}
-            else{
-                if (matrizs[y+1][x]==null){cond+=1;}
-            }
-            if (y==0){cond+=1;}
-            else{
-                if (matrizs[y-1][x]==null){cond+=1;}
-            }
-            if (x==14){cond+=1;}
-            else{
-                if (matrizs[y][x+1]==null){cond+=1;}
-            }
-            if (x==0){cond+=1;}
-            else{
-                if (matrizs[y][x-1]==null){cond+=1;}
-            }
-            if (cond==4){ palabras.addFirst(matrizs[y][x]);}
-            System.out.println("la suma fue "+cond);
-            System.out.println("la letra es "+matrizs[y][x]);
-            cont++;
-        }
-        cont=0;
         if (pares.getLargo()==1){
             String palhor=this.recorrerhorizontal(r,c);
             String palver=this.recorrervertical(r,c);
