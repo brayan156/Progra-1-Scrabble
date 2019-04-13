@@ -18,7 +18,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +69,7 @@ public class Controller {
                     if (future.isDone()) {
                     String resp= future.get();
                     log.debug("future terminÃ³");
-                    if (resp.contains("Tu_turno")){
+                    if (resp.contains("Your Turn")){
                         log.debug("turno del cliente");
                         log.debug("se va a cambiar label");
                         labelturno.setText(resp);
@@ -90,7 +89,7 @@ public class Controller {
         };
         timer.start();
     }
-
+//actualizar cambia los labels de los puntajes y actualiza la matriz tambien es la que llama a finalizar si el juego terminó
     public void actualizar(){
         try {
             log.debug("se llego a actualizar");
@@ -116,10 +115,10 @@ public class Controller {
             datosenvio.close();
             client.close();
             if (datosrecibidos.getRespueta().equals("fin del juego")){
-                finalizar(clienteypuntaje.buscar(0).getNombre());
+                finalizar(clienteypuntaje.buscar(clienteypuntaje.getLargo()-1).getNombre());
             }
             else {
-                while (indice != clienteypuntaje.getLargo()) {
+                while (indice != clienteypuntaje.getLargo()) {//cambia los labels de los puntajes
                     log.debug("procede a cambiar labels");
                     if (indice == 0) {
                         System.out.println("escribiendo label 1");
@@ -153,7 +152,7 @@ public class Controller {
 
     }
 
-    public void finalizar(String cliente) {
+    public void finalizar(String cliente) {//cambia a la pantalla de fin del juego
         try {
             Stage secondstage = new Stage();
             Parent root;
@@ -174,12 +173,13 @@ public class Controller {
     }
 
 
-    public void pasar_turno(){
+    public void pasar_turno(){//pasar turno sin realizar jugada
 
         try {
             if (!labelturno.getText().equals("On Hold")) {
                 datos.setAccion("Pasar");
                 this.matriz.reordenar(listaFichas);
+                listapares.limpiar();
                 Socket client = new Socket(InetAddress.getLocalHost(), datos.getID());
                 log.debug("se conecto");
                 DataOutputStream datosenvio = new DataOutputStream(client.getOutputStream());
@@ -196,7 +196,7 @@ public class Controller {
 
     }
 
-    public void comprobar(){
+    public void comprobar(){//comprobar sirve para cuando uno finaliza el turno con una jugada
         try {
             if (!labelturno.getText().equals("On Hold")) {
                 if (listaFichas.getLargo() == 7) {
@@ -218,7 +218,7 @@ public class Controller {
                     alert.showAndWait();
                 }
                 else {
-                    datos.setAccion("comprobar");
+                    datos.setAccion("comprobar");//aqui entrada si no hay restricciones anteriores incumplidas y manda a verificar la jugada
                     datos.setMatriz(matriz.convertir());
                     datos.setListacliente(datos.getListacliente());
                     datos.setListafichas(listaFichas.convertirstrings());//se envia la lista de fichas que no han sido usadas
@@ -231,7 +231,7 @@ public class Controller {
                     log.debug("entrada se conecto");
                     Datos datosrecibidos = objectMapper.readValue(datosentrada.readUTF(), Datos.class);
                     log.debug("se creo objeto");
-                    if (datosrecibidos.getRespueta().equals("jugada_correcta")) {
+                    if (datosrecibidos.getRespueta().equals("jugada_correcta")) {// si toda la jugada es correcta cede el turno al siguiente y se conecta a esperar su siguiente turno
                         datosrecibidos.setListacliente(datosrecibidos.getListacliente());
                         this.pintarfichas(datosrecibidos.getListafichas().convertirfichas());//se manda a pintar la lista de fichas que envia el server ya completa
                         listapares.limpiar();
@@ -244,9 +244,9 @@ public class Controller {
                         client.close();
                         log.debug("se ha insertado palabras incorrectas");
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Palbras incorrectas");
+                        alert.setTitle("Palabras incorrectas");
                         String palabraserrones=datosrecibidos.getListapalabras().concatenarpalabras();
-                        alert.setContentText("las siguientes palabras con incorrectas"+palabraserrones);
+                        alert.setContentText("Las siguientes palabras con incorrectas :"+palabraserrones);//se muestra al jugador las palabras incorrectas para que pueda cambiarlas
                         alert.showAndWait();
                     }
                 }
@@ -290,21 +290,7 @@ public class Controller {
         this.listaFichas=fichas;
     }
 
-    public void clickon() {
-        log.debug("si clickeaste compa");
-        Ficha img = new Ficha(100,480,"Castillo1");
-        img.crearimagen();
-        img.setFitHeight(30);
-        img.setFitWidth(30);
-        img.setId("Imagen");
-        String ID = img.getId();
-        System.out.println(ID);
-        this.juegopane.getChildren().add(img);
-        img.setOnMousePressed(pressear);
-        img.setOnMouseDragged(draggear);
-        img.setOnMouseReleased(quitarclick);
-        System.out.println(img.getLetra());
-    }
+
 
 
     

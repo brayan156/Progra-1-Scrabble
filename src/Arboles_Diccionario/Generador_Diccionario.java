@@ -21,7 +21,7 @@ public class Generador_Diccionario {
 			while ((linea=br.readLine())!=null) {
 				linea= eliminador_basura_palabra(linea);//me elimina trash values, para que entre limpio
 //				System.out.println(linea);
-				linea=sin_tilde(linea);//Le quita las tildes
+//				linea=sin_tilde(linea);//Le quita las tildes
 				System.out.println(linea);
 				Datos.insert(linea.toUpperCase());//para que se meta a la lista como en mayuscula
 			}//En mi compu dura como 2 mint
@@ -57,7 +57,7 @@ public class Generador_Diccionario {
 			bw.write("\n"+palabra.toUpperCase());//se mete al text
 			
 			String linea= eliminador_basura_palabra(palabra);//me elimina trash values, para que entre limpio
-			linea=sin_tilde(linea);//Le quita las tildes
+//			linea=sin_tilde(linea);//Le quita las tildes
 			Datos.insert(linea.toUpperCase());//se mete a la lista simple
 		}catch (IOException e) {
 			e.printStackTrace();

@@ -80,7 +80,7 @@ public class Matrizstring {
 
 
 
-    public ListaPalabras Verificar(Listapares pares){
+    public ListaPalabras Verificar(Listapares pares){//recibe conjuntos de pares de posciones en la matriz y manda a crear las palabras nuevas que hizo el jugador
         System.out.println("voy a crear palabras");
         int cont=0;
         int r=pares.buscar(cont).getR();

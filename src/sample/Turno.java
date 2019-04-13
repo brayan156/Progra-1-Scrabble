@@ -10,7 +10,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.concurrent.Callable;
 
-public class Turno implements Callable<String> {
+public class Turno implements Callable<String> {//este callable sirve para que pueda retornar algo cuando el hilo termina y asi se sepa cuando se recibió respuesta del server en el juego
     public static Logger log = LoggerFactory.getLogger(Turno.class);
     private boolean espera=true;
     private Datos datos;

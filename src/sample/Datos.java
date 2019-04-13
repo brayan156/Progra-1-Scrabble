@@ -5,7 +5,7 @@ import Listas.ListaCliente;
 import Listas.ListaPalabras;
 import Listas.Listapares;
 
-public class Datos {
+public class Datos {//esta clase es usada como el contenedor de datos para poder comunicarse por json de manera sencilla y que se envie toda la informacion necesaria
     private String accion,client,respueta,jugadores = "";
     private String matriz[][]=new String[15][15];
     private ListaCliente listacliente=new ListaCliente();

@@ -10,7 +10,7 @@ public class Matriz {
     double iniy= 77-width/2;
 
 
-    public void agregar(Ficha img, Listapares pares, ListaFichas listaFichas){
+    public void agregar(Ficha img, Listapares pares, ListaFichas listaFichas){//agrega individualmente cada ficha que se coloque en el area de la matriz
         int contx=0, conty=0;
         double x= inix;
         double y= iniy;
@@ -50,7 +50,7 @@ public class Matriz {
             }
         }
     }
-    public void agregar(String[][] matriz, AnchorPane pane) {
+    public void agregar(String[][] matriz, AnchorPane pane) {//agrega las fichas faltantes a la matriz y ancla las fichas al pane para que no puedan volver a ser movidas
         System.out.println("al menos entre aca");
         int contx = 0, conty = 0;
         while (contx < 15) {
@@ -84,7 +84,7 @@ public class Matriz {
 
         }
     }
-    public String[][] convertir() {
+    public String[][] convertir() {//convierte la matriz a una matriz de strings para poder ser enviada por json
         String[][] matrizstr = new String[15][15];
         int contx = 0, conty = 0;
         while (contx < 15) {
@@ -101,7 +101,7 @@ public class Matriz {
         }
         return matrizstr;
     }
-    public void reordenar(ListaFichas listaFichas){
+    public void reordenar(ListaFichas listaFichas){//quita las fichas que no pertenezcan a la matriz global y las vuelve a colocar en su sitio
         int contx = 0, conty = 0;
         while (contx < 15) {
             while (conty < 15) {
@@ -118,7 +118,7 @@ public class Matriz {
             conty = 0;
         }
     }
-    public Boolean verificarsoledad(Listapares pares){
+    public Boolean verificarsoledad(Listapares pares){//ve si una ficha esta sola
         Boolean sola=false;
         int cont=0;
         while (cont<pares.largo){
