@@ -118,5 +118,34 @@ public class Matriz {
             conty = 0;
         }
     }
+    public Boolean verificarsoledad(Listapares pares){
+        Boolean sola=false;
+        int cont=0;
+        while (cont<pares.largo){
+            int cond=0;
+            int y=pares.buscar(cont).getR();
+            int x=pares.buscar(cont).getC();
+            if (y==14){cond+=1;}
+            else{
+                if (matriz[y+1][x]==null){cond+=1;}
+            }
+            if (y==0){cond+=1;}
+            else{
+                if (matriz[y-1][x]==null){cond+=1;}
+            }
+            if (x==14){cond+=1;}
+            else{
+                if (matriz[y][x+1]==null){cond+=1;}
+            }
+            if (x==0){cond+=1;}
+            else{
+                if (matriz[y][x-1]==null){cond+=1;}
+            }
+            if (cond==4){ sola=true;}
+            System.out.println("la suma fue "+cond);
+            cont++;
+        }
+        return sola;
+    }
 
 }

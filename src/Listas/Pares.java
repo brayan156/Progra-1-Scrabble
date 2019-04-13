@@ -12,6 +12,7 @@ public class Pares {
     public Pares() {
     }
 
+
     public int getR() {
         return r;
     }
