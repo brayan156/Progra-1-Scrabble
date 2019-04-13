@@ -13,6 +13,8 @@ public class Datos {
     private ListaPalabras listafichas=new ListaPalabras();
     private Listapares listapares=new Listapares();
     private int codigo=-1;
+	private String ip;
+	private int id, tel;
 
 
 
@@ -95,5 +97,30 @@ public class Datos {
     public void setListapares(Listapares listapares) {
         this.listapares = listapares;
     }
+
+	public String getIP() {
+		return ip;
+	}
+
+	public void setIP(String ip) {
+		this.ip = ip;
+	}
+
+	public int getID() {
+		return id;
+	}
+
+	public void setID(int id) {
+		this.id = id;
+	}
+
+	public int getTel() {
+		return tel;
+	}
+
+	public void setTel(int tel) {
+		this.tel = tel;
+	}
+
 }
 

@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="juegopane" prefHeight="754.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane fx:id="juegopane" prefHeight="754.0" prefWidth="867.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <ImageView fitWidth="595.0" layoutX="154.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -75,12 +75,15 @@
                   <ColorAdjust contrast="-1.0" />
                </effect>
             </GridPane>
-            <TextField fx:id="comprobacionfield" layoutX="320.0" layoutY="625.0" prefHeight="41.0" promptText="digite palabra">
+            <TextField fx:id="comprobacionfield" layoutX="320.0" layoutY="625.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="41.0" promptText="   username">
                <padding>
                   <Insets bottom="3.0" />
                </padding>
+               <opaqueInsets>
+                  <Insets left="5.0" />
+               </opaqueInsets>
             </TextField>
-            <ImageView fitHeight="25.0" fitWidth="313.0" layoutY="645.0" pickOnBounds="true">
+            <ImageView fitHeight="25.0" fitWidth="306.0" layoutY="645.0" pickOnBounds="true">
                <image>
                   <Image url="@../Media/boxreddy.jpg" />
                </image>
@@ -135,7 +138,7 @@
                <children>
                   <StackPane>
                      <children>
-                        <Label fx:id="cliente1" text="Label">
+                        <Label fx:id="cliente1">
                            <font>
                               <Font name="Bauhaus 93" size="26.0" />
                            </font>
@@ -152,7 +155,7 @@
                   </StackPane>
                   <StackPane>
                      <children>
-                        <Label fx:id="cliente2" text="Label">
+                        <Label fx:id="cliente2">
                            <font>
                               <Font name="Bauhaus 93" size="26.0" />
                            </font>
@@ -169,7 +172,7 @@
                   </StackPane>
                   <StackPane>
                      <children>
-                        <Label fx:id="cliente3" text="Label">
+                        <Label fx:id="cliente3">
                            <font>
                               <Font name="Bauhaus 93" size="26.0" />
                            </font>
@@ -186,7 +189,7 @@
                   </StackPane>
                   <StackPane>
                      <children>
-                        <Label fx:id="cliente4" text="Label">
+                        <Label fx:id="cliente4">
                            <font>
                               <Font name="Bauhaus 93" size="26.0" />
                            </font>
@@ -207,7 +210,7 @@
                <children>
                   <StackPane>
                      <children>
-                        <Label fx:id="puntaje1" text="Label">
+                        <Label fx:id="puntaje1">
                            <font>
                               <Font name="Bauhaus 93" size="26.0" />
                            </font>
@@ -224,7 +227,7 @@
                   </StackPane>
                   <StackPane>
                      <children>
-                        <Label fx:id="puntaje2" text="Label">
+                        <Label fx:id="puntaje2">
                            <font>
                               <Font name="Bauhaus 93" size="26.0" />
                            </font>
@@ -241,7 +244,7 @@
                   </StackPane>
                   <StackPane>
                      <children>
-                        <Label fx:id="puntaje3" text="Label">
+                        <Label fx:id="puntaje3">
                            <font>
                               <Font name="Bauhaus 93" size="26.0" />
                            </font>
@@ -258,7 +261,7 @@
                   </StackPane>
                   <StackPane>
                      <children>
-                        <Label fx:id="puntaje4" text="Label">
+                        <Label fx:id="puntaje4">
                            <font>
                               <Font name="Bauhaus 93" size="26.0" />
                            </font>
@@ -275,30 +278,38 @@
                   </StackPane>
                </children>
             </VBox>
-            <StackPane layoutX="2.0" layoutY="447.0">
+            <StackPane alignment="BASELINE_LEFT" layoutY="440.0" prefHeight="235.0" prefWidth="280.0">
                <children>
-                  <VBox spacing="10.0">
+                  <VBox alignment="CENTER" spacing="7.0">
                      <children>
-                        <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#comprobar" prefHeight="65.0" prefWidth="130.0" text="Check" textAlignment="CENTER">
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#comprobar" prefHeight="75.0" prefWidth="215.0" text="Check" textAlignment="CENTER" textFill="#b9b9b9">
                            <font>
-                              <Font name="System Bold Italic" size="15.0" />
+                              <Font name="Berlin Sans FB Bold" size="30.0" />
                            </font>
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </Button>
-                        <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="65.0" prefWidth="130.0" text="Shuffle" textAlignment="CENTER">
+                        <Button contentDisplay="CENTER" disable="true" mnemonicParsing="false" prefHeight="75.0" prefWidth="215.0" text="Shuffle" textAlignment="CENTER" textFill="#b9b9b9">
                            <font>
-                              <Font name="System Bold Italic" size="15.0" />
+                              <Font name="Berlin Sans FB Bold" size="30.0" />
                            </font>
                         </Button>
-                        <Button fx:id="pasar" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pasar_turno" prefHeight="65.0" prefWidth="130.0" text="Pass" textAlignment="CENTER">
+                        <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#pasar_turno" prefHeight="75.0" prefWidth="215.0" text="SCRABBLE!" textAlignment="CENTER" wrapText="true">
                            <font>
-                              <Font name="System Bold Italic" size="15.0" />
+                              <Font name="Berlin Sans FB Bold" size="30.0" />
                            </font>
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop color="RED" />
+                                    <Stop color="#6b0a0a" offset="1.0" />
+                                 </stops>
+                              </LinearGradient>
+                           </textFill>
                         </Button>
                      </children>
                   </VBox>

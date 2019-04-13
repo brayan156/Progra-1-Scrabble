@@ -24,43 +24,64 @@ import org.slf4j.LoggerFactory;
 public class UI_inicial extends Application{
 	static public String nombre;
 	private TextField caja_nombre, caja_codigo;
-	private ChoiceBox Cjugadores;
+	private ChoiceBox<String> Cjugadores;
 	ObjectMapper objectMapper=new ObjectMapper();
 	public static Logger log = LoggerFactory.getLogger(UI_inicial.class);
+	
+	public ReadPropertyFile prop = new ReadPropertyFile();
+	private int id, tel;
+	private String ip;
+	
 	public static void main(String[] args){
 		// me inicia la aplicacion de la UI
 		launch(args);
 	}
+	
+	//metodo para obtener del property el dato guardado con ese key
+	public String getPropertyKey(String key) {
+		return ReadPropertyFile.main(key);
+	}
+	private int convertPropertyToInt(String key) {
+		return Integer.parseInt(key);	
+	}
 	@Override
-	public void start(Stage primaryStage) throws Exception {	
+	public void start(Stage primaryStage) throws Exception {
+		//cargar settings del property.
+		this.ip  = this.getPropertyKey("ip");
+		String id = this.getPropertyKey("id");
+		this.id = this.convertPropertyToInt(id);
+		String tel = this.getPropertyKey("tel");
+		this.tel = this.convertPropertyToInt(tel);
+		
+		//sigue lo demás de interfaz.
 		final StackPane layout1 = new StackPane();//metemos los elementos de la intefaz en un layout para meterlos de una al escenario
 		Scene scene1=new Scene(layout1, 1000, 650);// el orden de ingreso, importa para la colocacion de los botones,labels...
 		
-		final Image rutaIF = new Image("file:src/Media/fondo1.jpg");
+		final Image rutaIF = new Image("file:src/Media/fondo3.jpg");
 		ImageView imagen_Fondo = new ImageView(rutaIF);
 		imagen_Fondo.setTranslateX(0);
 		imagen_Fondo.setTranslateY(0);
 		imagen_Fondo.setFitHeight(650);
 		imagen_Fondo.setFitWidth(1000);
 		
-		final Label crearP = new Label("Crear una nueva partida");
-		crearP.setTextFill(Color.BLACK);
+		final Label crearP = new Label("Crear nueva partida");
+		crearP.setTextFill(Color.GRAY);
 		crearP.setFont(new Font("Arial", 30));
 		crearP.setTranslateX(-200);
 		crearP.setTranslateY(-100);
 		
-		final Label unirseP = new Label("Unirse a una partida");
+		final Label unirseP = new Label("Unirse a partida");
 		unirseP.setFont(new Font("Arial", 30));
-		unirseP.setTextFill(Color.BLACK);
+		unirseP.setTextFill(Color.GRAY);
 		unirseP.setTranslateX(200);
 		unirseP.setTranslateY(-100);
 		
-		final Image path = new Image("file:src/Media/scrabble1.png");//OJO cambiar la ruta
+		final Image path = new Image("file:src/Media/scrabble0.png");//OJO cambiar la ruta
 		ImageView imageView = new ImageView(path);//cambiar la ruta de la imagen  
-		imageView.setTranslateX(0);
-		imageView.setTranslateY(-215);
+		imageView.setTranslateX(90);
+		imageView.setTranslateY(-230);
 		
-		Cjugadores = new ChoiceBox();
+		Cjugadores = new ChoiceBox<String>();
 		Cjugadores.setTranslateX(-200);
 		Cjugadores.setTranslateY(-50);
 		Cjugadores.getItems().add("Jugadores 2");
@@ -84,10 +105,10 @@ public class UI_inicial extends Application{
 		caja_nombre.setMaxWidth(200);
 
 
-		final Label Lpassword =new Label("Password:");
-		Lpassword.setTranslateX(-360);
+		final Label Lpassword =new Label("Código:");
+		Lpassword.setTranslateX(-345);
 		Lpassword.setTranslateY(250);
-		Lpassword.setTextFill(Color.BLACK);
+		Lpassword.setTextFill(Color.GRAY);
 		Lpassword.setFont(new Font("Arial", 25));
 
 		caja_codigo = new TextField ();
@@ -99,7 +120,7 @@ public class UI_inicial extends Application{
 		final Label txt_nombre =new Label("Nombre:");
 		txt_nombre.setTranslateX(-350);
 		txt_nombre.setTranslateY(200);
-		txt_nombre.setTextFill(Color.BLACK);
+		txt_nombre.setTextFill(Color.GRAY);
 		txt_nombre.setFont(new Font("Arial", 25));
 		
 		EventHandler<ActionEvent> eventop = new EventHandler<ActionEvent>() {
@@ -144,7 +165,7 @@ public class UI_inicial extends Application{
 				datos.setClient(caja_nombre.getText());
 				datos.setCodigo(Integer.parseInt(caja_codigo.getText()));
 				datos.setAccion("unirse");
-				Socket client = new Socket(InetAddress.getLocalHost(), 9500);
+				Socket client = new Socket(InetAddress.getLocalHost(), this.id);
 				log.debug("unirse");
 				DataOutputStream datosenvio = new DataOutputStream(client.getOutputStream());
 				datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
@@ -160,12 +181,12 @@ public class UI_inicial extends Application{
 				} else if (datosrecibidos.getRespueta().equals("Codigo Erroneo")) {
 					Alert alert = new Alert(Alert.AlertType.INFORMATION);
 					alert.setTitle("Codigo Erroneo");
-					alert.setContentText("el codigo es incorrecto");
+					alert.setContentText("El código es incorrecto.");
 					alert.showAndWait();
 				} else if (datosrecibidos.getRespueta().equals("No hay partida")) {
 					Alert alert = new Alert(Alert.AlertType.INFORMATION);
 					alert.setTitle("Server sin uso");
-					alert.setContentText("No existe partida creada: inicie una o espere");
+					alert.setContentText("No existe partida creada: inicie una o espere.");
 					alert.showAndWait();
 				} else{
 					nombre=caja_nombre.getText();
@@ -175,11 +196,11 @@ public class UI_inicial extends Application{
 					loader = new FXMLLoader(getClass().getResource("Sample.fxml"));
 					root=loader.load();
 					Controller controller= loader.getController();
-					controller.enviar_propiedades(nombre);
+					controller.enviar_propiedades(nombre,this.ip, this.id, this.tel);
 					controller.pintarfichas(datosrecibidos.getListafichas().convertirfichas());
 					controller.espera();
 					secondStage.setTitle("Scrabble");
-					secondStage.setScene(new Scene(root, 867, 754));//me crea una nuevo escenario y me carga todo lo del fxml
+					secondStage.setScene(new Scene(root));//me crea una nuevo escenario y me carga todo lo del fxml
 					secondStage.setResizable(false);
 					secondStage.show();
 					primaryStage.close();
@@ -188,8 +209,8 @@ public class UI_inicial extends Application{
 		}
 		catch (NumberFormatException e){
 			Alert alert=new Alert(Alert.AlertType.WARNING);
-			alert.setTitle("Codigo Erroneo");
-			alert.setContentText("el codigo esta compuesto de numeros");
+			alert.setTitle("Código Erróneo");
+			alert.setContentText("El código está compuesto de los números: ");
 			alert.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -202,7 +223,7 @@ public class UI_inicial extends Application{
 		if (caja_nombre.getText().equals("")){
 			Alert alert=new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Espacio en blanco");
-			alert.setContentText("debe escrbir un nombre de jugador para iniciar una partida");
+			alert.setContentText("Debe escribir un nombre de jugador para iniciar una partida.");
 			alert.showAndWait();
 		}
 		else{
@@ -210,7 +231,7 @@ public class UI_inicial extends Application{
 				datos.setClient(caja_nombre.getText());
 				datos.setJugadores(Cjugadores.getValue().toString());
 				System.out.println(datos.getJugadores());
-				Socket client = new Socket(InetAddress.getLocalHost(), 9500);
+				Socket client = new Socket(InetAddress.getLocalHost(), this.id);
 				log.debug("iniciar");
 				DataOutputStream datosenvio= new DataOutputStream(client.getOutputStream());
 				datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
@@ -221,7 +242,7 @@ public class UI_inicial extends Application{
 				if (datosrecibidos.getRespueta().equals("server_usado")){
 					Alert alert=new Alert(Alert.AlertType.ERROR);
 					alert.setTitle("Server usado");
-					alert.setContentText("el server esta siendo usado");
+					alert.setContentText("El server se encuentra en uso.");
 					alert.showAndWait();
 					datosenvio.close();
 					client.close();
@@ -229,7 +250,7 @@ public class UI_inicial extends Application{
 				else{
 					Alert alert=new Alert(Alert.AlertType.INFORMATION);
 					alert.setTitle("Codigo");
-					alert.setContentText("El codigo de entrada es "+datosrecibidos.getCodigo());
+					alert.setContentText("El código de entrada es "+datosrecibidos.getCodigo());
 					alert.showAndWait();
 					datosenvio.close();
 					client.close();
@@ -240,11 +261,11 @@ public class UI_inicial extends Application{
 					loader = new FXMLLoader(getClass().getResource("Sample.fxml"));
 					root=loader.load();
 					Controller controller= loader.getController();
-					controller.enviar_propiedades(nombre);
+					controller.enviar_propiedades(nombre, this.ip, this.id, this.tel);
 					controller.pintarfichas(datosrecibidos.getListafichas().convertirfichas());
 					controller.espera();
 					secondStage.setTitle("Scrabble");
-					secondStage.setScene(new Scene(root, 867, 754));//me crea una nuevo escenario y me carga todo lo del fxml
+					secondStage.setScene(new Scene(root));//me crea una nuevo escenario y me carga todo lo del fxml
 					secondStage.setResizable(false);
 					secondStage.show();
 					primaryStage.close();
@@ -253,7 +274,7 @@ public class UI_inicial extends Application{
 			} catch (IOException e) {
 				Alert alert=new Alert(Alert.AlertType.ERROR);
 				alert.setTitle("Error inesperado");
-				alert.setContentText("ocurriÃƒÂ³ un error inesperado");
+				alert.setContentText("Ocurrió un error inesperado.");
 				alert.showAndWait();
 			}
 

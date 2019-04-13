@@ -14,8 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,9 +36,7 @@ public class Controller {
     public TextField comprobacionfield= new TextField();
     public ListaFichas listaFichas=new ListaFichas();
     public Listapares listapares=new Listapares();
-
-
-    //BOX Estadisticas Puntajes
+	//BOX Estadisticas Puntajes
     @FXML public Label cliente1= new Label(),cliente2= new Label(),cliente3= new Label(),cliente4= new Label();
     @FXML public Label puntaje1= new Label(),puntaje2= new Label(),puntaje3= new Label(),puntaje4 = new Label();
 
@@ -52,14 +48,13 @@ public class Controller {
 //    private static int dimension = 41;
 //
 
-
-
-
-
-    public void enviar_propiedades(String nombre) {
+    public void enviar_propiedades(String nombre, String ip, int id, int tel) {
         System.out.println(nombre);
         // aqui llamar a la clase UI_inicial, para sacar el atributo del nombre del jugador
         datos.setClient(nombre);//aqui lo pone
+        datos.setIP(ip);
+        datos.setID(id);
+        datos.setTel(tel);
     }// en el setText me pone el texto del TextField de la pantalla
 
 
@@ -151,13 +146,7 @@ public class Controller {
 //        return index;
 //    }
 
-
-
-
-
-
-
-    public void espera() {
+	public void espera() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<String> future = executor.submit(new Turno(datos));
         log.debug("aqui llega");
@@ -192,7 +181,7 @@ public class Controller {
         try {
             log.debug("se llego a actualizar");
             datos.setAccion("Actualizar");
-            Socket client = new Socket(InetAddress.getLocalHost(), 9500);
+            Socket client = new Socket(InetAddress.getLocalHost(), datos.getID());
             log.debug("se conecto");
             DataOutputStream datosenvio = new DataOutputStream(client.getOutputStream());
             datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
@@ -254,7 +243,7 @@ public class Controller {
             if (!labelturno.getText().equals("On Hold")) {
                 datos.setAccion("Pasar");
                 this.matriz.reordenar(listaFichas);
-                Socket client = new Socket(InetAddress.getLocalHost(), 9500);
+                Socket client = new Socket(InetAddress.getLocalHost(), datos.getID());
                 log.debug("se conecto");
                 DataOutputStream datosenvio = new DataOutputStream(client.getOutputStream());
                 datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
@@ -284,7 +273,7 @@ public class Controller {
                     datos.setListacliente(datos.getListacliente());
                     datos.setListafichas(listaFichas.convertirstrings());//se envia la lista de fichas que no han sido usadas
                     datos.setListapares(listapares);
-                    Socket client = new Socket(InetAddress.getLocalHost(), 9500);
+                    Socket client = new Socket(InetAddress.getLocalHost(), datos.getID());
                     log.debug("unirse");
                     DataOutputStream datosenvio = new DataOutputStream(client.getOutputStream());
                     datosenvio.writeUTF(objectMapper.writeValueAsString(this.datos));
@@ -327,7 +316,7 @@ public class Controller {
 
     public void pintarfichas(ListaFichas fichas){ //recibe la lista que envia el server de las fichas que el cliente no uso
         int cont=0,conlf=this.listaFichas.getLargo()-1; // y las nuevas
-        int posx=5,posy=707;
+        int posx=14,posy=701;
         while (conlf>=0){ //aqui se eliminan la imagenes viejas
             log.debug("voy a quitar fichas");
             juegopane.getChildren().remove(this.listaFichas.buscar(conlf));
