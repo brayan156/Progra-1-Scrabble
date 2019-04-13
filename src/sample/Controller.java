@@ -9,6 +9,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -41,12 +44,6 @@ public class Controller {
     @FXML public Label puntaje1= new Label(),puntaje2= new Label(),puntaje3= new Label(),puntaje4 = new Label();
 
 
-//    //BOX Suministrar ATRIBUTOS
-//    private List<Tuple> listaPosicionamiento;
-//    private int cantidadfichas_HBox = 0;
-//    private int currStr=0;
-//    private static int dimension = 41;
-//
 
     public void enviar_propiedades(String nombre, String ip, int id, int tel) {
         System.out.println(nombre);
@@ -58,93 +55,6 @@ public class Controller {
     }// en el setText me pone el texto del TextField de la pantalla
 
 
-//    //HBOX Method
-//    public void suministrar() throws Exception {
-//        try{
-//            log.debug("Pidio una ficha mas. ");
-//
-//            //variable para almacenar la posicion para actualizar.
-//            int posNueva = 0;
-//            if (cantidadfichas_HBox==7) {
-//                System.out.println("Pero ya tiene "+cantidadfichas_HBox+".");
-//                return;}
-//            //si son 0 fichas, llamar acomodar todo en no.
-//            else if (this.cantidadfichas_HBox==0) {
-//                this.acomodarlistaPosicionamiento();
-//            }
-//            //obtener posicion "no", mas proxima.
-//            posNueva = this.listaPosicionamiento.get(this.indicePosVacia()).getY();
-//
-//            //convertir listaFichas (fichas) en listaPalabras (str).
-//            ListaPalabras entLetra = this.listaFichas.convertirstrings();
-//            Nodo<String> cabezal = entLetra.getHead();
-//            if (cabezal!=null){
-//                if (cabezal.equals(entLetra.getHead())) {
-//                    return;
-//                }
-//            }
-////////////
-//            ///////// para probar la entrada de las fichas de servidor.
-//            entLetra.addLast("A"); entLetra.addLast("S"); entLetra.addLast("D");
-//            entLetra.addLast("T"); entLetra.addLast("R"); entLetra.addLast("L");
-//            entLetra.addLast("C");
-//            ///////// para probar la entrada de las fichas de servidor.
-////////////
-//            System.out.println(entLetra.getHead());
-//            //crear ficha.
-//            Ficha extra_ficha = new Ficha(posNueva,701, entLetra.getNodeinPos(this.currStr));
-//            extra_ficha.crearimagen();
-//            extra_ficha.setFitHeight(Controller.dimension);
-//            extra_ficha.setFitWidth(Controller.dimension);
-//            if (this.currStr==entLetra.getLargo()-1) {
-//                this.currStr=0; //si ya es igual al tamano de la lista, se setea a 0.
-//                System.out.println("Entra, currStr = 0");
-//            }
-//            //add to pane the extraficha.
-//            juegopane.getChildren().add(extra_ficha);
-//            //llamar a acciones.
-//            extra_ficha.setOnMousePressed(pressear);
-//            extra_ficha.setOnMouseDragged(draggear);
-//            extra_ficha.setOnMouseReleased(quitarclick);
-//            extra_ficha.setId(extra_ficha.getLetra());
-//            this.cantidadfichas_HBox++;
-//            this.currStr++;
-//        }
-//        catch(Exception e) {
-//            System.out.println("Esperando jugadores para empezar.");
-//        }
-//    }
-//    //BOX_LISTA.POSICION METODO
-//    private void acomodarlistaPosicionamiento() {
-//        this.listaPosicionamiento = Arrays.asList(
-//                new Tuple("no", 12),
-//                new Tuple("no", 55),
-//                new Tuple("no", 98),
-//                new Tuple("no", 141),
-//                new Tuple("no", 184),
-//                new Tuple("no", 227),
-//                new Tuple("no", 270));
-//    }
-//    //acomoda el espacio que queda vacio en "no", despues de soltar el click, mediante el retorno de la posicion anterior
-//    private void acomodarespacioPosicionamiento(int posx) {
-//        for (int e=0; e < this.listaPosicionamiento.size(); e++) {
-//            Tuple tupla = this.listaPosicionamiento.get(e);
-//            if (tupla.getY() == posx) {
-//                tupla.setX("no");
-//                System.out.print("cambiado");
-//                return;}}
-//    }
-//    //retorna el indice de la tupla con la posicion que no tiene una ficha asignada.
-//    private Integer indicePosVacia() {
-//        int index = 0;
-//        for (int e=0; e < this.listaPosicionamiento.size(); e++) {
-//            Tuple tupla = this.listaPosicionamiento.get(e);
-//            if (tupla.getX() == "no") {
-//                tupla.setX("si");
-//                index = e;
-//                break;}}
-//        return index;
-//    }
 
 	public void espera() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -163,7 +73,9 @@ public class Controller {
                         log.debug("se va a cambiar label");
                         labelturno.setText(resp);
                     }
-                    else{actualizar();
+                    else{
+                        stop();
+                        actualizar();
                     }
                     log.debug("se para animation timer");
                     stop();
@@ -194,46 +106,69 @@ public class Controller {
             System.out.println(objectMapper.writeValueAsString(datosrecibidos));
             //aqui va la actualizacion del puntaje.
             int indice = 0;
-            int puntaje=0;
+            int puntaje;
             ListaCliente clienteypuntaje = datosrecibidos.getListacliente();
             //ordenar por puntaje
-            System.out.println(objectMapper.writeValueAsString(clienteypuntaje));
-            while (indice != clienteypuntaje.getLargo()) {
-                log.debug("procede a cambiar labels");
-                if (indice==0) {
-                    System.out.println("escribiendo label 1");
-                    puntaje = clienteypuntaje.buscar(indice).getPuntaje();
-                    log.debug("saco el puntaje");
-                    this.cliente1.setText(clienteypuntaje.buscar(indice).getNombre());
-                    this.puntaje1.setText(Integer.toString(puntaje));
-                }
-                else if(indice==1) {
-                    System.out.println("escribiendo label 2");
-                    puntaje = clienteypuntaje.buscar(indice).getPuntaje();
-                    this.cliente2.setText(clienteypuntaje.buscar(indice).getNombre());
-                    this.puntaje2.setText(Integer.toString(puntaje));
-                }
-                else if(indice==2) {
-                    System.out.println("escribiendo label 3");
-                    puntaje = clienteypuntaje.buscar(indice).getPuntaje();
-                    this.cliente3.setText(clienteypuntaje.buscar(indice).getNombre());
-                    this.puntaje3.setText(Integer.toString(puntaje));
-                }
-                else if(indice==3) {
-                    System.out.println("escribiendo label 4");
-                    puntaje = clienteypuntaje.buscar(indice).getPuntaje();
-                    this.cliente4.setText(clienteypuntaje.buscar(indice).getNombre());
-                    this.puntaje4.setText(Integer.toString(puntaje));
-                } indice++;
-            }
+            clienteypuntaje.bubbleSort();
             labelturno.setText("On Hold");
             datosenvio.close();
             client.close();
-            this.espera();
+            if (datosrecibidos.getRespueta().equals("fin del juego")){
+                finalizar(clienteypuntaje.buscar(0).getNombre());
+            }
+            else {
+                while (indice != clienteypuntaje.getLargo()) {
+                    log.debug("procede a cambiar labels");
+                    if (indice == 0) {
+                        System.out.println("escribiendo label 1");
+                        puntaje = clienteypuntaje.buscar(indice).getPuntaje();
+                        log.debug("saco el puntaje");
+                        this.cliente1.setText(clienteypuntaje.buscar(indice).getNombre());
+                        this.puntaje1.setText(Integer.toString(puntaje));
+                    } else if (indice == 1) {
+                        System.out.println("escribiendo label 2");
+                        puntaje = clienteypuntaje.buscar(indice).getPuntaje();
+                        this.cliente2.setText(clienteypuntaje.buscar(indice).getNombre());
+                        this.puntaje2.setText(Integer.toString(puntaje));
+                    } else if (indice == 2) {
+                        System.out.println("escribiendo label 3");
+                        puntaje = clienteypuntaje.buscar(indice).getPuntaje();
+                        this.cliente3.setText(clienteypuntaje.buscar(indice).getNombre());
+                        this.puntaje3.setText(Integer.toString(puntaje));
+                    } else if (indice == 3) {
+                        System.out.println("escribiendo label 4");
+                        puntaje = clienteypuntaje.buscar(indice).getPuntaje();
+                        this.cliente4.setText(clienteypuntaje.buscar(indice).getNombre());
+                        this.puntaje4.setText(Integer.toString(puntaje));
+                    }
+                    indice++;
+                }
+                this.espera();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public void finalizar(String cliente) {
+        try {
+            Stage secondstage = new Stage();
+            Parent root;
+            FXMLLoader loader;
+            loader = new FXMLLoader(getClass().getResource("Fin.fxml"));
+            root=loader.load();
+            ControllerFin controller= loader.getController();
+            secondstage.setTitle("Fin del juego");
+            controller.insertar_ganador(cliente);
+            secondstage.setScene(new Scene(root, 403, 203));//me crea una nuevo escenario y me carga todo lo del fxml
+            secondstage.setResizable(false);
+            secondstage.show();
+            Stage stage=(Stage) juegopane.getScene().getWindow();
+            stage.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -267,7 +202,20 @@ public class Controller {
                     alert.setTitle("Advertencia");
                     alert.setContentText("no se ha realizado ninguna jugada");
                     alert.showAndWait();
-                } else {
+                }
+                else if (matriz.verificarsoledad(listapares)){
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Advertencia");
+                    alert.setContentText("no pueden haber fichas solas");
+                    alert.showAndWait();
+                }
+                else if (listapares.verificarlinea()){
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Advertencia");
+                    alert.setContentText("solo se puede poner fichas en una linea");
+                    alert.showAndWait();
+                }
+                else {
                     datos.setAccion("comprobar");
                     datos.setMatriz(matriz.convertir());
                     datos.setListacliente(datos.getListacliente());

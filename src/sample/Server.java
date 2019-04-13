@@ -26,6 +26,7 @@ public class Server implements Runnable {
     private static Circular<Ficha> BancoFichas = new Circular<Ficha>();
     Generador_Diccionario diccionario= new Generador_Diccionario();
     Matrizstring matriz=new Matrizstring();
+    int pases=0;
 
 
 
@@ -72,7 +73,17 @@ public class Server implements Runnable {
                     log.debug("se entro");
                     if (datos.getClient().equals(actcliente)){
                         System.out.println(recorrido);
-                        if (recorrido==2) {
+                        if (pases==cantjugadores){
+                            log.debug("cliente a actualizar");
+                            datos.setAccion("Actualizacion");
+                            DataOutputStream datosenvio = new DataOutputStream(misocket.getOutputStream());
+                            log.debug("se creo abertura de datos");
+                            datosenvio.writeUTF(objectMapper.writeValueAsString(datos));
+                            log.debug("se logro enviar actualizar");
+                            datosenvio.close();
+                            misocket.close();
+                        }
+                        else if (recorrido==2) {
                             System.out.println("ha entrado el cliente correcto");
                             datos.setAccion("Tu_turno");
                             tmpcliente=actcliente;
@@ -82,6 +93,7 @@ public class Server implements Runnable {
                             log.debug("se logro enviar datos");
                             datosenvio.close();
                             misocket.close();
+
                         }
                         else {
                             log.debug("cliente a actualizar");
@@ -107,7 +119,8 @@ public class Server implements Runnable {
                 }
                 else if (datos.getAccion().equals("Actualizar")){
                     log.debug("se entro a actualizar");
-                    datos.setAccion("Cambiar_matriz");
+                    datos.setRespueta("Cambiar_matriz");
+                    if (pases==cantjugadores){datos.setRespueta("fin del juego");}
                     datos.setMatriz(this.matriz.getMatrizs());
                     datos.setListacliente(clientes);
                     DataOutputStream datosenvio= new DataOutputStream(misocket.getOutputStream());
@@ -124,6 +137,7 @@ public class Server implements Runnable {
                     log.debug("pasar");
                     cambiar_cliente();
                     recorrido=2;
+                    pases+=1;
                     misocket.close();
                 }
                 else if (datos.getAccion().equals("comprobar")){
@@ -133,6 +147,7 @@ public class Server implements Runnable {
                     ListaPalabras lpalerroneas= this.diccionario.ListaIncorrecta_P(lpal);
                     if (lpalerroneas.getLargo()==0){
                         log.debug("se hizo una jugada correcta");
+                        pases=0;
                         datos.setListafichas(BancoFichas.completarlista(datos.getListafichas().convertirfichas()));
                         ListaPalabras lpalcorrectas= this.diccionario.ListaCorrecta_P(lpal);
                         clientes.sumarpuntos(datos.getClient(), lpalcorrectas.sacarpuntaje());

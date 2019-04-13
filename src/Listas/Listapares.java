@@ -50,6 +50,31 @@ public class Listapares {
         }
     }
 
+    public boolean verificarlinea(){
+        int cont=1;
+        Boolean nolinea=false;
+        Boolean nolineah=false;
+        Boolean nolineav=false;
+        if (this.head!=null) {
+            int y=this.head.getNodo().getR();
+            int x=this.head.getNodo().getC();
+            while (cont < largo) {
+                if (this.buscar(cont).getR()!=y){ nolineav=true; }
+                y=this.buscar(cont).getR();
+                cont++;
+            }
+            cont=1;
+            while (cont < largo) {
+                if (this.buscar(cont).getC() != x) { nolineah = true; }
+                x = this.buscar(cont).getC();
+                cont++;
+            }
+            if (nolineav && nolineah){nolinea=true;}
+        }
+        return nolinea;
+
+    }
+
 
     public int getLargo() {
         return largo;

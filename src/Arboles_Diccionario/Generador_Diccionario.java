@@ -22,6 +22,7 @@ public class Generador_Diccionario {
 				linea= eliminador_basura_palabra(linea);//me elimina trash values, para que entre limpio
 //				System.out.println(linea);
 				linea=sin_tilde(linea);//Le quita las tildes
+				System.out.println(linea);
 				Datos.insert(linea.toUpperCase());//para que se meta a la lista como en mayuscula
 			}//En mi compu dura como 2 mint
 		}catch(Exception e){
@@ -102,7 +103,7 @@ public class Generador_Diccionario {
 	public String sin_tilde(String texto) {
 	    String original = "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýÿ";
 	    // Cadena de caracteres ASCII que reemplazarán los originales.
-	    String ascii = "AAAAAAACEEEEIIIIDNOOOOOOUUUUYBaaaaaaaceeeeiiiionoooooouuuuyy";
+	    String ascii = "AAAAAAAAAAAAAACCEEEEEEEEIIIIIIIIDDNNOOOOOOOOOOOOUUUUUUUUYYBBaaaaaaaaaaaaaacceeeeeeeeiiiiiiiioonnoooooooooooouuuuuuuuyyyy";
 	    String output = texto;
 	    for (int i=0; i<original.length(); i++) {
 	    // Reemplazamos los caracteres especiales.
