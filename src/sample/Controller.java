@@ -69,7 +69,7 @@ public class Controller {
                     if (future.isDone()) {
                     String resp= future.get();
                     log.debug("future terminÃ³");
-                    if (resp.contains("Your Turn")){
+                    if (resp.contains("Tu_turno")){
                         log.debug("turno del cliente");
                         log.debug("se va a cambiar label");
                         labelturno.setText(resp);
